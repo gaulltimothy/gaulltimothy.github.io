@@ -10,7 +10,7 @@ fables:
   name: fables
   description: A series of short stories that make you think.
   cover: assets/images/fables.jpg
-about-me:
-  name: about-me
-  description: Get to know timothy
+getting-started:
+  name: getting-started
+  description: False
   cover: False
