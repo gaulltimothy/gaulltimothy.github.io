@@ -1,0 +1,12 @@
+experiences:
+  name: experiences
+  description: Life Changing Experiences
+  cover: assets/images/fables.jpg
+portfolio:
+  name: portfolio
+  description: False
+  cover: False
+ideas:
+  name: Ideas and Thoughts
+  description: False
+  cover: False
