@@ -9,7 +9,7 @@ baseurl: /
 
 # Website info
 title: Timothy Gaull
-description: Hello, I'm a NYC based creative strategist, entrepreneur and designer. I love transforming businesses, crafting amazing products, and thoughtfully transforming digital space.
+description: UX and service design lead for Client Group Technology at AB, an asset manager with more than $600B AUM. Formerly accomplished user centered product designer with experience in B2B tech unicorns, agriculture tech, and sales enablement.
 cover: assets/images/blog-cover.jpg
 logo: assets/images/blog-icon.png
 logo_dark: assets/images/favicon.png
@@ -22,7 +22,6 @@ navigation: True # show the navbar links
 subscribers: True # you need to connect an external service for this to work,
 # if 'True' the submit button is disabled for now, but you can change that
 # by editing `_includes/subscribe-form.html`
-twitter: tgaull # replace by your username
 linkedin: timothygaull # replace by your username
 
 # Disqus
