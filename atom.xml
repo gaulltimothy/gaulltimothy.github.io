@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title> - Articles</title>
+    <description>UX and service design lead for Client Group Technology at AB, an asset manager with more than $600B AUM. Specializing in User Centered Design, Lean Startup, Agile, Qualitative and Quantiative User Research, and Front End Technologies and Languages.</description>
+    <link>
+    http://localhost:4000</link>
+    
+      
+      <item>
+        <title>Design Systems</title>
+        
+          <description>&lt;p&gt;Of late, in my practice, I’ve been working on the challenge of implementing design systems. At AB, we’ve just over half a dozen technology teams serving different aspects of the business. In the corporate and enterprise technology teams we have about 800 people working on various enterprise products at any given time with hundreds of products happening simultaneously.&lt;/p&gt;
+
+</description>
+        
+        <pubDate>Thu, 01 Feb 2018 10:00:00 +0000</pubDate>
+        <link>
+        http://localhost:4000/design-systems</link>
+        <guid isPermaLink="true">http://localhost:4000/design-systems</guid>
+      </item>
+      
+    
+      
+      <item>
+        <title>Alliance Bernstein</title>
+        
+          <description>&lt;blockquote&gt;
+&lt;p&gt;AB is a leading global investment-management and research firm. We bring together a wide range of insights, expertise and innovations to advance the interests of our clients around the world. &lt;a href=&quot;https://www.alliancebernstein.com/corporate/our-firm/ab-at-a-glance.htm&quot; target=&quot;_blank&quot;&gt;-Alliance Bernstein&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;insertingimages&quot;&gt;Technology&lt;/h2&gt;
+&lt;p&gt;On my team, serving enterprise and corporate technology, our statement of purpose is &lt;em&gt;Empowering AB's people with best in-class technology products and services. Making the work environment as efficient and intuitive as possible.&lt;/em&gt; &lt;/p&gt;
+&lt;h2 id=&quot;makinglists&quot;&gt;Where I Influence AB&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/ab-paperless-marketing.gif&quot; alt=&quot;Going Paperless&quot; height=&quot;334&quot; width=&quot;600&quot;&gt;&lt;/p&gt;
+&lt;h4 id=&quot;paperless&quot;&gt;Paperless Initiative - Going Digital&lt;/h4&gt;
+&lt;p&gt;A major component of AB's overall digital strategy, the &lt;em&gt;paperless initiative&lt;/em&gt; was concieved to help employees adapt to the new digital first environment. My role included leading the research, design, project management, development and ongoing marketing of a new internal app for &lt;strong&gt;AB Paperless.&lt;/strong&gt;&lt;/p&gt;
+&lt;h4 id=&quot;elevatingbrand&quot;&gt;Elevating the Internal Brand&lt;/h4&gt;
+&lt;p&gt;I work with stakeholders from across marketing, technology, operations and other businesses to surface work and create new tools that elevate the brand. I Integrated metrics from Salesforce Pardot and Eventbrite for our communications and events providing new user metrics from ongoing improvement as well as better executive oversight. I also coordinate regularly with design and development teams to produce new digital learning materials and sites.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/CTS-OnlineRoadmap_Page_3.jpg&quot; alt=&quot;email-design&quot; height=&quot;1125&quot; width=&quot;1625&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/CTS-OnlineRoadmap_Page_4.jpg&quot; alt=&quot;email-design&quot; height=&quot;1125&quot; width=&quot;1625&quot;&gt;&lt;/p&gt;
+&lt;h4 id=&quot;elevatingbrand&quot;&gt;Implementing Atomic Design Systems&lt;/h4&gt;
+&lt;p&gt;A major component of my role is working with design and product teams across AB to take an content inventory for all our internal and external facing applications, working to systemize the UI systems and then build out a living and reusable library for teams across the firm to pull from. Once complete, this system will allow for engineers, prodcut teams, and AB's businesses conducting design sprint to swiftly and seamlessly produce production quality digital assets to vet out buisness hypothesis, bringing new revenue and productivty enhancing digtial products to market faster.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/CTS-OnlineRoadmap_Page_5.jpg&quot; alt=&quot;email-design&quot; height=&quot;1125&quot; width=&quot;1625&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/CTS-OnlineRoadmap_Page_6.jpg&quot; alt=&quot;email-design&quot; height=&quot;1125&quot; width=&quot;1625&quot;&gt;&lt;/p&gt;</description>
+        
+        <pubDate>Mon, 01 Aug 2016 09:00:00 +0000</pubDate>
+        <link>
+        http://localhost:4000/alliance-bernstein</link>
+        <guid isPermaLink="true">http://localhost:4000/alliance-bernstein</guid>
+      </item>
+      
+    
+      
+      <item>
+        <title>Chicago Ideas</title>
+        
+          <description>&lt;p&gt;Timothy helped lead the redesign and launch of the new ChicagoIdeas.org. He contributed as the lead designer
+        and junior analyst in the production of fundraising decks for Uptake, which achieved a $1 billion-dollar valuation.
+        He also worked with CarCo Technologies to craft their early brand. He worked with Lightbank EIR’s through the
+        business model canvas, which helped CarCo achieve a multi-million- dollar exit. Additionally, Timothy gave the
+        design thinking keynote at Techweek KC in 2015. He was also a featured advisor at the Capital Factory’s office
+        hours for entrepreneurs at SXSW 2015.&lt;/p&gt;
+&lt;p&gt;more to come...&lt;/p&gt;</description>
+        
+        <pubDate>Mon, 01 Aug 2016 09:00:00 +0000</pubDate>
+        <link>
+        http://localhost:4000/chicago-ideas</link>
+        <guid isPermaLink="true">http://localhost:4000/chicago-ideas</guid>
+      </item>
+      
+    
+      
+      <item>
+        <title>Mojave</title>
+        
+          <description>&lt;p&gt;Timothy worked with Oscar Solis to craft the Mojave Product, to be the AirBnb of outdoor experiences. Starting with vendors operating in and
+        near US National Parks with his co-founder, Oscar, Timothy set out to launch a point of purchase and discovery
+        platform for outdoor experience vendors in the $1trillion dollar annual outdoor experiences industry. Timothy
+        lead product design and strategy liaising with co-founder Oscar between VC’s as they worked to establish traction
+        and scalability.&lt;/p&gt;
+&lt;p&gt;more to come...&lt;/p&gt;
+</description>
+        
+        <pubDate>Sun, 15 Nov 2015 09:00:00 +0000</pubDate>
+        <link>
+        http://localhost:4000/mojave</link>
+        <guid isPermaLink="true">http://localhost:4000/mojave</guid>
+      </item>
+      
+    
+      
+      <item>
+        <title>Lightbank</title>
+        
+          <description>&lt;p&gt;Timothy helped lead the redesign and launch of the new ChicagoIdeas.org. He contributed as the lead designer
+        and junior analyst in the production of fundraising decks for Uptake, which achieved a $1 billion-dollar valuation.
+        He also worked with CarCo Technologies to craft their early brand. He worked with Lightbank EIR’s through the
+        business model canvas, which helped CarCo achieve a multi-million- dollar exit. Additionally, Timothy gave the
+        design thinking keynote at Techweek KC in 2015. He was also a featured advisor at the Capital Factory’s office
+        hours for entrepreneurs at SXSW 2015.&lt;/p&gt;
+&lt;p&gt;more to come...&lt;/p&gt;</description>
+        
+        <pubDate>Sun, 15 Nov 2015 09:00:00 +0000</pubDate>
+        <link>
+        http://localhost:4000/lightbank</link>
+        <guid isPermaLink="true">http://localhost:4000/lightbank</guid>
+      </item>
+      
+    
+      
+      <item>
+        <title>Startup Bus</title>
+        
+          <description>&lt;p&gt;Timothy worked on a team of five through a design sprint to conceive of, design, plan, and build a new startup
+        centered on the concept of building a startup boot-camp school, on a five-day bus trip. Pitched to a live panel of
+        judged including Guy Kawasaki to attract real investment.&lt;/p&gt;
+</description>
+        
+        <pubDate>Sun, 09 Mar 2014 09:00:00 +0000</pubDate>
+        <link>
+        http://localhost:4000/startupbus</link>
+        <guid isPermaLink="true">http://localhost:4000/startupbus</guid>
+      </item>
+      
+    
+  </channel>
+</rss>
