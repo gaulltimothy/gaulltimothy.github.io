@@ -29,11 +29,42 @@ const steps = [
       Get how your business actually runs out of your head and into something AI can use. You don't have to write
       it. The kit has AI interview you for it.
     </p>
-    <div class="actions">
-      <a class="btn" href={SITE.kitZip} download>Download the kit (.zip)</a>
-      <a class="btn btn-ghost" href="#use">How to use it</a>
+    <form class="kit-form" id="kit-form" novalidate>
+      <div class="field-row">
+        <label>
+          <span>Name <span class="muted">(optional)</span></span>
+          <input type="text" name="name" autocomplete="name" maxlength="120" />
+        </label>
+        <label>
+          <span>Email</span>
+          <input type="email" name="email" autocomplete="email" required maxlength="254" />
+        </label>
+      </div>
+      <label class="hp" aria-hidden="true">
+        Leave this empty
+        <input type="text" name="website" tabindex="-1" autocomplete="off" />
+      </label>
+      <label class="check">
+        <input type="checkbox" name="updates" />
+        <span>Send me occasional notes on putting AI to work. Unsubscribe anytime.</span>
+      </label>
+      <div id="turnstile" class="turnstile"></div>
+      <button class="btn" type="submit">Get the kit</button>
+      <p class="small muted">Your email is used only for the kit and, if you check the box, occasional notes. It's never sold or shared.</p>
+      <p class="form-status" id="kit-status" role="status" aria-live="polite"></p>
+    </form>
+
+    <div class="kit-done" id="kit-done" hidden>
+      <h2>Your download has started.</h2>
+      <p>If it didn't, <a id="kit-link" href="#">download the kit here</a>. The link works for 15 minutes.</p>
+      <p>Start with the README, then open file 01 in your AI tool of choice.</p>
+      <div class="tip" id="kit-tip" hidden>
+        <p><strong>Did this save you time?</strong> The kit is free. If it helps, you can tip the builder whatever feels right.</p>
+        <a class="btn btn-ghost" id="kit-tip-link" href="#">Leave a tip</a>
+      </div>
+      <p class="small muted">Want help running it? <a href={SITE.bookUrl}>{SITE.bookLabel}</a>.</p>
     </div>
-    <p class="proof">Free to use and share under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. No email required.</p>
+    <p class="proof">Free to use and share under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.</p>
   </div>
 
   <section>
@@ -98,4 +129,78 @@ const steps = [
       </div>
     </div>
   </section>
+  <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+  <script define:vars={{ sitekey: SITE.turnstileSiteKey }}>
+    const form = document.getElementById('kit-form');
+    const statusEl = document.getElementById('kit-status');
+    const done = document.getElementById('kit-done');
+    let widgetId = null;
+    let token = '';
+
+    function renderWidget() {
+      if (!window.turnstile || widgetId !== null) return;
+      widgetId = window.turnstile.render('#turnstile', {
+        sitekey,
+        action: 'kit_download',
+        callback: (t) => { token = t; },
+        'expired-callback': () => { token = ''; },
+        'error-callback': () => { token = ''; },
+      });
+    }
+    const wait = setInterval(() => { if (window.turnstile) { clearInterval(wait); renderWidget(); } }, 200);
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const data = new FormData(form);
+      const email = String(data.get('email') || '').trim();
+      if (!form.email.checkValidity() || !email) {
+        statusEl.textContent = 'Please enter a valid email address.';
+        form.email.focus();
+        return;
+      }
+      if (!token) {
+        statusEl.textContent = 'One moment: the human check is still loading. Try again in a second.';
+        return;
+      }
+      const button = form.querySelector('button[type=submit]');
+      button.disabled = true;
+      statusEl.textContent = 'Getting your download ready...';
+      try {
+        const res = await fetch('/api/kit/request', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: data.get('name') || '',
+            email,
+            updates: data.get('updates') === 'on',
+            website: data.get('website') || '',
+            token,
+          }),
+        });
+        const body = await res.json().catch(() => ({}));
+        if (!res.ok || !body.download) {
+          statusEl.textContent =
+            res.status === 429 ? 'Too many tries from this connection. Please wait a bit and try again.' :
+            body.error === 'invalid_email' ? 'Please enter a valid email address.' :
+            'Something went wrong with the check. Please try again.';
+          return;
+        }
+        document.getElementById('kit-link').href = body.download;
+        if (body.tip) {
+          document.getElementById('kit-tip-link').href = body.tip;
+          document.getElementById('kit-tip').hidden = false;
+        }
+        form.hidden = true;
+        done.hidden = false;
+        done.querySelector('h2').focus?.();
+        window.location.href = body.download;
+      } catch {
+        statusEl.textContent = 'Network error. Please try again.';
+      } finally {
+        button.disabled = false;
+        token = '';
+        if (window.turnstile && widgetId !== null) window.turnstile.reset(widgetId);
+      }
+    });
+  </script>
 </Base>

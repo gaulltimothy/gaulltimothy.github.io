@@ -6,10 +6,15 @@
     "kit": "node scripts/build-kit.mjs",
     "dev": "npm run kit && astro dev",
     "build": "npm run kit && astro build",
+    "cf:dev": "npm run build && wrangler dev --port 8787",
+    "deploy": "npm run build && wrangler deploy",
     "preview": "astro preview"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",
     "astro": "^7.3.5"
+  },
+  "devDependencies": {
+    "wrangler": "^4.141.0"
   }
 }

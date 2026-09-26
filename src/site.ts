@@ -8,5 +8,7 @@ export const SITE = {
   bookUrl: 'https://www.linkedin.com/in/timothygaull/',
   bookLabel: 'Book a free 30-minute working session',
   linkedin: 'https://www.linkedin.com/in/timothygaull/',
-  kitZip: '/downloads/ai-foundation-kit.zip',
+  // Public Turnstile sitekey for the kit form. This is Cloudflare's always-pass test key;
+  // replace it with the real sitekey from the Cloudflare dashboard before launch.
+  turnstileSiteKey: '1x00000000000000000000AA',
 };
