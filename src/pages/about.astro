@@ -1,0 +1,39 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../site';
+---
+<Base title="About" description="Timothy Gaull trained in architecture, then spent 15 years designing products and systems at AllianceBernstein, Lightbank and Included. Now he helps owner-led businesses put AI to work.">
+  <div class="narrow article-head">
+    <img class="headshot" src="/images/timothy-gaull.jpg" alt="Timothy Gaull" width="160" height="160" />
+    <p class="eyebrow">About</p>
+    <h1>Design the environment and you change the behavior.</h1>
+    <p class="lede">I'm Timothy Gaull. I help owner-led businesses put AI to work, sharpen their brand, and build the systems that let them grow without everything running through the owner.</p>
+  </div>
+  <article class="narrow prose">
+    <p>My path has been unusual on purpose. I trained in architecture, then spent 15 years designing products and the systems around them.</p>
+    <ul>
+      <li>At <strong>AllianceBernstein</strong>, as an AVP, I led the firmwide paperless program: 3,500 employees and 2,500 contractors moved onto digital workflows, with an estimated $10M a year in savings. Later I led the Salesforce redesign for institutional advisors.</li>
+      <li>At <strong>Lightbank</strong> in Chicago, as Designer in Residence, I led redesigns and Lean strategy work across the venture firm's portfolio and network.</li>
+      <li>At <strong>Included</strong>, as Staff Product Designer, I built the design system for an AI people-analytics platform that won a 2023 SXSW Innovation Award and was later acquired by Phenom.</li>
+      <li>I founded a national civic nonprofit from zero, built its brand, curriculum and fundraising, trained a cohort of 12 leaders, and stepped away once its board was in place.</li>
+    </ul>
+    <p>I also tend bar at one of Nashville's private clubs, and I count it as part of the work. It's a daily study in experience design: how space, pacing and small rituals shape how people feel and what brings them back.</p>
+    <p>Every one of these jobs taught me the same lesson. Design the environment and you change the behavior. That's what I do now for owner-led companies, with AI, brand and Lean methods.</p>
+
+    <h2>What I do</h2>
+    <ul>
+      <li><strong>AI adoption.</strong> Find the three to five workflows where AI saves real hours, set them up, and train your team to use them.</li>
+      <li><strong>Brand and positioning.</strong> Get clear on what you sell, who it's for and why you win, then build the identity and message to match.</li>
+      <li><strong>Lean business building.</strong> Test ideas cheaply with real customers before you spend big.</li>
+      <li><strong>Product and digital experience.</strong> Websites, tools and customer journeys that convert.</li>
+    </ul>
+
+    <h2>Who I work with</h2>
+    <p>Owners and operators of businesses with roughly 5 to 200 people, often in industrial and metals, commercial real estate, and professional services. They know AI matters. They don't have the time or the in-house team to figure out where it fits.</p>
+
+    <div class="actions">
+      <a class="btn" href={SITE.bookUrl}>{SITE.bookLabel}</a>
+      <a class="btn btn-ghost" href={SITE.linkedin}>LinkedIn</a>
+    </div>
+  </article>
+</Base>

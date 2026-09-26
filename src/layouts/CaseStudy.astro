@@ -1,0 +1,34 @@
+---
+import Base from './Base.astro';
+import { SITE } from '../site';
+
+interface Props {
+  title: string;
+  description: string;
+  eyebrow: string;
+  facts: { label: string; value: string }[];
+}
+
+const { title, description, eyebrow, facts } = Astro.props;
+---
+<Base title={title} description={description}>
+  <div class="narrow article-head">
+    <p class="eyebrow"><a href="/work/">Work</a> · {eyebrow}</p>
+    <h1>{title}</h1>
+    <p class="lede">{description}</p>
+    <dl class="facts">
+      {facts.map((f) => (
+        <div>
+          <dt>{f.label}</dt>
+          <dd>{f.value}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+  <article class="narrow prose">
+    <slot />
+    <div class="note">
+      <p><strong>Working on something similar?</strong> The first conversation is a free 30-minute working session. <a href={SITE.bookUrl}>Book one</a>, or start with the <a href="/kit/">free AI Foundation Kit</a>.</p>
+    </div>
+  </article>
+</Base>

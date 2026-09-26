@@ -1,0 +1,15 @@
+{
+  "name": "timothygaull-com",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "kit": "node scripts/build-kit.mjs",
+    "dev": "npm run kit && astro dev",
+    "build": "npm run kit && astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "astro": "^7.3.5"
+  }
+}

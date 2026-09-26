@@ -1,0 +1,96 @@
+---
+import Base from '../../layouts/Base.astro';
+
+const cases = [
+  {
+    href: '/work/alliancebernstein/',
+    kind: 'AllianceBernstein',
+    stat: '~$10M a year',
+    title: 'Taking 6,000 people off paper at a global asset manager',
+    body: 'Research, workflow design and the change plan that made a firmwide paperless program stick.',
+  },
+  {
+    href: '/work/included/',
+    kind: 'Included · acquired by Phenom',
+    stat: '~30% faster',
+    title: 'The design system behind an award-winning AI product',
+    body: 'A shared system of parts, a reset roadmap, and a 2023 SXSW Innovation Award.',
+  },
+  {
+    href: '/work/metal-fabrication/',
+    kind: 'In progress',
+    stat: 'Brand to storefront',
+    title: 'A metal fabrication shop, rebuilt around AI',
+    body: 'Brand, strategy, phone-first ordering and a catalog AI can read.',
+  },
+];
+
+const archive = [
+  {
+    name: 'Lightbank',
+    years: '2014 to 2015',
+    body: 'Designer in Residence at the Chicago venture firm. Led research, strategy and the redesign of ChicagoIdeas.com, streamlining ticketing for 30,000+ attendees and helping video and blog content reach 1M+ viewers. Led the Future Founders redesign and its move onto a CRM, and ran Lean strategy work with early portfolio teams, including Uptake.',
+  },
+  {
+    name: 'Semiosis',
+    years: '2015 to 2017',
+    body: 'Co-founded a brand and digital design studio. Led brand and digital work for clients including Jump Capital and Wolf Point Advisors in Chicago.',
+  },
+  {
+    name: 'Explore Mojave',
+    years: '2015',
+    body: 'Co-founded a marketplace for outdoor experiences run by vendors near the national parks. Led product design and strategy.',
+  },
+  {
+    name: 'AgSquared',
+    years: '2014',
+    body: 'UX Design Lead. Led field research with agronomists to shape an offline-first digital field journal, and designed how field notes rolled up across regions.',
+  },
+  {
+    name: 'StartupBus',
+    years: '2014',
+    body: 'Built a startup in five days on a bus with a team of five, then pitched it to judges including Guy Kawasaki.',
+  },
+];
+---
+<Base title="Work" description="Case studies from Timothy Gaull: AI, brand and business systems for owner-led companies, plus product and design leadership at AllianceBernstein, Included and Lightbank.">
+  <div class="wrap hero">
+    <p class="eyebrow">Work</p>
+    <h1>Systems that changed how people work.</h1>
+    <p class="lede">Every one of these projects was about designing an environment that shapes how people act: a workflow, a product, a storefront, a team's habits.</p>
+  </div>
+  <section>
+    <div class="wrap">
+      <div class="grid grid-3">
+        {cases.map((c) => (
+          <a class="card" href={c.href}>
+            <p class="kind">{c.kind}</p>
+            <p class="stat">{c.stat}</p>
+            <h3>{c.title}</h3>
+            <p class="muted">{c.body}</p>
+            <span class="more">Read the case study →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Archive</p>
+        <h2>Earlier work</h2>
+      </div>
+      <div class="archive">
+        {archive.map((a) => (
+          <article>
+            <div>
+              <h3>{a.name}</h3>
+              <p class="small">{a.years}</p>
+            </div>
+            <p>{a.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>

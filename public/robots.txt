@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://timothygaull.com/sitemap-index.xml

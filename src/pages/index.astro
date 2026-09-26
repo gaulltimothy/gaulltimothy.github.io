@@ -1,0 +1,158 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../site';
+
+const offers = [
+  {
+    kind: 'Start here · 2 weeks',
+    name: 'AI Opportunity Sprint',
+    body: 'We map how work actually gets done, pick the three places AI will save the most hours, and set up the first one live with your team.',
+  },
+  {
+    kind: 'Project · 4 to 6 weeks',
+    name: 'Brand & Business Foundations',
+    body: 'Positioning, offer, identity and website, grounded in real conversations with your customers so the brand says what actually wins you work.',
+  },
+  {
+    kind: 'Ongoing · monthly',
+    name: 'Fractional AI & Growth Partner',
+    body: 'Strategy plus hands-on work every month: new automations, brand and marketing systems, and a standing weekly working session.',
+    featured: true,
+  },
+];
+
+const steps = [
+  { title: 'Map the work', body: 'An interview, not a workshop. You walk through real jobs and I write down how work actually moves.' },
+  { title: 'Write down what everyone assumes', body: 'Pricing rules, what you turn away, what “done” means. Written once, read by every person and every tool.' },
+  { title: 'Build one skill at a time', body: 'Pick the task that eats the most hours and turn it into something AI can run, tested on your own past decisions first.' },
+  { title: 'Bank every correction', body: 'Each fix becomes a dated edit, so the system gets better every week instead of starting over in every chat.' },
+];
+
+const work = [
+  {
+    href: '/work/alliancebernstein/',
+    kind: 'AllianceBernstein',
+    stat: '6,000 people',
+    title: 'Taking a global asset manager off paper',
+    body: 'Moved 3,500 employees and 2,500 contractors onto digital workflows, with an estimated $10M a year in savings.',
+  },
+  {
+    href: '/work/included/',
+    kind: 'Included · acquired by Phenom',
+    stat: '~30% faster',
+    title: 'The design system behind an award-winning AI product',
+    body: 'A shared system of parts for an AI people-analytics platform that won a 2023 SXSW Innovation Award.',
+  },
+  {
+    href: '/work/metal-fabrication/',
+    kind: 'In progress',
+    stat: 'Brand to storefront',
+    title: 'A metal fabrication shop, rebuilt around AI',
+    body: 'Brand, business strategy, a storefront that sells cut-to-length metal from a phone, and a catalog AI can read.',
+  },
+];
+---
+<Base>
+  <div class="wrap hero">
+    <p class="eyebrow">Independent consultant · Nashville</p>
+    <h1>AI and systems for owner-led businesses.</h1>
+    <p class="lede">
+      I help companies grow without everything running through the owner. We put AI to work where it saves real
+      hours, sharpen the brand so the right customers get it fast, and build the systems that let your team run
+      without you in every decision.
+    </p>
+    <div class="actions">
+      <a class="btn" href={SITE.bookUrl}>{SITE.bookLabel}</a>
+      <a class="btn btn-ghost" href="/kit/">Get the free AI Foundation Kit</a>
+    </div>
+    <p class="proof">
+      <strong>15 years designing products and systems</strong> as an AVP at AllianceBernstein, Designer in Residence
+      at Lightbank, and Staff Product Designer at Included, an AI startup that won a 2023 SXSW Innovation Award and
+      was later acquired by Phenom.
+    </p>
+  </div>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">How I work</p>
+        <h2>Most businesses don't have an AI problem. They have a systems problem, and AI exposes it fast.</h2>
+        <p>You can't automate what isn't written down, and in most owner-led companies the real process lives in one person's head. So that's where we start.</p>
+      </div>
+      <ol class="steps">
+        {steps.map((s) => (
+          <li>
+            <h3>{s.title}</h3>
+            <p>{s.body}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Ways to work together</p>
+        <h2>Start small. Keep going if it's working.</h2>
+        <p>Every engagement starts with a free 30-minute working session. You leave with at least one thing you can use the same day.</p>
+      </div>
+      <div class="grid grid-3">
+        {offers.map((o) => (
+          <div class:list={['card', { featured: o.featured }]}>
+            <p class="kind">{o.kind}</p>
+            <h3>{o.name}</h3>
+            <p>{o.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Selected work</p>
+        <h2>Systems that changed how people work.</h2>
+      </div>
+      <div class="grid grid-3">
+        {work.map((w) => (
+          <a class="card" href={w.href}>
+            <p class="kind">{w.kind}</p>
+            <p class="stat">{w.stat}</p>
+            <h3>{w.title}</h3>
+            <p class="muted">{w.body}</p>
+            <span class="more">Read the case study →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="band">
+        <div>
+          <p class="eyebrow">Free download</p>
+          <h2>The AI Foundation Kit</h2>
+          <p>
+            An AI tool any owner can use. It interviews you about how your business actually runs, writes down what
+            only you know, and turns your most repetitive task into a skill AI can run, tested before you trust it.
+            Works in Claude, ChatGPT or any AI chat tool.
+          </p>
+          <div class="actions">
+            <a class="btn" href="/kit/">See what's inside</a>
+          </div>
+        </div>
+        <ul class="filelist" aria-label="Files in the kit">
+          <li>01 · Service delivery map interview</li>
+          <li>02 · Context pack</li>
+          <li>03 · Skill extraction</li>
+          <li>04 · Worked example: quote requests</li>
+          <li>05 · Verification and weekly retro</li>
+          <li>06 · Worked example: deal intake</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,96 @@
+---
+import '../styles/global.css';
+import { SITE } from '../site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+
+const { title, description = SITE.description, image = '/images/timothy-gaull.jpg' } = Astro.props;
+const pageTitle = title ? `${title} · ${SITE.name}` : SITE.title;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(image, Astro.site);
+const path = Astro.url.pathname;
+const nav = [
+  { href: '/work/', label: 'Work' },
+  { href: '/kit/', label: 'Free kit' },
+  { href: '/about/', label: 'About' },
+];
+const personLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Timothy Gaull',
+  url: 'https://timothygaull.com/',
+  image: ogImage.href,
+  jobTitle: 'Principal Consultant, AI, Brand & Business Strategy',
+  address: { '@type': 'PostalAddress', addressLocality: 'Nashville', addressRegion: 'TN', addressCountry: 'US' },
+  sameAs: [SITE.linkedin],
+};
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical.href} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="color-scheme" content="light dark" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical.href} />
+    <meta property="og:image" content={ogImage.href} />
+    <meta name="twitter:card" content="summary" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+    />
+    <script type="application/ld+json" set:html={JSON.stringify(personLd)} />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="wrap header-inner">
+        <a class="wordmark" href="/" aria-label="Timothy Gaull, home">Timothy Gaull</a>
+        <nav aria-label="Main">
+          <ul>
+            {nav.map((item) => (
+              <li>
+                <a href={item.href} aria-current={path.startsWith(item.href) ? 'page' : undefined}>{item.label}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <a class="btn btn-small header-cta" href={SITE.bookUrl}>Book a session</a>
+      </div>
+    </header>
+    <main id="main">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="wrap footer-inner">
+        <div>
+          <p class="footer-name">Timothy Gaull</p>
+          <p class="muted">AI, brand and business systems for owner-led companies. Nashville, Tennessee.</p>
+        </div>
+        <ul class="footer-links">
+          <li><a href="/work/">Work</a></li>
+          <li><a href="/kit/">Free AI Foundation Kit</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href={SITE.linkedin}>LinkedIn</a></li>
+        </ul>
+      </div>
+      <div class="wrap">
+        <p class="muted small">© {new Date().getFullYear()} Timothy Gaull</p>
+      </div>
+    </footer>
+  </body>
+</html>

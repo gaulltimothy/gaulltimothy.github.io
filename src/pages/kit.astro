@@ -1,0 +1,101 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../site';
+
+const files = [
+  { name: '01 · Service delivery map', body: 'The interview. The AI asks you one question at a time about real jobs you have done, and writes down how work actually moves through your business, stage by stage.' },
+  { name: '02 · Context pack', body: 'The facts every stage assumes but nobody wrote down: what you take on and what you turn away, your standing assumptions, your shorthand, what “done” means.' },
+  { name: '03 · Skill extraction', body: 'Turns one mapped task into a written skill an AI can run and a new hire can learn from, in one fixed format so skills chain together.' },
+  { name: '04 · Example: quote request triage', body: 'A fictional worked example for a small fabrication shop, showing what a draft skill looks like, holes and all.' },
+  { name: '05 · Verification and retro', body: 'How to test a skill against five of your own past decisions before you trust it, and the 15-minute weekly habit that makes it better.' },
+  { name: '06 · Example: deal intake', body: 'A second fictional example, for a real estate investor screening new deals.' },
+];
+
+const steps = [
+  { title: 'Map', body: 'Two or three 45-minute interviews. You talk through real jobs; the AI asks and writes.' },
+  { title: 'Write it down', body: 'Pull out the rules and numbers you carry in your head, once, into files everything reads.' },
+  { title: 'Build a skill', body: 'Start with your most frequent task. Test it on five past cases before you trust it.' },
+  { title: 'Bank corrections', body: 'Every fix becomes a dated edit, so it applies to every future run and every new hire.' },
+];
+---
+<Base
+  title="The AI Foundation Kit (free)"
+  description="A free AI tool for business owners. It interviews you about how your business actually runs, writes down what only you know, and turns your most repetitive task into a skill AI can run. Works in Claude, ChatGPT or any AI chat tool."
+>
+  <div class="wrap hero">
+    <p class="eyebrow">Free · by Timothy Gaull</p>
+    <h1>The AI Foundation Kit</h1>
+    <p class="lede">
+      Get how your business actually runs out of your head and into something AI can use. You don't have to write
+      it. The kit has AI interview you for it.
+    </p>
+    <div class="actions">
+      <a class="btn" href={SITE.kitZip} download>Download the kit (.zip)</a>
+      <a class="btn btn-ghost" href="#use">How to use it</a>
+    </div>
+    <p class="proof">Free to use and share under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. No email required.</p>
+  </div>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Why it works</p>
+        <h2>You can't automate what isn't written down.</h2>
+        <p>Most AI adoption stalls for the same reason. The tools are fine, but every chat starts cold, because the real process, the pricing rules and the judgment calls live in the owner's head. This kit builds that missing foundation first, then turns it into AI skills one at a time.</p>
+      </div>
+      <ol class="steps">
+        {steps.map((s) => (
+          <li>
+            <h3>{s.title}</h3>
+            <p>{s.body}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">What's inside</p>
+        <h2>Six plain files, plus a Claude Skill.</h2>
+        <p>Everything is plain text, so it works in any AI tool today and in whatever you use in two years.</p>
+      </div>
+      <div class="grid grid-2">
+        {files.map((f) => (
+          <div class="card">
+            <h3>{f.name}</h3>
+            <p class="muted">{f.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="use">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">How to use it</p>
+        <h2>Three ways to run it.</h2>
+      </div>
+      <div class="grid grid-3">
+        <div class="card">
+          <p class="kind">Claude</p>
+          <h3>Install it as a skill</h3>
+          <p>In Claude, open Settings, then Capabilities, and upload the zip under Skills. In Claude Code, unzip it into <code>~/.claude/skills/</code>. Then say “Run the AI Foundation Kit with me.”</p>
+        </div>
+        <div class="card">
+          <p class="kind">ChatGPT, Gemini, Copilot</p>
+          <h3>Paste one file</h3>
+          <p>Open file 01, paste the whole thing into a new chat, and say “Run the service delivery map interview with me. Start with session one.” Keep a real job file open in front of you.</p>
+        </div>
+        <div class="card featured">
+          <p class="kind">With help</p>
+          <h3>Run it with me</h3>
+          <p>It works on its own. It goes faster with someone facilitating, because the hard part is asking the questions that surface judgment you can't see because it's yours.</p>
+          <p><a href={SITE.bookUrl}>{SITE.bookLabel} →</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
