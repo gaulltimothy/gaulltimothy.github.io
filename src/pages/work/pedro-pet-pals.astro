@@ -1,0 +1,30 @@
+---
+import CaseStudy from '../../layouts/CaseStudy.astro';
+---
+<CaseStudy
+  title="Pedro Pet Pals: a rescue website built around how volunteers actually work"
+  description="Pedro Pet Pals is an animal rescue run by volunteers. Its adoptable animals live in shelter management software that's hard to use, and the listing widget on its website had quietly broken. I worked with the team to understand their day, then built tools that fit it."
+  eyebrow="Pedro Pet Pals · volunteer project"
+  facts={[
+    { label: 'Role', value: 'Volunteer: product, design and development' },
+    { label: 'Platform', value: 'WordPress, WooCommerce, shelter software API' },
+    { label: 'Focus', value: 'Adoptions, volunteer tools, donations' },
+  ]}
+>
+  <h2>The situation</h2>
+  <p>The rescue's animals are tracked in Animal Shelter Manager, a powerful system that volunteers find hard to use. The old listing service it used to publish animals online had stopped working, so the website showed an incomplete, out-of-date list and sent adopters off to another site. Photos and descriptions depended on a few volunteers finding time inside a difficult tool.</p>
+
+  <h2>What I built</h2>
+  <ul>
+    <li><strong>Every animal on the rescue's own site.</strong> A custom plugin that pulls adoptable animals straight from the shelter software, keeps credentials on the server, and caches results so pages stay fast.</li>
+    <li><strong>Honest profiles.</strong> Cards show a temperament badge only when the answer is a definite yes or no. Most "good with dogs" answers in the records were "unknown," and a badge that guesses would mislead adopters.</li>
+    <li><strong>No blank listings.</strong> When a volunteer hasn't written a description yet, the site writes a plain one from the facts on file, so no animal goes up empty.</li>
+    <li><strong>Apply from the animal.</strong> The adoption application opens with the animal already filled in, so nobody applies for the wrong dog.</li>
+    <li><strong>A volunteer photo tool.</strong> Volunteers upload photos from their phones for a specific animal, a coordinator approves them, and they flow into the shelter software. A chore that used to happen inside the hard tool now takes a minute.</li>
+    <li><strong>Safe onboarding.</strong> Volunteer accounts get only the access they need and are approved by a person, because the site had already absorbed thousands of spam sign-ups.</li>
+  </ul>
+  <p>Along the way I recovered months of design changes that existed only on the live server, including the donation flow and sponsor logos, and got the code back in sync with what the site actually runs.</p>
+
+  <h2>Why it matters for your business</h2>
+  <p>I didn't ask the volunteers to learn a harder system. I learned how they work and built around it. That's the same rule I bring to AI adoption: new tools only stick when they fit the way people already do the job.</p>
+</CaseStudy>

@@ -1,32 +1,24 @@
+/* Palette borrowed from Out of Many. Us. (its paper ground and comet mark).
+   Rule from Tim: keep the light background, and use the comet gradient
+   sparingly, on primary calls to action only. Everything else stays neutral ink. */
 :root {
-  --paper: #f5f6f2;
+  --paper: #fdf8f7;
   --surface: #ffffff;
-  --ink: #16202a;
-  --muted: #56626c;
-  --rule: #d8ddd6;
-  --accent: #1f5e57;
-  --accent-ink: #ffffff;
-  --accent-soft: #e2edea;
+  --ink: #141414;
+  --muted: #5c5856;
+  --rule: #e8dfdc;
+  --soft: #f6eeeb;
+  --comet-nucleus: #e38e7d;
+  --comet-warm: #d58d5c;
+  --comet-mid: #d282b6;
+  --comet-cool: #54adcc;
+  --comet: linear-gradient(100deg, var(--comet-nucleus) 0%, var(--comet-mid) 55%, var(--comet-cool) 100%);
   --display: 'Bricolage Grotesque', 'Avenir Next', 'Segoe UI', system-ui, sans-serif;
   --body: 'IBM Plex Sans', 'Helvetica Neue', Arial, system-ui, sans-serif;
   --mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
   --measure: 66ch;
   --radius: 10px;
   color-scheme: light;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --paper: #11161a;
-    --surface: #182027;
-    --ink: #e5eae6;
-    --muted: #9ba7ae;
-    --rule: #2b353d;
-    --accent: #72c2b4;
-    --accent-ink: #0e1a18;
-    --accent-soft: #1c3430;
-    color-scheme: dark;
-  }
 }
 
 *,
@@ -54,13 +46,18 @@ img {
 }
 
 a {
-  color: var(--accent);
+  color: var(--ink);
+  text-decoration-thickness: 1px;
   text-underline-offset: 3px;
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
 }
 
 a:focus-visible,
 .btn:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--ink);
   outline-offset: 3px;
   border-radius: 4px;
 }
@@ -139,7 +136,7 @@ li {
   font: 500 0.75rem/1.4 var(--mono);
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--muted);
   margin: 0 0 1rem;
 }
 
@@ -202,7 +199,7 @@ li {
 .site-header nav a:hover,
 .site-header nav a[aria-current='page'] {
   color: var(--ink);
-  background: var(--accent-soft);
+  background: var(--soft);
 }
 
 @media (max-width: 720px) {
@@ -217,22 +214,26 @@ li {
   }
 }
 
-/* Buttons */
+/* Buttons. .btn is the primary call to action and the only place the comet
+   gradient appears. Ink on the gradient stays above 7:1 at every stop. */
 .btn {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: var(--accent);
-  color: var(--accent-ink);
+  background: var(--comet);
+  color: var(--ink);
   font: 600 1rem var(--body);
   text-decoration: none;
   padding: 12px 20px;
-  border-radius: 8px;
-  border: 1px solid var(--accent);
+  border-radius: 999px;
+  border: 1px solid transparent;
+  box-shadow: 0 1px 0 rgba(20, 20, 20, 0.06), 0 6px 18px -8px rgba(210, 130, 182, 0.55);
+  transition: box-shadow 0.15s, transform 0.15s;
 }
 
 .btn:hover {
-  filter: brightness(1.08);
+  transform: translateY(-1px);
+  box-shadow: 0 1px 0 rgba(20, 20, 20, 0.06), 0 10px 24px -8px rgba(84, 173, 204, 0.6);
 }
 
 .btn-small {
@@ -243,7 +244,14 @@ li {
 
 .btn-ghost {
   background: transparent;
-  color: var(--accent);
+  color: var(--ink);
+  border-color: var(--ink);
+  box-shadow: none;
+}
+
+.btn-ghost:hover {
+  background: var(--soft);
+  box-shadow: none;
 }
 
 .actions {
@@ -329,8 +337,7 @@ section + section {
 }
 
 .card.featured {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 1px var(--accent);
+  border-color: var(--ink);
 }
 
 a.card {
@@ -340,14 +347,14 @@ a.card {
 }
 
 a.card:hover {
-  border-color: var(--accent);
+  border-color: var(--ink);
   transform: translateY(-2px);
 }
 
 .card .more {
   margin-top: auto;
   padding-top: 12px;
-  color: var(--accent);
+  color: var(--ink);
   font-weight: 600;
 }
 
@@ -371,7 +378,7 @@ a.card:hover {
 
 .steps li {
   counter-increment: step;
-  border-top: 2px solid var(--accent);
+  border-top: 2px solid var(--ink);
   padding-top: 14px;
   margin: 0;
 }
@@ -380,7 +387,7 @@ a.card:hover {
   content: '0' counter(step);
   display: block;
   font: 500 0.8rem var(--mono);
-  color: var(--accent);
+  color: var(--muted);
   margin-bottom: 6px;
 }
 
@@ -397,7 +404,7 @@ a.card:hover {
 
 /* Callout band */
 .band {
-  background: var(--accent-soft);
+  background: var(--soft);
   border-radius: 14px;
   padding: clamp(28px, 5vw, 48px);
   display: grid;
@@ -476,7 +483,7 @@ a.card:hover {
 .prose blockquote {
   margin: 1.5em 0;
   padding: 4px 0 4px 20px;
-  border-left: 3px solid var(--accent);
+  border-left: 3px solid var(--ink);
   font-size: 1.15rem;
 }
 
@@ -563,7 +570,42 @@ a.card:hover {
   html {
     scroll-behavior: auto;
   }
-  a.card {
+  a.card,
+  .btn {
     transition: none;
   }
+}
+
+/* Figures in case studies */
+.figure {
+  margin: 0 0 2em;
+}
+
+.figure img,
+.finishes img {
+  border-radius: var(--radius);
+  border: 1px solid var(--rule);
+  background: var(--surface);
+}
+
+figcaption {
+  font-size: 0.88rem;
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+.finishes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  gap: 12px;
+  margin: 1.5em 0;
+}
+
+.finishes figure {
+  margin: 0;
+}
+
+.finishes img {
+  padding: 14px;
+  background: #f4f2ee;
 }

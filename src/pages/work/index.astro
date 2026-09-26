@@ -3,6 +3,20 @@ import Base from '../../layouts/Base.astro';
 
 const cases = [
   {
+    href: '/work/gunter-metals/',
+    kind: 'Gunter Metals · in progress',
+    stat: '4 days',
+    title: 'A brand identity designed with AI',
+    body: 'A stencil wordmark drawn to be cut with a torch, and a storefront with phone-first cut-list ordering and a catalog AI can read.',
+  },
+  {
+    href: '/work/pedro-pet-pals/',
+    kind: 'Pedro Pet Pals · volunteer',
+    stat: 'Every animal listed',
+    title: 'A rescue website built around how volunteers work',
+    body: 'Adoptable animals pulled live from the shelter software, apply-from-the-animal forms, and a phone photo tool for volunteers.',
+  },
+  {
     href: '/work/alliancebernstein/',
     kind: 'AllianceBernstein',
     stat: '~$10M a year',
@@ -15,13 +29,6 @@ const cases = [
     stat: '~30% faster',
     title: 'The design system behind an award-winning AI product',
     body: 'A shared system of parts, a reset roadmap, and a 2023 SXSW Innovation Award.',
-  },
-  {
-    href: '/work/metal-fabrication/',
-    kind: 'In progress',
-    stat: 'Brand to storefront',
-    title: 'A metal fabrication shop, rebuilt around AI',
-    body: 'Brand, strategy, phone-first ordering and a catalog AI can read.',
   },
 ];
 
@@ -61,7 +68,7 @@ const archive = [
   </div>
   <section>
     <div class="wrap">
-      <div class="grid grid-3">
+      <div class="grid grid-2">
         {cases.map((c) => (
           <a class="card" href={c.href}>
             <p class="kind">{c.kind}</p>
