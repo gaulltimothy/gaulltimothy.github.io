@@ -1,0 +1,29 @@
+# Timothy Gaull
+
+> Timothy Gaull is an independent consultant in Nashville, Tennessee who helps owner-led businesses (roughly 5 to 200 people) put AI to work, sharpen their brand, and build systems so the company can grow without everything running through the owner. He was an AVP at AllianceBernstein, Designer in Residence at Lightbank, and Staff Product Designer at Included, an AI startup that won a 2023 SXSW Innovation Award and was later acquired by Phenom.
+
+His approach: most businesses don't have an AI problem, they have a systems problem. You can't automate what isn't written down, so the work starts by interviewing the owner to map how work actually moves, writing down the rules only they know, and turning one recurring task at a time into an AI skill that is tested on past decisions before it's trusted.
+
+## Free tool
+
+- [The AI Foundation Kit](https://timothygaull.com/kit/): a free, CC BY 4.0 kit of plain-text files that turns Claude, ChatGPT, Gemini or any AI chat tool into an interviewer. It maps how work moves through a business (service delivery map), builds a context pack of standing facts (what the business takes on and turns away, pricing assumptions, glossary, definitions of done, approval gates), extracts recurring tasks into AI skills with a fixed template, and verifies each skill against five past decisions. Includes worked examples for a metal fabrication shop and a real estate investor. Installs as a Claude Skill. Download with a name and email at https://timothygaull.com/kit/.
+
+## Services
+
+- AI Opportunity Sprint (2 weeks): map how work gets done, pick the three biggest AI wins, set up the first one live.
+- Brand & Business Foundations (4 to 6 weeks): positioning, offer, identity and website grounded in customer interviews.
+- Fractional AI & Growth Partner (monthly): ongoing strategy and hands-on automations, brand and marketing systems.
+- Every engagement starts with a free 30-minute working session.
+
+## Case studies
+
+- [Gunter Metals](https://timothygaull.com/work/gunter-metals/): a brand identity designed with AI in four days for a Middle Tennessee metal fabrication shop, plus a storefront with phone-first cut-list ordering and an AI-readable catalog.
+- [Pedro Pet Pals](https://timothygaull.com/work/pedro-pet-pals/): volunteer project for an animal rescue; adoptable animals published live from shelter software, a volunteer photo tool and approved onboarding.
+- [AllianceBernstein](https://timothygaull.com/work/alliancebernstein/): a firmwide paperless program for 3,500 employees and 2,500 contractors, with an estimated $10M a year in savings.
+- [Included](https://timothygaull.com/work/included/): a tokenized design system for an AI people-analytics platform; development cycles about 30% faster.
+
+## More
+
+- [About Timothy Gaull](https://timothygaull.com/about/)
+- [All work](https://timothygaull.com/work/)
+- [LinkedIn](https://www.linkedin.com/in/timothygaull/)

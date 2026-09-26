@@ -6,9 +6,11 @@ interface Props {
   title?: string;
   description?: string;
   image?: string;
+  // Extra schema.org objects for this page (merged into one @graph with the Person and WebSite).
+  schema?: Record<string, unknown>[];
 }
 
-const { title, description = SITE.description, image = '/images/timothy-gaull.jpg' } = Astro.props;
+const { title, description = SITE.description, image = '/og/default.png', schema = [] } = Astro.props;
 const pageTitle = title ? `${title} · ${SITE.name}` : SITE.title;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(image, Astro.site);
@@ -19,15 +21,52 @@ const nav = [
   { href: '/about/', label: 'About' },
 ];
 const personLd = {
-  '@context': 'https://schema.org',
   '@type': 'Person',
+  '@id': 'https://timothygaull.com/#person',
   name: 'Timothy Gaull',
+  alternateName: 'Tim Gaull',
   url: 'https://timothygaull.com/',
-  image: ogImage.href,
+  image: new URL('/images/timothy-gaull.jpg', Astro.site).href,
+  description: SITE.description,
+  knowsAbout: ['AI adoption', 'Business process mapping', 'Brand strategy', 'Lean startup', 'Product design', 'Design systems', 'Service design'],
+  worksFor: { '@id': 'https://timothygaull.com/#practice' },
   jobTitle: 'Principal Consultant, AI, Brand & Business Strategy',
   address: { '@type': 'PostalAddress', addressLocality: 'Nashville', addressRegion: 'TN', addressCountry: 'US' },
   sameAs: [SITE.linkedin],
 };
+const websiteLd = {
+  '@type': 'WebSite',
+  '@id': 'https://timothygaull.com/#website',
+  url: 'https://timothygaull.com/',
+  name: 'Timothy Gaull',
+  publisher: { '@id': 'https://timothygaull.com/#person' },
+  inLanguage: 'en-US',
+};
+const service = (name: string, description: string) => ({
+  '@type': 'Offer',
+  itemOffered: { '@type': 'Service', name, description, provider: { '@id': 'https://timothygaull.com/#practice' } },
+});
+const practiceLd = {
+  '@type': 'ProfessionalService',
+  '@id': 'https://timothygaull.com/#practice',
+  name: 'Timothy Gaull',
+  url: 'https://timothygaull.com/',
+  image: new URL('/images/timothy-gaull.jpg', Astro.site).href,
+  description: 'AI adoption, brand and business systems consulting for owner-led businesses.',
+  founder: { '@id': 'https://timothygaull.com/#person' },
+  address: { '@type': 'PostalAddress', addressLocality: 'Nashville', addressRegion: 'TN', addressCountry: 'US' },
+  areaServed: [{ '@type': 'City', name: 'Nashville' }, { '@type': 'Country', name: 'United States' }],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Consulting services',
+    itemListElement: [
+      service('AI Opportunity Sprint', 'Two weeks: map how work gets done, pick the three biggest AI wins, and set up the first one live.'),
+      service('Brand & Business Foundations', 'Four to six weeks: positioning, offer, identity and website grounded in customer interviews.'),
+      service('Fractional AI & Growth Partner', 'Monthly strategy and hands-on work: automations, brand and marketing systems, and a weekly working session.'),
+    ],
+  },
+};
+const graph = { '@context': 'https://schema.org', '@graph': [personLd, practiceLd, websiteLd, ...schema] };
 ---
 <!doctype html>
 <html lang="en">
@@ -39,21 +78,30 @@ const personLd = {
     <link rel="canonical" href={canonical.href} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <meta name="color-scheme" content="light dark" />
+    <meta name="color-scheme" content="light" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={SITE.name} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical.href} />
     <meta property="og:image" content={ogImage.href} />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage.href} />
+    <meta name="author" content="Timothy Gaull" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+    <link rel="alternate" type="text/plain" title="LLM summary" href="/llms.txt" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap"
     />
-    <script type="application/ld+json" set:html={JSON.stringify(personLd)} />
+    <script type="application/ld+json" set:html={JSON.stringify(graph)} />
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>

@@ -11,6 +11,46 @@ const files = [
   { name: '06 · Example: deal intake', body: 'A second fictional example, for a real estate investor screening new deals.' },
 ];
 
+const rules = [
+  ['One question at a time.', 'The AI waits for your answer. It never sends a list of questions.'],
+  ['Real work, past tense.', '"Walk me through the job you finished last month" gets the truth. "What\'s your process?" gets the version nobody follows.'],
+  ['Stop at every soft verb.', 'When you say "I look at it and decide," that\'s hidden judgment. The AI asks what you looked at first and what would have changed your answer.'],
+  ['Numbers, word for word.', 'Prices, thresholds, lead times and limits are written down exactly as you say them.'],
+  ['Ask for the exception.', 'Every rule gets a follow-up: "When do you break that?" The exceptions are where the expertise lives.'],
+  ['Never invent.', 'Anything the AI inferred rather than heard is marked [UNCONFIRMED]. A visible hole beats a hidden guess.'],
+  ['Record first, improve later.', 'Fixes go in a separate list, so you describe the process instead of defending it.'],
+  ['45 minutes, then stop.', 'Tired answers are vague, and vague answers make bad AI skills.'],
+];
+
+const faqs = [
+  ['What is the AI Foundation Kit?', 'A free set of plain-text files that turns any AI chat tool into an interviewer. It asks a business owner how work actually moves through the business, writes down the rules and numbers only the owner knows, and turns the most repetitive task into a tested AI skill.'],
+  ['Who is it for?', 'Owners and operators of businesses with roughly 5 to 200 people, such as trades, shops, manufacturers, professional services firms and real estate investors, where most decisions still run through the owner.'],
+  ['Which AI tools does it work with?', 'Claude, ChatGPT, Gemini, Copilot or any AI chat tool that accepts a long message. In Claude it also installs as a skill.'],
+  ['What does it cost?', 'Nothing. It is licensed CC BY 4.0, so you can use, adapt and share it, including with clients, as long as you credit Timothy Gaull.'],
+  ['How long does it take?', 'Two or three 45-minute interview sessions produce the first map. Most owners have a first tested skill within a few weeks.'],
+  ['Why do you ask for my email?', 'To keep the download from being scraped and to let you opt in to occasional notes. Your email is never sold or shared.'],
+];
+
+const kitLd = [
+  {
+    '@type': 'CreativeWork',
+    '@id': 'https://timothygaull.com/kit/#kit',
+    name: 'The AI Foundation Kit',
+    description: 'A free AI interview kit for business owners: map how work moves through the business, build a context pack, and turn recurring tasks into tested AI skills. Works with Claude, ChatGPT and any AI chat tool.',
+    url: 'https://timothygaull.com/kit/',
+    author: { '@id': 'https://timothygaull.com/#person' },
+    isAccessibleForFree: true,
+    license: 'https://creativecommons.org/licenses/by/4.0/',
+    inLanguage: 'en-US',
+    audience: { '@type': 'BusinessAudience', audienceType: 'Owners and operators of small and mid-sized businesses' },
+    keywords: 'AI adoption, business process mapping, AI skills, Claude skill, ChatGPT prompts, small business AI, service delivery map',
+  },
+  {
+    '@type': 'FAQPage',
+    mainEntity: faqs.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
+  },
+];
+
 const steps = [
   { title: 'Map', body: 'Two or three 45-minute interviews. You talk through real jobs; the AI asks and writes.' },
   { title: 'Write it down', body: 'Pull out the rules and numbers you carry in your head, once, into files everything reads.' },
@@ -19,6 +59,8 @@ const steps = [
 ];
 ---
 <Base
+  schema={kitLd}
+  image="/og/kit.png"
   title="The AI Foundation Kit (free)"
   description="A free AI tool for business owners. It interviews you about how your business actually runs, writes down what only you know, and turns your most repetitive task into a skill AI can run. Works in Claude, ChatGPT or any AI chat tool."
 >
@@ -129,6 +171,43 @@ const steps = [
       </div>
     </div>
   </section>
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">A preview</p>
+        <h2>The eight rules the AI interviewer follows.</h2>
+        <p>These come straight from file 01. They're what make the difference between a useful map of your business and a generic chat.</p>
+      </div>
+      <ol class="rules">
+        {rules.map(([title, body]) => (
+          <li>
+            <strong>{title}</strong> {body}
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap narrow-left">
+      <div class="section-head">
+        <p class="eyebrow">Questions</p>
+        <h2>Common questions</h2>
+      </div>
+      <div class="faq">
+        {faqs.map(([q, a]) => (
+          <details>
+            <summary>{q}</summary>
+            <p>{a}</p>
+          </details>
+        ))}
+      </div>
+      <div class="actions">
+        <a class="btn" href="#kit-form">Get the kit</a>
+      </div>
+    </div>
+  </section>
+
   <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
   <script define:vars={{ sitekey: SITE.turnstileSiteKey }}>
     const form = document.getElementById('kit-form');

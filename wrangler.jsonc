@@ -3,12 +3,13 @@
   "name": "timothygaull-com",
   "main": "worker/index.ts",
   "compatibility_date": "2026-09-01",
-  // The site is static Astro output. The Worker only runs for /api/*.
+  // The site is static Astro output. The Worker runs first on every request so it can
+  // redirect the other domains to timothygaull.com before serving pages.
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",
     "not_found_handling": "404-page",
-    "run_worker_first": ["/api/*"]
+    "run_worker_first": true
   },
   // The kit zip is bundled into the Worker, never published as a static file.
   "rules": [{ "type": "Data", "globs": ["**/*.zip"], "fallthrough": false }],
@@ -29,9 +30,12 @@
   "observability": { "enabled": true }
   // Secrets, set in the Cloudflare dashboard (never in this file):
   //   TURNSTILE_SECRET, DOWNLOAD_SIGNING_KEY
-  // Custom domains are added once timothygaull.com is on Cloudflare:
+  // Custom domains, added once each domain is on Cloudflare. timothygaull.com is canonical;
+  // every other pattern here is redirected to it by the Worker.
   // "routes": [
   //   { "pattern": "timothygaull.com", "custom_domain": true },
-  //   { "pattern": "www.timothygaull.com", "custom_domain": true }
+  //   { "pattern": "www.timothygaull.com", "custom_domain": true },
+  //   { "pattern": "timgaull.com", "custom_domain": true },
+  //   { "pattern": "www.timgaull.com", "custom_domain": true }
   // ]
 }

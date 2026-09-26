@@ -10,8 +10,18 @@ interface Props {
 }
 
 const { title, description, eyebrow, facts } = Astro.props;
+const articleLd = {
+  '@type': 'Article',
+  headline: title,
+  description,
+  url: new URL(Astro.url.pathname, Astro.site).href,
+  author: { '@id': 'https://timothygaull.com/#person' },
+  publisher: { '@id': 'https://timothygaull.com/#person' },
+  about: eyebrow,
+  inLanguage: 'en-US',
+};
 ---
-<Base title={title} description={description}>
+<Base title={title} description={description} schema={[articleLd]}>
   <div class="narrow article-head">
     <p class="eyebrow"><a href="/work/">Work</a> · {eyebrow}</p>
     <h1>{title}</h1>

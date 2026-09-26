@@ -704,3 +704,95 @@ figcaption {
   padding: 16px;
   margin: 16px 0;
 }
+
+/* Home hero with portrait */
+.hero-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+}
+
+.portrait {
+  margin: 0;
+  position: relative;
+}
+
+.portrait img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 24px;
+}
+
+/* A thin comet edge ties the photo to the brand without adding another colored block. */
+.portrait::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 28px;
+  padding: 2px;
+  background: var(--comet);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+@media (max-width: 860px) {
+  .hero-split {
+    grid-template-columns: 1fr;
+  }
+  .portrait {
+    order: -1;
+    max-width: 180px;
+  }
+  .portrait img {
+    border-radius: 50%;
+  }
+  .portrait::after {
+    border-radius: 50%;
+  }
+}
+
+/* Kit preview and FAQ */
+.rules {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: 12px 32px;
+  max-width: none;
+  padding-left: 1.4em;
+}
+
+.rules li {
+  color: var(--muted);
+}
+
+.rules strong {
+  color: var(--ink);
+}
+
+.narrow-left {
+  max-width: 760px;
+}
+
+.faq details {
+  border-top: 1px solid var(--rule);
+  padding: 14px 0;
+}
+
+.faq details:last-child {
+  border-bottom: 1px solid var(--rule);
+}
+
+.faq summary {
+  cursor: pointer;
+  font-weight: 600;
+  list-style-position: outside;
+}
+
+.faq details p {
+  margin: 10px 0 0;
+  color: var(--muted);
+}

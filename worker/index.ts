@@ -1,5 +1,6 @@
-// timothygaull.com Worker. Static pages are served from ./dist; this code only
-// handles /api/*, which gates the free kit behind a human check and an email.
+// timothygaull.com Worker. It runs before every request so it can send every other
+// domain Tim owns (timgaull.com, www, misspellings) to one canonical host, then serves
+// the static pages from ./dist. It also gates the free kit behind a human check and an email.
 //
 //   POST /api/kit/request   honeypot → email → rate limit → Turnstile siteverify
 //                           → save signup → return a short-lived download link
@@ -18,6 +19,7 @@ interface Env {
   TURNSTILE_TEST_MODE?: string;
 }
 
+const CANONICAL_HOST = 'timothygaull.com';
 const ACTION = 'kit_download';
 const LINK_TTL_SECONDS = 15 * 60;
 const MAX_ATTEMPTS_PER_HOUR = 10;
@@ -26,6 +28,9 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
+    if (shouldRedirect(url.hostname)) {
+      return Response.redirect(`https://${CANONICAL_HOST}${url.pathname}${url.search}`, 301);
+    }
     if (url.pathname.startsWith('/api/') && (!env.DOWNLOAD_SIGNING_KEY || !env.TURNSTILE_SECRET)) {
       return json({ error: 'not_configured' }, 503);
     }
@@ -35,6 +40,14 @@ export default {
     return env.ASSETS.fetch(request);
   },
 } satisfies ExportedHandler<Env>;
+
+// Everything except the canonical host redirects. Local dev and the temporary workers.dev
+// address are left alone so the site can be tested before the domains move.
+function shouldRedirect(host: string): boolean {
+  if (host === CANONICAL_HOST || host === 'localhost' || host === '127.0.0.1') return false;
+  if (host.endsWith('.workers.dev')) return false;
+  return true;
+}
 
 async function requestKit(request: Request, env: Env): Promise<Response> {
   let body: Record<string, unknown>;
