@@ -27,15 +27,21 @@
     // Stripe Payment Link for tips. Empty hides the tip on the thank-you screen.
     "TIP_URL": ""
   },
-  "observability": { "enabled": true }
+  "observability": { "enabled": true },
   // Secrets, set in the Cloudflare dashboard (never in this file):
   //   TURNSTILE_SECRET, DOWNLOAD_SIGNING_KEY
-  // Custom domains, added once each domain is on Cloudflare. timothygaull.com is canonical;
-  // every other pattern here is redirected to it by the Worker.
-  // "routes": [
-  //   { "pattern": "timothygaull.com", "custom_domain": true },
-  //   { "pattern": "www.timothygaull.com", "custom_domain": true },
-  //   { "pattern": "timgaull.com", "custom_domain": true },
-  //   { "pattern": "www.timgaull.com", "custom_domain": true }
-  // ]
+  // timothygaull.com is canonical. Every other host below is attached so it gets a
+  // certificate, and the Worker 301-redirects it to timothygaull.com.
+  "routes": [
+    { "pattern": "timothygaull.com", "custom_domain": true },
+    { "pattern": "www.timothygaull.com", "custom_domain": true },
+    { "pattern": "timgaull.com", "custom_domain": true },
+    { "pattern": "www.timgaull.com", "custom_domain": true },
+    { "pattern": "timothygaul.com", "custom_domain": true },
+    { "pattern": "www.timothygaul.com", "custom_domain": true },
+    { "pattern": "timothygual.com", "custom_domain": true },
+    { "pattern": "www.timothygual.com", "custom_domain": true },
+    { "pattern": "timgual.com", "custom_domain": true },
+    { "pattern": "www.timgual.com", "custom_domain": true }
+  ]
 }
