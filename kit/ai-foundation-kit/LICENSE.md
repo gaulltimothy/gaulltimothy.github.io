@@ -23,4 +23,4 @@ This summary is a convenience, not the license itself. The full legal text at th
 
 ---
 
-*The AI Foundation Kit by Timothy Gaull · timothygaull.com · Free to use and share. Want help running it? Book a free 30-minute working session at timothygaull.com.*
+*The AI Foundation Kit by Timothy Gaull · timothygaull.com · Free to use and share. Want help running it? Request an intro call at timothygaull.com/intro-call/*

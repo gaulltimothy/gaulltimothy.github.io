@@ -796,3 +796,50 @@ figcaption {
   margin: 10px 0 0;
   color: var(--muted);
 }
+
+/* Intro call request form (shares the kit form's card and inputs) */
+.intro-form {
+  max-width: 720px;
+  display: grid;
+  gap: 14px;
+}
+
+.intro-form .field-row.three {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr));
+}
+
+.kit-form textarea,
+.kit-form select {
+  font: inherit;
+  padding: 10px 12px;
+  border: 1px solid #cfc6c2;
+  border-radius: 8px;
+  background: var(--paper);
+  color: var(--ink);
+  width: 100%;
+}
+
+.kit-form textarea {
+  resize: vertical;
+  min-height: 3.2em;
+}
+
+.kit-form textarea:focus-visible,
+.kit-form select:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 1px;
+}
+
+.intro-form .turnstile,
+.intro-form .btn,
+.intro-form p {
+  margin: 0;
+}
+
+.intro-form .btn {
+  justify-self: start;
+}
+
+.kit-done:focus {
+  outline: none;
+}

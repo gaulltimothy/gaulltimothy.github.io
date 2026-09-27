@@ -1,0 +1,157 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../site';
+
+const teamSizes = ['Just me', '2 to 4', '5 to 20', '21 to 50', '51 to 200', 'More than 200'];
+const timelines = ['Just exploring', 'This quarter', 'Ready now'];
+const budgets = ['Not sure yet', 'Under $2,500', '$2,500 to $10,000', 'More than $10,000', 'Ongoing monthly help'];
+---
+<Base
+  title="Request an intro call"
+  description="Tell Timothy Gaull about your business and what's eating your week. He reads every request and follows up with a link to book a 30-minute intro call when it's a fit."
+>
+  <div class="wrap hero">
+    <p class="eyebrow">Intro call · by request</p>
+    <h1>Tell me about your business.</h1>
+    <p class="lede">
+      I read every request and reply within a week. If it's a fit, you'll get a link to book a 30-minute call. If
+      it isn't, I'll point you to something useful instead.
+    </p>
+
+    <form class="kit-form intro-form" id="intro-form" novalidate>
+      <div class="field-row">
+        <label>
+          <span>Name</span>
+          <input type="text" name="name" autocomplete="name" required maxlength="120" />
+        </label>
+        <label>
+          <span>Email</span>
+          <input type="email" name="email" autocomplete="email" required maxlength="254" />
+        </label>
+      </div>
+      <div class="field-row">
+        <label>
+          <span>Company <span class="muted">(optional)</span></span>
+          <input type="text" name="company" autocomplete="organization" maxlength="160" />
+        </label>
+        <label>
+          <span>Website <span class="muted">(optional)</span></span>
+          <input type="text" name="site" autocomplete="url" maxlength="200" placeholder="example.com" />
+        </label>
+      </div>
+      <label>
+        <span>What does your business do?</span>
+        <textarea name="business" rows="2" required maxlength="1000" placeholder="For example: a metal fabrication shop that sells cut-to-length steel and does railings and repairs."></textarea>
+      </label>
+      <label>
+        <span>What's eating most of your week?</span>
+        <textarea name="pain" rows="4" required maxlength="2000" placeholder="The task, decision or bottleneck you'd most like off your plate."></textarea>
+      </label>
+      <div class="field-row three">
+        <label>
+          <span>Team size</span>
+          <select name="team_size" required>
+            <option value="">Choose one</option>
+            {teamSizes.map((t) => <option>{t}</option>)}
+          </select>
+        </label>
+        <label>
+          <span>Timeline</span>
+          <select name="timeline" required>
+            <option value="">Choose one</option>
+            {timelines.map((t) => <option>{t}</option>)}
+          </select>
+        </label>
+        <label>
+          <span>Budget</span>
+          <select name="budget" required>
+            <option value="">Choose one</option>
+            {budgets.map((b) => <option>{b}</option>)}
+          </select>
+        </label>
+      </div>
+      <label>
+        <span>How did you find me? <span class="muted">(optional)</span></span>
+        <input type="text" name="source" maxlength="200" />
+      </label>
+      <label class="hp" aria-hidden="true">
+        Leave this empty
+        <input type="text" name="website" tabindex="-1" autocomplete="off" />
+      </label>
+      <div id="turnstile" class="turnstile"></div>
+      <button class="btn" type="submit">Send request</button>
+      <p class="small muted">Your details are used only to reply to this request. They're never sold or shared.</p>
+      <p class="form-status" id="intro-status" role="status" aria-live="polite"></p>
+    </form>
+
+    <div class="kit-done" id="intro-done" hidden tabindex="-1">
+      <h2>Thanks. Your request is in.</h2>
+      <p>I read every request and reply within a week. If it's a fit, you'll get a link to book a 30-minute call.</p>
+      <p>Meanwhile, the <a href="/kit/">free AI Foundation Kit</a> is the first step of how I work. Running its interview before we talk makes our call twice as useful.</p>
+    </div>
+  </div>
+
+  <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+  <script define:vars={{ sitekey: SITE.turnstileSiteKey }}>
+    const form = document.getElementById('intro-form');
+    const statusEl = document.getElementById('intro-status');
+    const done = document.getElementById('intro-done');
+    let widgetId = null;
+    let token = '';
+
+    const wait = setInterval(() => {
+      if (!window.turnstile) return;
+      clearInterval(wait);
+      widgetId = window.turnstile.render('#turnstile', {
+        sitekey,
+        action: 'intro_request',
+        callback: (t) => { token = t; },
+        'expired-callback': () => { token = ''; },
+        'error-callback': () => { token = ''; },
+      });
+    }, 200);
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const firstInvalid = [...form.querySelectorAll('[required]')].find((el) => !el.value.trim() || !el.checkValidity());
+      if (firstInvalid) {
+        statusEl.textContent = 'Please fill in the highlighted fields.';
+        firstInvalid.focus();
+        return;
+      }
+      if (!token) {
+        statusEl.textContent = 'One moment: the human check is still loading. Try again in a second.';
+        return;
+      }
+      const button = form.querySelector('button[type=submit]');
+      button.disabled = true;
+      statusEl.textContent = 'Sending...';
+      const data = Object.fromEntries(new FormData(form));
+      try {
+        const res = await fetch('/api/intro/request', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...data, token }),
+        });
+        const body = await res.json().catch(() => ({}));
+        if (!res.ok || !body.ok) {
+          statusEl.textContent =
+            res.status === 429 ? 'Too many tries from this connection. Please wait a bit and try again.' :
+            body.error === 'invalid_email' ? 'Please enter a valid email address.' :
+            body.error === 'missing_fields' ? 'Please tell me a little more about your business and your week.' :
+            'Something went wrong with the check. Please try again.';
+          return;
+        }
+        form.hidden = true;
+        done.hidden = false;
+        done.focus();
+      } catch {
+        statusEl.textContent = 'Network error. Please try again.';
+      } finally {
+        button.disabled = false;
+        token = '';
+        if (window.turnstile && widgetId !== null) window.turnstile.reset(widgetId);
+      }
+    });
+  </script>
+</Base>

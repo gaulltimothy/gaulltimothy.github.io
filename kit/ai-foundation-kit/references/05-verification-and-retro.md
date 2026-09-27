@@ -72,4 +72,4 @@ The measure at day ninety isn't how much is automated. It's whether someone othe
 
 ---
 
-*The AI Foundation Kit by Timothy Gaull · timothygaull.com · Free to use and share. Want help running it? Book a free 30-minute working session at timothygaull.com.*
+*The AI Foundation Kit by Timothy Gaull · timothygaull.com · Free to use and share. Want help running it? Request an intro call at timothygaull.com/intro-call/*

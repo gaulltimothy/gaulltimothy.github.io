@@ -77,4 +77,4 @@ With those three, the tool can be rebuilt or moved to a different platform in an
 
 *Free to use and share under CC BY 4.0. Timothy Gaull is an independent consultant in Nashville who helps owner-led businesses put AI to work, sharpen their brand, and build systems so the business doesn't run entirely through the owner.*
 
-*Want help running it? Book a free 30-minute working session at timothygaull.com.*
+*Want help running it? Request an intro call at timothygaull.com/intro-call/*

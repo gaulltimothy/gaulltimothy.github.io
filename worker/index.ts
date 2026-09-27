@@ -5,6 +5,8 @@
 //   POST /api/kit/request   honeypot → email → rate limit → Turnstile siteverify
 //                           → save signup → return a short-lived download link
 //   GET  /api/kit/download  verify the link's signature and expiry → the zip
+//   POST /api/intro/request honeypot → fields → rate limit → Turnstile siteverify
+//                           → save the intro call request for Tim's weekly review
 import kitZip from '../kit-build/ai-foundation-kit.zip';
 
 interface Env {
@@ -20,7 +22,8 @@ interface Env {
 }
 
 const CANONICAL_HOST = 'timothygaull.com';
-const ACTION = 'kit_download';
+const KIT_ACTION = 'kit_download';
+const INTRO_ACTION = 'intro_request';
 const LINK_TTL_SECONDS = 15 * 60;
 const MAX_ATTEMPTS_PER_HOUR = 10;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -36,6 +39,7 @@ export default {
     }
     if (url.pathname === '/api/kit/request' && request.method === 'POST') return requestKit(request, env);
     if (url.pathname === '/api/kit/download' && request.method === 'GET') return downloadKit(url, env);
+    if (url.pathname === '/api/intro/request' && request.method === 'POST') return requestIntro(request, env);
     if (url.pathname.startsWith('/api/')) return json({ error: 'not_found' }, 404);
     return env.ASSETS.fetch(request);
   },
@@ -67,17 +71,11 @@ async function requestKit(request: Request, env: Env): Promise<Response> {
   const token = body.token;
   if (typeof token !== 'string' || token.length === 0 || token.length > 2048) return json({ error: 'verification_failed' }, 403);
 
-  // Rate limit by a keyed hash of the IP, so raw addresses are never stored.
   const ip = request.headers.get('CF-Connecting-IP') ?? '';
-  const ipHash = await hmacHex(env.DOWNLOAD_SIGNING_KEY, `ip:${ip}`);
+  if (await rateLimited(ip, env)) return json({ error: 'rate_limited' }, 429);
+  if (!(await verifyTurnstile(token, ip, KIT_ACTION, env))) return json({ error: 'verification_failed' }, 403);
+
   const now = Math.floor(Date.now() / 1000);
-  await env.DB.prepare('DELETE FROM attempts WHERE at < ?').bind(now - 3600).run();
-  const recent = await env.DB.prepare('SELECT COUNT(*) AS n FROM attempts WHERE ip_hash = ?').bind(ipHash).first<{ n: number }>();
-  if ((recent?.n ?? 0) >= MAX_ATTEMPTS_PER_HOUR) return json({ error: 'rate_limited' }, 429);
-  await env.DB.prepare('INSERT INTO attempts (ip_hash, at) VALUES (?, ?)').bind(ipHash, now).run();
-
-  if (!(await verifyTurnstile(token, ip, env))) return json({ error: 'verification_failed' }, 403);
-
   const stamp = new Date().toISOString();
   await env.DB.prepare(
     `INSERT INTO signups (email, name, wants_updates, created_at, last_download_at, download_count)
@@ -96,7 +94,68 @@ async function requestKit(request: Request, env: Env): Promise<Response> {
   return json({ download: `/api/kit/download?exp=${exp}&sig=${sig}`, tip: env.TIP_URL || null });
 }
 
-async function verifyTurnstile(token: string, ip: string, env: Env): Promise<boolean> {
+const INTRO_CHOICES = {
+  team_size: ['Just me', '2 to 4', '5 to 20', '21 to 50', '51 to 200', 'More than 200'],
+  timeline: ['Just exploring', 'This quarter', 'Ready now'],
+  budget: ['Not sure yet', 'Under $2,500', '$2,500 to $10,000', 'More than $10,000', 'Ongoing monthly help'],
+} as const;
+
+async function requestIntro(request: Request, env: Env): Promise<Response> {
+  let body: Record<string, unknown>;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: 'bad_request' }, 400);
+  }
+  if (typeof body.website === 'string' && body.website.trim() !== '') return json({ error: 'bad_request' }, 400);
+
+  const text = (key: string, max: number) => (typeof body[key] === 'string' ? (body[key] as string).trim().slice(0, max) : '');
+  const choice = (key: keyof typeof INTRO_CHOICES) => {
+    const v = text(key, 60);
+    return (INTRO_CHOICES[key] as readonly string[]).includes(v) ? v : '';
+  };
+  const email = text('email', 254).toLowerCase();
+  const fields = {
+    name: text('name', 120),
+    company: text('company', 160),
+    site: text('site', 200),
+    team_size: choice('team_size'),
+    business: text('business', 1000),
+    pain: text('pain', 2000),
+    timeline: choice('timeline'),
+    budget: choice('budget'),
+    source: text('source', 200),
+  };
+  if (!EMAIL_RE.test(email)) return json({ error: 'invalid_email' }, 400);
+  if (!fields.name || fields.business.length < 3 || fields.pain.length < 10) return json({ error: 'missing_fields' }, 400);
+  const token = body.token;
+  if (typeof token !== 'string' || token.length === 0 || token.length > 2048) return json({ error: 'verification_failed' }, 403);
+
+  const ip = request.headers.get('CF-Connecting-IP') ?? '';
+  if (await rateLimited(ip, env)) return json({ error: 'rate_limited' }, 429);
+  if (!(await verifyTurnstile(token, ip, INTRO_ACTION, env))) return json({ error: 'verification_failed' }, 403);
+
+  await env.DB.prepare(
+    `INSERT INTO intro_requests (created_at, name, email, company, site, team_size, business, pain, timeline, budget, source)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+  )
+    .bind(new Date().toISOString(), fields.name, email, fields.company, fields.site, fields.team_size, fields.business, fields.pain, fields.timeline, fields.budget, fields.source)
+    .run();
+  return json({ ok: true });
+}
+
+// Rate limit by a keyed hash of the IP, so raw addresses are never stored. Shared by both forms.
+async function rateLimited(ip: string, env: Env): Promise<boolean> {
+  const ipHash = await hmacHex(env.DOWNLOAD_SIGNING_KEY, `ip:${ip}`);
+  const now = Math.floor(Date.now() / 1000);
+  await env.DB.prepare('DELETE FROM attempts WHERE at < ?').bind(now - 3600).run();
+  const recent = await env.DB.prepare('SELECT COUNT(*) AS n FROM attempts WHERE ip_hash = ?').bind(ipHash).first<{ n: number }>();
+  if ((recent?.n ?? 0) >= MAX_ATTEMPTS_PER_HOUR) return true;
+  await env.DB.prepare('INSERT INTO attempts (ip_hash, at) VALUES (?, ?)').bind(ipHash, now).run();
+  return false;
+}
+
+async function verifyTurnstile(token: string, ip: string, action: string, env: Env): Promise<boolean> {
   const hostnames = new Set(
     (env.TURNSTILE_HOSTNAMES ?? '')
       .split(',')
@@ -120,7 +179,7 @@ async function verifyTurnstile(token: string, ip: string, env: Env): Promise<boo
   }
   if (result.success !== true) return false;
   if (env.TURNSTILE_TEST_MODE === '1' && result.metadata?.result_with_testing_key === true) return true;
-  return result.action === ACTION && typeof result.hostname === 'string' && hostnames.has(result.hostname);
+  return result.action === action && typeof result.hostname === 'string' && hostnames.has(result.hostname);
 }
 
 async function downloadKit(url: URL, env: Env): Promise<Response> {
