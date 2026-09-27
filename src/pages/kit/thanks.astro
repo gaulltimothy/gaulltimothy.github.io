@@ -1,0 +1,32 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE } from '../../site';
+---
+<Base title="Thank you" description="Thank you for supporting the AI Foundation Kit.">
+  <div class="narrow article-head">
+    <p class="eyebrow">The AI Foundation Kit</p>
+    <h1 id="thanks-title">Checking your tip...</h1>
+    <p class="lede" id="thanks-body">One moment.</p>
+    <div class="actions">
+      <a class="btn btn-ghost" href="/kit/">Back to the kit</a>
+      <a class="btn btn-ghost" href={SITE.bookUrl}>{SITE.bookLabel}</a>
+    </div>
+  </div>
+  <script is:inline>
+    (async () => {
+      const title = document.getElementById('thanks-title');
+      const body = document.getElementById('thanks-body');
+      const id = new URLSearchParams(location.search).get('session_id');
+      let ok = false;
+      if (id) {
+        const r = await fetch('/api/tip/status?session_id=' + encodeURIComponent(id)).catch(() => null);
+        const s = r && r.ok ? await r.json() : null;
+        ok = s && s.status === 'complete';
+      }
+      title.textContent = ok ? 'Thank you.' : "Your tip didn't go through.";
+      body.textContent = ok
+        ? 'Tips like yours keep the kit free for the next owner. A receipt is on its way to your email.'
+        : 'Nothing was charged. You can try again from the kit page, or skip it. The kit is yours either way.';
+    })();
+  </script>
+</Base>

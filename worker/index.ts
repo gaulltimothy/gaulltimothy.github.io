@@ -7,6 +7,9 @@
 //   GET  /api/kit/download  verify the link's signature and expiry → the zip
 //   POST /api/intro/request honeypot → fields → rate limit → Turnstile siteverify
 //                           → save the intro call request for Tim's weekly review
+//   POST /api/tip/session   valid kit download signature → rate limit → Stripe Checkout
+//                           Session (ui_mode elements) for a pay-what-you-want tip
+//   GET  /api/tip/status    payment status for the tip return page
 import kitZip from '../kit-build/ai-foundation-kit.zip';
 
 interface Env {
@@ -15,7 +18,11 @@ interface Env {
   TURNSTILE_SECRET: string;
   DOWNLOAD_SIGNING_KEY: string;
   TURNSTILE_HOSTNAMES: string;
-  TIP_URL: string;
+  // Tips are on only when all three are set: a restricted secret key (Checkout Sessions
+  // write), the matching publishable key, and the tip product for that mode.
+  STRIPE_SECRET_KEY?: string;
+  STRIPE_PUBLISHABLE_KEY?: string;
+  STRIPE_TIP_PRODUCT?: string;
   // Local development only (.dev.vars). Lets Cloudflare's always-pass test keys through,
   // which report no action and a placeholder hostname. Never set in production.
   TURNSTILE_TEST_MODE?: string;
@@ -26,6 +33,11 @@ const KIT_ACTION = 'kit_download';
 const INTRO_ACTION = 'intro_request';
 const LINK_TTL_SECONDS = 15 * 60;
 const MAX_ATTEMPTS_PER_HOUR = 10;
+const TIP_MIN_CENTS = 300;
+const TIP_MAX_CENTS = 50000;
+// A tip must come from someone who downloaded the kit in the last hour or so. This keeps
+// the pay-what-you-want form from being used to test stolen cards.
+const TIP_GRACE_SECONDS = 60 * 60;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 export default {
@@ -40,6 +52,8 @@ export default {
     if (url.pathname === '/api/kit/request' && request.method === 'POST') return requestKit(request, env);
     if (url.pathname === '/api/kit/download' && request.method === 'GET') return downloadKit(url, env);
     if (url.pathname === '/api/intro/request' && request.method === 'POST') return requestIntro(request, env);
+    if (url.pathname === '/api/tip/session' && request.method === 'POST') return createTipSession(request, env);
+    if (url.pathname === '/api/tip/status' && request.method === 'GET') return tipStatus(url, env);
     if (url.pathname.startsWith('/api/')) return json({ error: 'not_found' }, 404);
     return env.ASSETS.fetch(request);
   },
@@ -91,7 +105,10 @@ async function requestKit(request: Request, env: Env): Promise<Response> {
 
   const exp = now + LINK_TTL_SECONDS;
   const sig = await hmacHex(env.DOWNLOAD_SIGNING_KEY, `download:${exp}`);
-  return json({ download: `/api/kit/download?exp=${exp}&sig=${sig}`, tip: env.TIP_URL || null });
+  return json({
+    download: `/api/kit/download?exp=${exp}&sig=${sig}`,
+    tip: tipsEnabled(env) ? { publishableKey: env.STRIPE_PUBLISHABLE_KEY, exp, sig } : null,
+  });
 }
 
 const INTRO_CHOICES = {
@@ -142,6 +159,77 @@ async function requestIntro(request: Request, env: Env): Promise<Response> {
     .bind(new Date().toISOString(), fields.name, email, fields.company, fields.site, fields.team_size, fields.business, fields.pain, fields.timeline, fields.budget, fields.source)
     .run();
   return json({ ok: true });
+}
+
+function tipsEnabled(env: Env): boolean {
+  return Boolean(env.STRIPE_SECRET_KEY && env.STRIPE_PUBLISHABLE_KEY && env.STRIPE_TIP_PRODUCT);
+}
+
+async function createTipSession(request: Request, env: Env): Promise<Response> {
+  if (!tipsEnabled(env)) return json({ error: 'tips_off' }, 404);
+  let body: Record<string, unknown>;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: 'bad_request' }, 400);
+  }
+  const amount = Number(body.amount);
+  if (!Number.isInteger(amount) || amount < TIP_MIN_CENTS || amount > TIP_MAX_CENTS) return json({ error: 'bad_amount' }, 400);
+
+  const exp = Number(body.exp);
+  const sig = typeof body.sig === 'string' ? body.sig : '';
+  const now = Math.floor(Date.now() / 1000);
+  if (!Number.isInteger(exp) || exp < now - TIP_GRACE_SECONDS || exp > now + LINK_TTL_SECONDS) return json({ error: 'expired' }, 403);
+  if (!timingSafeEqual(sig, await hmacHex(env.DOWNLOAD_SIGNING_KEY, `download:${exp}`))) return json({ error: 'expired' }, 403);
+
+  const ip = request.headers.get('CF-Connecting-IP') ?? '';
+  if (await rateLimited(ip, env)) return json({ error: 'rate_limited' }, 429);
+
+  const email = typeof body.email === 'string' ? body.email.trim().toLowerCase() : '';
+  const origin = new URL(request.url).origin;
+  const params: Record<string, string> = {
+    mode: 'payment',
+    ui_mode: 'elements',
+    submit_type: 'pay',
+    redirect_on_completion: 'if_required',
+    return_url: `${origin}/kit/thanks/?session_id={CHECKOUT_SESSION_ID}`,
+    'line_items[0][quantity]': '1',
+    'line_items[0][price_data][currency]': 'usd',
+    'line_items[0][price_data][product]': env.STRIPE_TIP_PRODUCT!,
+    'line_items[0][price_data][unit_amount]': String(amount),
+    'payment_intent_data[description]': 'Tip for the AI Foundation Kit',
+    'metadata[purpose]': 'kit_tip',
+  };
+  if (EMAIL_RE.test(email) && email.length <= 254) params.customer_email = email;
+
+  const res = await stripe(env, 'POST', '/v1/checkout/sessions', params);
+  if (!res.ok) return json({ error: 'stripe_error' }, 502);
+  const session = (await res.json()) as { client_secret?: string };
+  if (!session.client_secret) return json({ error: 'stripe_error' }, 502);
+  return json({ clientSecret: session.client_secret });
+}
+
+async function tipStatus(url: URL, env: Env): Promise<Response> {
+  if (!tipsEnabled(env)) return json({ error: 'tips_off' }, 404);
+  const id = url.searchParams.get('session_id') ?? '';
+  if (!/^cs_(test|live)_[A-Za-z0-9]{10,}$/.test(id)) return json({ error: 'bad_request' }, 400);
+  const res = await stripe(env, 'GET', `/v1/checkout/sessions/${id}`);
+  if (!res.ok) return json({ error: 'not_found' }, 404);
+  const s = (await res.json()) as { status?: string; payment_status?: string; metadata?: Record<string, string> };
+  if (s.metadata?.purpose !== 'kit_tip') return json({ error: 'not_found' }, 404);
+  return json({ status: s.status, paymentStatus: s.payment_status });
+}
+
+function stripe(env: Env, method: 'GET' | 'POST', path: string, params?: Record<string, string>): Promise<Response> {
+  return fetch(`https://api.stripe.com${path}`, {
+    method,
+    headers: {
+      Authorization: `Bearer ${env.STRIPE_SECRET_KEY}`,
+      ...(params ? { 'Content-Type': 'application/x-www-form-urlencoded' } : {}),
+    },
+    body: params ? new URLSearchParams(params) : undefined,
+    signal: AbortSignal.timeout(10_000),
+  });
 }
 
 // Rate limit by a keyed hash of the IP, so raw addresses are never stored. Shared by both forms.

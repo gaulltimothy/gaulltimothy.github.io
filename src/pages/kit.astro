@@ -101,8 +101,27 @@ const steps = [
       <p>If it didn't, <a id="kit-link" href="#">download the kit here</a>. The link works for 15 minutes.</p>
       <p>Start with the README, then open file 01 in your AI tool of choice.</p>
       <div class="tip" id="kit-tip" hidden>
-        <p><strong>Did this save you time?</strong> The kit is free. If it helps, you can tip the builder whatever feels right.</p>
-        <a class="btn btn-ghost" id="kit-tip-link" href="#">Leave a tip</a>
+        <p><strong>Did this save you time?</strong> The kit is free. If it helps, you can tip whatever feels right.</p>
+        <div id="tip-choose">
+          <div class="tip-amounts" role="radiogroup" aria-label="Tip amount">
+            <button type="button" class="tip-amount" data-cents="500" role="radio" aria-checked="false">$5</button>
+            <button type="button" class="tip-amount" data-cents="1500" role="radio" aria-checked="true">$15</button>
+            <button type="button" class="tip-amount" data-cents="3000" role="radio" aria-checked="false">$30</button>
+            <label class="tip-custom">
+              <span class="visually-hidden">Other amount in dollars</span>
+              <span aria-hidden="true">$</span>
+              <input type="number" id="tip-other" min="3" max="500" step="1" inputmode="numeric" placeholder="Other" />
+            </label>
+          </div>
+          <button type="button" class="btn" id="tip-continue">Tip $15</button>
+        </div>
+        <form id="tip-pay" hidden novalidate>
+          <div id="payment-element"></div>
+          <button type="submit" class="btn" id="tip-submit" disabled>Pay</button>
+          <button type="button" class="linklike" id="tip-back">Change amount</button>
+        </form>
+        <p class="form-status" id="tip-status" role="status" aria-live="polite"></p>
+        <p class="tip-thanks" id="tip-thanks" hidden><strong>Thank you.</strong> Tips like yours keep the kit free for the next owner.</p>
       </div>
       <p class="small muted">Want help running it? <a href={SITE.bookUrl}>{SITE.bookLabel}</a>.</p>
     </div>
@@ -266,8 +285,8 @@ const steps = [
         }
         document.getElementById('kit-link').href = body.download;
         if (body.tip) {
-          document.getElementById('kit-tip-link').href = body.tip;
           document.getElementById('kit-tip').hidden = false;
+          window.dispatchEvent(new CustomEvent('kit:tip', { detail: { ...body.tip, email } }));
         }
         form.hidden = true;
         done.hidden = false;
@@ -281,5 +300,120 @@ const steps = [
         if (window.turnstile && widgetId !== null) window.turnstile.reset(widgetId);
       }
     });
+  </script>
+
+  <script is:inline>
+    // Embedded tip: Stripe Checkout Sessions (ui_mode elements) with the Payment Element.
+    // Stripe.js loads only when someone chooses to tip, straight from js.stripe.com.
+    (() => {
+      let ctx = null;
+      let cents = 1500;
+      let actions = null;
+      const $ = (id) => document.getElementById(id);
+      const statusEl = $('tip-status');
+      const money = (c) => '$' + (c / 100).toFixed(c % 100 ? 2 : 0);
+
+      function select(c, fromButton) {
+        cents = c;
+        document.querySelectorAll('.tip-amount').forEach((b) => b.setAttribute('aria-checked', String(Number(b.dataset.cents) === c && fromButton)));
+        $('tip-continue').textContent = 'Tip ' + money(c);
+      }
+      document.querySelectorAll('.tip-amount').forEach((b) =>
+        b.addEventListener('click', () => { $('tip-other').value = ''; select(Number(b.dataset.cents), true); }));
+      $('tip-other').addEventListener('input', (e) => {
+        const d = Math.round(Number(e.target.value));
+        if (d >= 3 && d <= 500) select(d * 100, false);
+      });
+
+      function loadStripe() {
+        if (window.Stripe) return Promise.resolve();
+        return new Promise((resolve, reject) => {
+          const s = document.createElement('script');
+          s.src = 'https://js.stripe.com/dahlia/stripe.js';
+          s.onload = resolve;
+          s.onerror = reject;
+          document.head.appendChild(s);
+        });
+      }
+
+      window.addEventListener('kit:tip', (e) => { ctx = e.detail; });
+
+      $('tip-continue').addEventListener('click', async () => {
+        if (!ctx) return;
+        const btn = $('tip-continue');
+        btn.disabled = true;
+        statusEl.textContent = 'Loading secure payment form...';
+        try {
+          await loadStripe();
+          const clientSecret = fetch('/api/tip/session', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ amount: cents, exp: ctx.exp, sig: ctx.sig, email: ctx.email }),
+          }).then(async (r) => {
+            const b = await r.json().catch(() => ({}));
+            if (!r.ok || !b.clientSecret) throw new Error(b.error || 'stripe_error');
+            return b.clientSecret;
+          });
+          const stripe = window.Stripe(ctx.publishableKey);
+          const checkout = stripe.initCheckoutElementsSdk({
+            clientSecret,
+            elementsOptions: {
+              appearance: {
+                theme: 'stripe',
+                variables: {
+                  colorPrimary: '#141414',
+                  colorText: '#141414',
+                  colorBackground: '#ffffff',
+                  fontFamily: '"IBM Plex Sans", "Helvetica Neue", Arial, sans-serif',
+                  borderRadius: '8px',
+                },
+              },
+              fonts: [{ cssSrc: 'https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap' }],
+            },
+          });
+          checkout.on('change', (session) => { $('tip-submit').disabled = !session.canConfirm; });
+          checkout.createPaymentElement().mount('#payment-element');
+          const loaded = await checkout.loadActions();
+          if (loaded.type !== 'success') throw new Error('load_failed');
+          actions = loaded.actions;
+          $('tip-submit').textContent = 'Pay ' + money(cents);
+          $('tip-choose').hidden = true;
+          $('tip-pay').hidden = false;
+          statusEl.textContent = '';
+        } catch (err) {
+          statusEl.textContent = String(err.message) === 'expired'
+            ? 'This page has been open a while. Refresh and download again to tip.'
+            : 'The payment form could not load. Please try again in a moment.';
+        } finally {
+          btn.disabled = false;
+        }
+      });
+
+      $('tip-back').addEventListener('click', () => {
+        // A new amount needs a new Checkout Session, so start the form over.
+        $('payment-element').replaceChildren();
+        actions = null;
+        $('tip-pay').hidden = true;
+        $('tip-choose').hidden = false;
+      });
+
+      $('tip-pay').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!actions) return;
+        const btn = $('tip-submit');
+        btn.disabled = true;
+        statusEl.textContent = 'Processing...';
+        const result = await actions.confirm();
+        if (result.type === 'error') {
+          statusEl.textContent = result.error.message;
+          btn.disabled = false;
+          return;
+        }
+        // Payments that need a redirect (some wallets, 3D Secure) return via /kit/thanks/.
+        $('tip-pay').hidden = true;
+        statusEl.textContent = '';
+        $('tip-thanks').hidden = false;
+      });
+    })();
   </script>
 </Base>
