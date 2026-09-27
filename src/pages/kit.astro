@@ -28,7 +28,7 @@ const faqs = [
   ['Which AI tools does it work with?', 'Claude, ChatGPT, Gemini, Copilot or any AI chat tool that accepts a long message. In Claude it also installs as a skill.'],
   ['What does it cost?', 'Nothing. It is licensed CC BY 4.0, so you can use, adapt and share it, including with clients, as long as you credit Timothy Gaull.'],
   ['How long does it take?', 'Two or three 45-minute interview sessions produce the first map. Most owners have a first tested skill within a few weeks.'],
-  ['Why do you ask for my email?', 'To keep the download from being scraped and to let you opt in to occasional notes. Your email is never sold or shared.'],
+  ['Why do you ask for my email?', 'To keep the download from being scraped. If you check the box, you'll also get the follow-up on how owners are using their first AI skill, plus occasional notes. Your email is never sold or shared, and you can unsubscribe anytime.'],
 ];
 
 const kitLd = [
@@ -88,11 +88,11 @@ const steps = [
       </label>
       <label class="check">
         <input type="checkbox" name="updates" />
-        <span>Send me occasional notes on putting AI to work. Unsubscribe anytime.</span>
+        <span><strong>Send me the follow-up:</strong> how owners are actually using their first AI skill, plus occasional notes on putting AI to work. Unsubscribe anytime.</span>
       </label>
       <div id="turnstile" class="turnstile"></div>
       <button class="btn" type="submit">Get the kit</button>
-      <p class="small muted">Your email is used only for the kit and, if you check the box, occasional notes. It's never sold or shared.</p>
+      <p class="small muted">Your email is used only for the kit and, if you check the box, the follow-up and occasional notes. It's never sold or shared.</p>
       <p class="form-status" id="kit-status" role="status" aria-live="polite"></p>
     </form>
 
