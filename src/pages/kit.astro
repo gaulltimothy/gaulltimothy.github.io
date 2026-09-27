@@ -90,7 +90,7 @@ const steps = [
         <input type="checkbox" name="updates" />
         <span><strong>Send me the follow-up:</strong> how owners are actually using their first AI skill, plus occasional notes on putting AI to work. Unsubscribe anytime.</span>
       </label>
-      <div id="turnstile" class="turnstile"></div>
+      <div id="cf-turnstile-box" class="turnstile"></div>
       <button class="btn" type="submit">Get the kit</button>
       <p class="small muted">Your email is used only for the kit and, if you check the box, the follow-up and occasional notes. It's never sold or shared.</p>
       <p class="form-status" id="kit-status" role="status" aria-live="polite"></p>
@@ -217,8 +217,8 @@ const steps = [
     let token = '';
 
     function renderWidget() {
-      if (!window.turnstile || widgetId !== null) return;
-      widgetId = window.turnstile.render('#turnstile', {
+      if (typeof window.turnstile?.render !== 'function' || widgetId !== null) return;
+      widgetId = window.turnstile.render('#cf-turnstile-box', {
         sitekey,
         action: 'kit_download',
         callback: (t) => { token = t; },
@@ -226,7 +226,7 @@ const steps = [
         'error-callback': () => { token = ''; },
       });
     }
-    const wait = setInterval(() => { if (window.turnstile) { clearInterval(wait); renderWidget(); } }, 200);
+    const wait = setInterval(() => { if (typeof window.turnstile?.render === 'function') { clearInterval(wait); renderWidget(); } }, 200);
 
     form.addEventListener('submit', async (event) => {
       event.preventDefault();

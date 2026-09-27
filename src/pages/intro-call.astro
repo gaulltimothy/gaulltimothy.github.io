@@ -78,7 +78,7 @@ const budgets = ['Not sure yet', 'Under $2,500', '$2,500 to $10,000', 'More than
         Leave this empty
         <input type="text" name="website" tabindex="-1" autocomplete="off" />
       </label>
-      <div id="turnstile" class="turnstile"></div>
+      <div id="cf-turnstile-box" class="turnstile"></div>
       <button class="btn" type="submit">Send request</button>
       <p class="small muted">Your details are used only to reply to this request. They're never sold or shared.</p>
       <p class="form-status" id="intro-status" role="status" aria-live="polite"></p>
@@ -100,9 +100,9 @@ const budgets = ['Not sure yet', 'Under $2,500', '$2,500 to $10,000', 'More than
     let token = '';
 
     const wait = setInterval(() => {
-      if (!window.turnstile) return;
+      if (typeof window.turnstile?.render !== 'function') return;
       clearInterval(wait);
-      widgetId = window.turnstile.render('#turnstile', {
+      widgetId = window.turnstile.render('#cf-turnstile-box', {
         sitekey,
         action: 'intro_request',
         callback: (t) => { token = t; },
