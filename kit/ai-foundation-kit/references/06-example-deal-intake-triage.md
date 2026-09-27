@@ -132,4 +132,4 @@ YYYY-MM-DD · v0.1 drafted from the first mapping session. Not yet verified.
 
 ---
 
-*The AI Foundation Kit by Timothy Gaull · timothygaull.com · Free to use and share. Want help running it? Book a free 30-minute working session at timothygaull.com.*
+*The AI Foundation Kit by Timothy Gaull · timgaull.com · Free to use and share. Want help running it? Book a free 30-minute working session at timgaull.com.*

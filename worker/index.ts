@@ -1,5 +1,5 @@
-// timothygaull.com Worker. It runs before every request so it can send every other
-// domain Tim owns (timgaull.com, www, misspellings) to one canonical host, then serves
+// timgaull.com Worker. It runs before every request so it can send every other
+// domain Tim owns (timothygaull.com, www, misspellings) to timgaull.com, then serves
 // the static pages from ./dist. It also gates the free kit behind a human check and an email.
 //
 //   POST /api/kit/request   honeypot → email → rate limit → Turnstile siteverify
@@ -19,7 +19,7 @@ interface Env {
   TURNSTILE_TEST_MODE?: string;
 }
 
-const CANONICAL_HOST = 'timothygaull.com';
+const CANONICAL_HOST = 'timgaull.com';
 const ACTION = 'kit_download';
 const LINK_TTL_SECONDS = 15 * 60;
 const MAX_ATTEMPTS_PER_HOUR = 10;
@@ -140,7 +140,7 @@ async function downloadKit(url: URL, env: Env): Promise<Response> {
 }
 
 function expired(): Response {
-  return new Response('This download link has expired. Request a new one at https://timothygaull.com/kit/', {
+  return new Response('This download link has expired. Request a new one at https://timgaull.com/kit/', {
     status: 403,
     headers: { 'Content-Type': 'text/plain; charset=utf-8' },
   });

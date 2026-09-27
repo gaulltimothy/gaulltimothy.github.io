@@ -22,38 +22,38 @@ const nav = [
 ];
 const personLd = {
   '@type': 'Person',
-  '@id': 'https://timothygaull.com/#person',
+  '@id': 'https://timgaull.com/#person',
   name: 'Timothy Gaull',
   alternateName: 'Tim Gaull',
-  url: 'https://timothygaull.com/',
+  url: 'https://timgaull.com/',
   image: new URL('/images/timothy-gaull.jpg', Astro.site).href,
   description: SITE.description,
   knowsAbout: ['AI adoption', 'Business process mapping', 'Brand strategy', 'Lean startup', 'Product design', 'Design systems', 'Service design'],
-  worksFor: { '@id': 'https://timothygaull.com/#practice' },
+  worksFor: { '@id': 'https://timgaull.com/#practice' },
   jobTitle: 'Principal Consultant, AI, Brand & Business Strategy',
   address: { '@type': 'PostalAddress', addressLocality: 'Nashville', addressRegion: 'TN', addressCountry: 'US' },
   sameAs: [SITE.linkedin],
 };
 const websiteLd = {
   '@type': 'WebSite',
-  '@id': 'https://timothygaull.com/#website',
-  url: 'https://timothygaull.com/',
+  '@id': 'https://timgaull.com/#website',
+  url: 'https://timgaull.com/',
   name: 'Timothy Gaull',
-  publisher: { '@id': 'https://timothygaull.com/#person' },
+  publisher: { '@id': 'https://timgaull.com/#person' },
   inLanguage: 'en-US',
 };
 const service = (name: string, description: string) => ({
   '@type': 'Offer',
-  itemOffered: { '@type': 'Service', name, description, provider: { '@id': 'https://timothygaull.com/#practice' } },
+  itemOffered: { '@type': 'Service', name, description, provider: { '@id': 'https://timgaull.com/#practice' } },
 });
 const practiceLd = {
   '@type': 'ProfessionalService',
-  '@id': 'https://timothygaull.com/#practice',
+  '@id': 'https://timgaull.com/#practice',
   name: 'Timothy Gaull',
-  url: 'https://timothygaull.com/',
+  url: 'https://timgaull.com/',
   image: new URL('/images/timothy-gaull.jpg', Astro.site).href,
   description: 'AI adoption, brand and business systems consulting for owner-led businesses.',
-  founder: { '@id': 'https://timothygaull.com/#person' },
+  founder: { '@id': 'https://timgaull.com/#person' },
   address: { '@type': 'PostalAddress', addressLocality: 'Nashville', addressRegion: 'TN', addressCountry: 'US' },
   areaServed: [{ '@type': 'City', name: 'Nashville' }, { '@type': 'Country', name: 'United States' }],
   hasOfferCatalog: {
