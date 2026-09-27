@@ -1,0 +1,26 @@
+# gaulltimothy.github.io can't be switched off (it's a user site), so it publishes one
+# page that forwards every old link to timgaull.com. The real site deploys on Cloudflare.
+name: GitHub Pages redirect
+
+on:
+  push:
+    branches: [master]
+    paths: [github-pages-redirect/**, .github/workflows/github-pages-redirect.yml]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: github-pages-redirect
+      - uses: actions/deploy-pages@v4
