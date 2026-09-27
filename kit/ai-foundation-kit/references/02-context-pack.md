@@ -50,4 +50,4 @@ Hand the context pack to someone who doesn't work in the business and ask them t
 
 ---
 
-*The AI Foundation Kit by Timothy Gaull · timgaull.com · Free to use and share. Want help running it? Book a free 30-minute working session at timgaull.com.*
+*The AI Foundation Kit by Timothy Gaull · timothygaull.com · Free to use and share. Want help running it? Book a free 30-minute working session at timothygaull.com.*

@@ -1,5 +1,5 @@
 # gaulltimothy.github.io can't be switched off (it's a user site), so it publishes one
-# page that forwards every old link to timgaull.com. The real site deploys on Cloudflare.
+# page that forwards every old link to timothygaull.com. The real site deploys on Cloudflare.
 name: GitHub Pages redirect
 
 on:

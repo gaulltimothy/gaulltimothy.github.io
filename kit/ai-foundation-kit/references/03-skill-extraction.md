@@ -95,4 +95,4 @@ A skill that only gives the answer trains button-pushers. A skill that gives the
 
 ---
 
-*The AI Foundation Kit by Timothy Gaull · timgaull.com · Free to use and share. Want help running it? Book a free 30-minute working session at timgaull.com.*
+*The AI Foundation Kit by Timothy Gaull · timothygaull.com · Free to use and share. Want help running it? Book a free 30-minute working session at timothygaull.com.*

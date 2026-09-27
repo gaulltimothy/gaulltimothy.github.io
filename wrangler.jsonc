@@ -4,7 +4,7 @@
   "main": "worker/index.ts",
   "compatibility_date": "2026-09-01",
   // The site is static Astro output. The Worker runs first on every request so it can
-  // redirect the other domains to timgaull.com before serving pages.
+  // redirect the other domains to timothygaull.com before serving pages.
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",
@@ -23,20 +23,20 @@
   ],
   "vars": {
     // Frontend hostnames allowed to submit the kit form (checked against siteverify).
-    "TURNSTILE_HOSTNAMES": "timgaull.com,www.timgaull.com",
+    "TURNSTILE_HOSTNAMES": "timothygaull.com,www.timothygaull.com",
     // Stripe Payment Link for tips. Empty hides the tip on the thank-you screen.
     "TIP_URL": ""
   },
   "observability": { "enabled": true },
   // Secrets, set in the Cloudflare dashboard (never in this file):
   //   TURNSTILE_SECRET, DOWNLOAD_SIGNING_KEY
-  // timgaull.com is canonical. Every other host below is attached so it gets a
-  // certificate, and the Worker 301-redirects it to timgaull.com.
+  // timothygaull.com is canonical (timgaul.com, one L, belongs to someone else). Every other
+  // host below is attached so it gets a certificate, and the Worker 301-redirects it here.
   "routes": [
-    { "pattern": "timgaull.com", "custom_domain": true },
-    { "pattern": "www.timgaull.com", "custom_domain": true },
     { "pattern": "timothygaull.com", "custom_domain": true },
     { "pattern": "www.timothygaull.com", "custom_domain": true },
+    { "pattern": "timgaull.com", "custom_domain": true },
+    { "pattern": "www.timgaull.com", "custom_domain": true },
     { "pattern": "timothygaul.com", "custom_domain": true },
     { "pattern": "www.timothygaul.com", "custom_domain": true },
     { "pattern": "timothygual.com", "custom_domain": true },
