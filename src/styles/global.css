@@ -910,6 +910,26 @@ figcaption {
   cursor: not-allowed;
 }
 
+.tip-or {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.tip-or[hidden] {
+  display: none;
+}
+
+.tip-or::before,
+.tip-or::after {
+  content: '';
+  flex: 1;
+  border-top: 1px solid var(--rule);
+}
+
 .linklike {
   justify-self: start;
   background: none;

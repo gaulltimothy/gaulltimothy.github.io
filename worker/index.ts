@@ -190,8 +190,6 @@ async function createTipSession(request: Request, env: Env): Promise<Response> {
   const params: Record<string, string> = {
     mode: 'payment',
     ui_mode: 'elements',
-    submit_type: 'pay',
-    redirect_on_completion: 'if_required',
     return_url: `${origin}/kit/thanks/?session_id={CHECKOUT_SESSION_ID}`,
     'line_items[0][quantity]': '1',
     'line_items[0][price_data][currency]': 'usd',
@@ -199,11 +197,18 @@ async function createTipSession(request: Request, env: Env): Promise<Response> {
     'line_items[0][price_data][unit_amount]': String(amount),
     'payment_intent_data[description]': 'Tip for the AI Foundation Kit',
     'metadata[purpose]': 'kit_tip',
+    // Pay-later options add clutter to a $5 to $30 tip; wallets, Link and cards stay.
+    'excluded_payment_method_types[0]': 'klarna',
+    'excluded_payment_method_types[1]': 'affirm',
   };
   if (EMAIL_RE.test(email) && email.length <= 254) params.customer_email = email;
 
   const res = await stripe(env, 'POST', '/v1/checkout/sessions', params);
-  if (!res.ok) return json({ error: 'stripe_error' }, 502);
+  if (!res.ok) {
+    const err = (await res.json().catch(() => ({}))) as { error?: { message?: string } };
+    console.error('stripe session create failed', res.status, err.error?.message);
+    return json({ error: 'stripe_error' }, 502);
+  }
   const session = (await res.json()) as { client_secret?: string };
   if (!session.client_secret) return json({ error: 'stripe_error' }, 502);
   return json({ clientSecret: session.client_secret });

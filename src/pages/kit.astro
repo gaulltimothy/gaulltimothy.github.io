@@ -116,6 +116,8 @@ const steps = [
           <button type="button" class="btn" id="tip-continue">Tip $15</button>
         </div>
         <form id="tip-pay" hidden novalidate>
+          <div id="express-checkout-element"></div>
+          <p class="tip-or" id="tip-or" hidden><span>Or pay another way</span></p>
           <div id="payment-element"></div>
           <button type="submit" class="btn" id="tip-submit" disabled>Pay</button>
           <button type="button" class="linklike" id="tip-back">Change amount</button>
@@ -372,7 +374,24 @@ const steps = [
             },
           });
           checkout.on('change', (session) => { $('tip-submit').disabled = !session.canConfirm; });
-          checkout.createPaymentElement().mount('#payment-element');
+          // One-tap wallets (Apple Pay, Google Pay, Link) above the card form. They only
+          // appear on HTTPS domains registered with Stripe, so none show on localhost.
+          const express = checkout.createExpressCheckoutElement({
+            buttonTheme: { applePay: 'black', googlePay: 'black' },
+            buttonHeight: 48,
+          });
+          express.on('ready', ({ availablePaymentMethods }) => {
+            $('tip-or').hidden = !availablePaymentMethods || !Object.values(availablePaymentMethods).some(Boolean);
+          });
+          express.on('confirm', async (event) => {
+            if (!actions) return;
+            statusEl.textContent = 'Processing...';
+            const result = await actions.confirm({ expressCheckoutConfirmEvent: event, redirect: 'if_required' });
+            if (result.type === 'error') { statusEl.textContent = result.error.message; return; }
+            showThanks();
+          });
+          express.mount('#express-checkout-element');
+          checkout.createPaymentElement({ layout: { type: 'accordion', defaultCollapsed: false } }).mount('#payment-element');
           const loaded = await checkout.loadActions();
           if (loaded.type !== 'success') throw new Error('load_failed');
           actions = loaded.actions;
@@ -392,6 +411,8 @@ const steps = [
       $('tip-back').addEventListener('click', () => {
         // A new amount needs a new Checkout Session, so start the form over.
         $('payment-element').replaceChildren();
+        $('express-checkout-element').replaceChildren();
+        $('tip-or').hidden = true;
         actions = null;
         $('tip-pay').hidden = true;
         $('tip-choose').hidden = false;
@@ -403,17 +424,21 @@ const steps = [
         const btn = $('tip-submit');
         btn.disabled = true;
         statusEl.textContent = 'Processing...';
-        const result = await actions.confirm();
+        const result = await actions.confirm({ redirect: 'if_required' });
         if (result.type === 'error') {
           statusEl.textContent = result.error.message;
           btn.disabled = false;
           return;
         }
         // Payments that need a redirect (some wallets, 3D Secure) return via /kit/thanks/.
+        showThanks();
+      });
+
+      function showThanks() {
         $('tip-pay').hidden = true;
         statusEl.textContent = '';
         $('tip-thanks').hidden = false;
-      });
+      }
     })();
   </script>
 </Base>
