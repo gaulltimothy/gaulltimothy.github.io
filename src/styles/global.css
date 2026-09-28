@@ -900,6 +900,10 @@ figcaption {
   gap: 12px;
 }
 
+#tip-pay[hidden] {
+  display: none;
+}
+
 #tip-pay .btn {
   justify-self: start;
   cursor: pointer;

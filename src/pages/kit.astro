@@ -356,6 +356,7 @@ const steps = [
             if (!r.ok || !b.clientSecret) throw new Error(b.error || 'stripe_error');
             return b.clientSecret;
           });
+          clientSecret.catch(() => {}); // the failure surfaces through loadActions below
           const stripe = window.Stripe(ctx.publishableKey);
           const checkout = stripe.initCheckoutElementsSdk({
             clientSecret,
@@ -400,6 +401,12 @@ const steps = [
           $('tip-pay').hidden = false;
           statusEl.textContent = '';
         } catch (err) {
+          // Start clean so a failed load never leaves an empty payment form on screen.
+          $('payment-element').replaceChildren();
+          $('express-checkout-element').replaceChildren();
+          $('tip-pay').hidden = true;
+          $('tip-choose').hidden = false;
+          actions = null;
           statusEl.textContent = String(err.message) === 'expired'
             ? 'This page has been open a while. Refresh and download again to tip.'
             : 'The payment form could not load. Please try again in a moment.';
