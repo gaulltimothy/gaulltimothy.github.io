@@ -26,8 +26,8 @@
     "TURNSTILE_HOSTNAMES": "timothygaull.com,www.timothygaull.com",
     // Embedded tips (Stripe Checkout Sessions + Payment Element). Tips stay hidden until the
     // publishable key, the tip product and the STRIPE_SECRET_KEY secret are all set for live mode.
-    "STRIPE_PUBLISHABLE_KEY": "",
-    "STRIPE_TIP_PRODUCT": ""
+    "STRIPE_PUBLISHABLE_KEY": "pk_live_51UKBXeRfJENryS20edheUWKrzsgaL4Jjf8dgKeSFn8WZIpnHjzh3100qpJ8n7igl8vHYAhIrHTyJJr6gAm1cH46Z00mQOPGyXN",
+    "STRIPE_TIP_PRODUCT": "prod_VLT9BQt5nWFVk7"
   },
   "observability": { "enabled": true },
   // Secrets, set in the Cloudflare dashboard (never in this file):
