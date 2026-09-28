@@ -43,7 +43,10 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
-    if (shouldRedirect(url.hostname)) {
+    // Other hosts, and plain http on the canonical host, go to https://timothygaull.com.
+    // Stripe's payment form and the wallets refuse to load on an insecure page.
+    const insecure = url.protocol === 'http:' && url.hostname === CANONICAL_HOST;
+    if (insecure || shouldRedirect(url.hostname)) {
       return Response.redirect(`https://${CANONICAL_HOST}${url.pathname}${url.search}`, 301);
     }
     if (url.pathname.startsWith('/api/') && (!env.DOWNLOAD_SIGNING_KEY || !env.TURNSTILE_SECRET)) {
