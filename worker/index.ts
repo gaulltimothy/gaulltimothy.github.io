@@ -21,6 +21,7 @@ interface Env {
   // Tips are on only when all three are set: a restricted secret key (Checkout Sessions
   // write), the matching publishable key, and the tip product for that mode.
   STRIPE_SECRET_KEY?: string;
+  LOCAL_DEV?: string;
   STRIPE_PUBLISHABLE_KEY?: string;
   STRIPE_TIP_PRODUCT?: string;
   // Local development only (.dev.vars). Lets Cloudflare's always-pass test keys through,
@@ -45,7 +46,8 @@ export default {
     const url = new URL(request.url);
     // Other hosts, and plain http on the canonical host, go to https://timothygaull.com.
     // Stripe's payment form and the wallets refuse to load on an insecure page.
-    const insecure = url.protocol === 'http:' && url.hostname === CANONICAL_HOST;
+    // wrangler dev reports http://timothygaull.com too, so .dev.vars sets LOCAL_DEV=1 to skip this.
+    const insecure = url.protocol === 'http:' && url.hostname === CANONICAL_HOST && env.LOCAL_DEV !== '1';
     if (insecure || shouldRedirect(url.hostname)) {
       return Response.redirect(`https://${CANONICAL_HOST}${url.pathname}${url.search}`, 301);
     }
