@@ -1,0 +1,95 @@
+---
+// Illustration 05: the kit's five steps, with the weekly correction loop from step 4 back to 3.
+import '../../styles/kit-diagrams.css';
+const steps = [
+  { name: 'Map', body: 'Two or three 45-minute interviews about real, finished work.', out: 'A stage-by-stage map' },
+  { name: 'Context', body: 'What you carry in your head, written down once: what you take on, your pricing assumptions, what done means.', out: 'A context pack' },
+  { name: 'Skills', body: 'Your busiest routine stage becomes a skill, tested on five of your own past decisions before anyone trusts it.', out: 'A tested skill' },
+  { name: 'Bank corrections', body: 'Every week, each place a skill got it wrong becomes one dated edit.', out: 'A log that proves it improves' },
+  { name: 'Teach', body: 'New hires make the call first, then compare it with the skill’s reasoning.', out: 'A team that learns your judgment' },
+];
+---
+<figure class="kd kd-five">
+  <p class="kd-five-loop">Every week, steps 3 and 4 repeat</p>
+  <ol class="kd-flow" style="--kd-cols:5" aria-label="The five steps, in order">
+    {steps.map((s, i) => (
+      <li>
+        <div class:list={['kd-card', 'kd-five-card', { engine: i === 3 }]}>
+          <span class="kd-five-num" aria-hidden="true">{i + 1}</span>
+          <h3>{s.name}</h3>
+          <p>{s.body}</p>
+          <span class="kd-five-get">You get</span>
+          <strong>{s.out}</strong>
+        </div>
+        {i < steps.length - 1 && (
+          <svg class="kd-arrow" viewBox="0 0 18 12" aria-hidden="true"><path d="M0 6h16M11 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" /></svg>
+        )}
+      </li>
+    ))}
+  </ol>
+  <figcaption class="kd-five-90">
+    <strong>At 90 days</strong>
+    <span>A map of how work actually moves. A context pack that ends the re-briefing. Two or three verified skills with dated changelogs. And the real test: someone other than the owner can run one workflow to the owner’s standard.</span>
+  </figcaption>
+</figure>
+
+<style>
+  .kd-five-loop {
+    margin: 0 0 14px;
+    font: 500 0.7rem var(--mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .kd-five-loop::before {
+    content: '↺ ';
+  }
+  .kd-five-card {
+    grid-template-rows: auto auto 1fr auto auto;
+    padding: 20px;
+  }
+  .kd-five-card h3 {
+    font-size: 1.2rem;
+  }
+  .kd-five-num {
+    font: 700 2.2rem/1 var(--display);
+  }
+  .kd-five-get {
+    font: 500 0.66rem var(--mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 8px;
+  }
+  .kd-five-card strong {
+    font-weight: 500;
+    font-size: 0.95rem;
+  }
+  .kd-five-card.engine {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .kd-five-card.engine p,
+  .kd-five-card.engine .kd-five-get {
+    color: #d9d4d1;
+  }
+  .kd-five-90 {
+    margin-top: 36px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: 11rem 1fr;
+    gap: 16px;
+  }
+  .kd-five-90 strong {
+    font: 700 1.3rem var(--display);
+  }
+  .kd-five-90 span {
+    color: var(--muted);
+    max-width: 70ch;
+  }
+  @media (max-width: 900px) {
+    .kd-five-90 {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

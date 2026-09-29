@@ -1,0 +1,165 @@
+---
+// Illustration 03: good work feeds the next job. On narrow screens the ring becomes a list
+// with a note that the last step leads back to the first.
+import '../../styles/kit-diagrams.css';
+import { typeLabel, type StageType } from './stages';
+const nodes: { type: StageType; name: string }[] = [
+  { type: 'hybrid', name: 'Request comes in' },
+  { type: 'judgment', name: 'Qualify' },
+  { type: 'hybrid', name: 'Price' },
+  { type: 'mechanical', name: 'Commit' },
+  { type: 'judgment', name: 'Deliver' },
+  { type: 'mechanical', name: 'Get paid' },
+  { type: 'mechanical', name: 'Ask for a review' },
+];
+const n = nodes.length;
+const R = 40; // ring radius, percent of the square
+const at = (i: number) => -Math.PI / 2 + (i * 2 * Math.PI) / n;
+const pos = nodes.map((_, i) => ({ x: 50 + R * Math.cos(at(i)), y: 50 + R * Math.sin(at(i)) }));
+// Arrowheads midway between nodes, pointing clockwise (viewBox 0..100).
+const heads = nodes.map((_, i) => {
+  const a = at(i) + Math.PI / n;
+  return { x: 50 + R * Math.cos(a), y: 50 + R * Math.sin(a), deg: (a * 180) / Math.PI }; // the chevron points +y; rotating by a aims it along the clockwise tangent
+});
+const notes = [
+  { h: 'Each stage feeds the next', b: 'The output of one stage is the input of the next: a request becomes a qualified job, then a price, then a signed commitment. That is how skills chain together.' },
+  { h: 'The routine stages keep turning', b: 'Commit, get paid and ask for a review run as skills, so the loop keeps moving while you are on the job.' },
+  { h: 'Close the loop on purpose', b: 'The review request is one small skill. It feeds the top of the loop, where new customers find you.' },
+];
+---
+<figure class="kd kd-loop">
+  <div class="kd-ring">
+    <svg class="kd-ring-art" viewBox="0 0 100 100" aria-hidden="true">
+      <circle cx="50" cy="50" r={R} fill="none" stroke="currentColor" stroke-width="0.4" />
+      {heads.map((h) => (
+        <path d="M-1.6 -1.4 L0 0.4 L1.6 -1.4" fill="none" stroke="currentColor" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round" transform={`translate(${h.x} ${h.y}) rotate(${h.deg})`} />
+      ))}
+    </svg>
+    <p class="kd-ring-center" aria-hidden="true">The loop that feeds itself</p>
+    <ol class="kd-ring-list" aria-label="The loop, in order. The last step leads back to the first.">
+      {nodes.map((node, i) => (
+        <li style={`--x:${pos[i].x.toFixed(2)}%;--y:${pos[i].y.toFixed(2)}%`}>
+          <span class={`mk mk-${node.type}`} aria-hidden="true"></span>
+          <span class="visually-hidden">{typeLabel[node.type]}: </span>{node.name}
+        </li>
+      ))}
+    </ol>
+    <p class="kd-ring-return">Reviews bring the next request</p>
+  </div>
+  <div class="kd-loop-notes">
+    {notes.map((n) => (
+      <div>
+        <h3>{n.h}</h3>
+        <p>{n.b}</p>
+      </div>
+    ))}
+  </div>
+</figure>
+
+<style>
+  .kd-loop {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: 48px;
+    align-items: center;
+  }
+  .kd-ring {
+    position: relative;
+    aspect-ratio: 1;
+    width: 100%;
+    max-width: 560px;
+    color: var(--ink);
+  }
+  .kd-ring-art {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .kd-ring-center {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    height: fit-content;
+    width: 9em;
+    text-align: center;
+    font: 700 1.3rem/1.2 var(--display);
+  }
+  .kd-ring-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-width: none;
+  }
+  .kd-ring-list li {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    transform: translate(-50%, -50%);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    background: var(--surface);
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    padding: 8px 14px;
+    font: 700 0.95rem var(--display);
+  }
+  .kd-ring-return {
+    position: absolute;
+    left: 0;
+    top: 6%;
+    margin: 0;
+    font: 500 0.66rem var(--mono);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    max-width: 11em;
+  }
+  .kd-loop-notes {
+    display: grid;
+    gap: 28px;
+  }
+  .kd-loop-notes h3 {
+    font-size: 1.15rem;
+    margin: 0 0 6px;
+  }
+  .kd-loop-notes p {
+    margin: 0;
+    color: var(--muted);
+  }
+  @media (max-width: 900px) {
+    .kd-loop {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    .kd-ring {
+      aspect-ratio: auto;
+      max-width: none;
+      border-left: 2px solid var(--ink);
+      padding-left: 20px;
+    }
+    .kd-ring-art,
+    .kd-ring-center {
+      display: none;
+    }
+    .kd-ring-list {
+      display: grid;
+      gap: 10px;
+    }
+    .kd-ring-list li {
+      position: static;
+      transform: none;
+      width: fit-content;
+    }
+    .kd-ring-return {
+      position: static;
+      margin-top: 14px;
+      max-width: none;
+    }
+    .kd-ring-return::before {
+      content: '↺ ';
+    }
+  }
+</style>

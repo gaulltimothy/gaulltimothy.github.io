@@ -1,0 +1,127 @@
+---
+// Illustration 01: how work moves through any business. The business-type chips swap the
+// example under each stage; the stages themselves never change, which is the point.
+import '../../styles/kit-diagrams.css';
+import { stages, businesses, typeLabel, typeMeaning } from './stages';
+const first = businesses[0];
+const exits: Record<number, { label: string; note: string }> = {
+  1: { label: 'Declined', note: 'Logged with the reason and date' },
+  3: { label: 'Lost', note: 'The quote didn’t win' },
+};
+const data = Object.fromEntries(businesses.map((b) => [b.id, b.examples]));
+---
+<figure class="kd kd-map" data-kd-map>
+  <ul class="kd-legend" aria-label="Stage types">
+    {(['mechanical', 'hybrid', 'judgment'] as const).map((t) => (
+      <li><span class={`mk mk-${t}`} aria-hidden="true"></span>{typeLabel[t]}: {typeMeaning[t]}</li>
+    ))}
+  </ul>
+  <div class="kd-biz" role="radiogroup" aria-label="Your business">
+    <span class="kd-biz-label" aria-hidden="true">Your business</span>
+    {businesses.map((b, i) => (
+      <button type="button" class="kd-chip" role="radio" aria-checked={i === 0 ? 'true' : 'false'} data-biz={b.id}>{b.label}</button>
+    ))}
+  </div>
+  <ol class="kd-flow" aria-label="Stages of work, in order">
+    {stages.map((s, i) => (
+      <li>
+        <span class="kd-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+        <div class="kd-card">
+          <span class="kd-tag"><span class={`mk mk-${s.type}`} aria-hidden="true"></span>{typeLabel[s.type]}</span>
+          <h3>{s.name}</h3>
+          <p>{s.note}</p>
+        </div>
+        <span class="kd-eg">e.g. <span data-eg={i}>{first.examples[i]}</span></span>
+        {exits[i] && (
+          <div class="kd-exit">
+            <strong>{exits[i].label}</strong>
+            <span>{exits[i].note}</span>
+          </div>
+        )}
+        {i < stages.length - 1 && (
+          <svg class="kd-arrow" viewBox="0 0 18 12" aria-hidden="true"><path d="M0 6h16M11 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" /></svg>
+        )}
+      </li>
+    ))}
+  </ol>
+  <figcaption class="kd-foot">Where work leaves is where the judgment lives. Examples are illustrative, not a real company’s process.</figcaption>
+  <script type="application/json" data-kd-examples set:html={JSON.stringify(data)} />
+</figure>
+
+<style>
+  .kd-map .kd-flow > li {
+    display: flex;
+    flex-direction: column;
+  }
+  .kd-map .kd-card {
+    height: auto;
+  }
+  @media (min-width: 901px) {
+    .kd-map .kd-card {
+      min-height: 150px;
+    }
+    .kd-map .kd-arrow {
+      top: 90px;
+    }
+  }
+  .kd-biz {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 36px;
+  }
+  .kd-biz-label {
+    font: 500 0.72rem var(--mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-right: 4px;
+  }
+  .kd-chip {
+    font: 500 0.9rem var(--body);
+    color: var(--ink);
+    background: transparent;
+    border: 1.5px solid var(--ink);
+    border-radius: 999px;
+    padding: 8px 16px;
+    cursor: pointer;
+  }
+  .kd-chip[aria-checked='true'] {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .kd-chip:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-kd-map]').forEach((root) => {
+    const data = JSON.parse(root.querySelector('[data-kd-examples]')!.textContent || '{}') as Record<string, string[]>;
+    const chips = [...root.querySelectorAll<HTMLButtonElement>('.kd-chip')];
+    const slots = [...root.querySelectorAll<HTMLElement>('[data-eg]')];
+    const pick = (chip: HTMLButtonElement) => {
+      chips.forEach((c) => {
+        c.setAttribute('aria-checked', String(c === chip));
+        c.tabIndex = c === chip ? 0 : -1; // roving focus: Tab enters the group once
+      });
+      const ex = data[chip.dataset.biz || ''] || [];
+      slots.forEach((s) => (s.textContent = ex[Number(s.dataset.eg)] || ''));
+    };
+    chips.forEach((c, i) => (c.tabIndex = i === 0 ? 0 : -1));
+    chips.forEach((chip, i) => {
+      chip.addEventListener('click', () => pick(chip));
+      // Arrow keys move between options, as in a native radio group.
+      chip.addEventListener('keydown', (e) => {
+        const d = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? -1 : 0;
+        if (!d) return;
+        e.preventDefault();
+        const next = chips[(i + d + chips.length) % chips.length];
+        next.focus();
+        pick(next);
+      });
+    });
+  });
+</script>

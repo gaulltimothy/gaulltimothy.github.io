@@ -1,4 +1,9 @@
 ---
+import KitMap from '../components/kit/KitMap.astro';
+import TagDecides from '../components/kit/TagDecides.astro';
+import Loop from '../components/kit/Loop.astro';
+import FiveSteps from '../components/kit/FiveSteps.astro';
+import BeforeAfter from '../components/kit/BeforeAfter.astro';
 import Base from '../layouts/Base.astro';
 import { SITE } from '../site';
 
@@ -51,12 +56,6 @@ const kitLd = [
   },
 ];
 
-const steps = [
-  { title: 'Map', body: 'Two or three 45-minute interviews. You talk through real jobs; the AI asks and writes.' },
-  { title: 'Write it down', body: 'Pull out the rules and numbers you carry in your head, once, into files everything reads.' },
-  { title: 'Build a skill', body: 'Start with your most frequent task. Test it on five past cases before you trust it.' },
-  { title: 'Bank corrections', body: 'Every fix becomes a dated edit, so it applies to every future run and every new hire.' },
-];
 ---
 <Base
   schema={kitLd}
@@ -133,18 +132,55 @@ const steps = [
   <section>
     <div class="wrap">
       <div class="section-head">
+        <p class="eyebrow">How it works</p>
+        <h2>How work moves through any business</h2>
+        <p>Every business has a version of this. The kit maps yours by interviewing you about one real, finished job, then tags each stage by the kind of work it takes. Pick your business to see it in your terms.</p>
+      </div>
+      <KitMap />
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">What changes</p>
+        <h2>What happens to each stage</h2>
+        <p>The tag on each stage decides its future. Routine stages become skills your AI runs. The calls only you can make stay with you.</p>
+      </div>
+      <TagDecides />
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Why it compounds</p>
+        <h2>Good work feeds the next job</h2>
+        <p>Each stage hands its output to the next, and the last one asks for the review that brings in the next request.</p>
+      </div>
+      <Loop />
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head">
         <p class="eyebrow">Why it works</p>
         <h2>You can't automate what isn't written down.</h2>
         <p>Most AI adoption stalls for the same reason. The tools are fine, but every chat starts cold, because the real process, the pricing rules and the judgment calls live in the owner's head. This kit builds that missing foundation first, then turns it into AI skills one at a time.</p>
       </div>
-      <ol class="steps">
-        {steps.map((s) => (
-          <li>
-            <h3>{s.title}</h3>
-            <p>{s.body}</p>
-          </li>
-        ))}
-      </ol>
+      <FiveSteps />
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">In practice</p>
+        <h2>The bottleneck is rarely the people</h2>
+        <p>Three real projects. Each fix moved routine work into a simple tool the team already uses, and gave their time back to the work that needs them.</p>
+      </div>
+      <BeforeAfter />
     </div>
   </section>
 

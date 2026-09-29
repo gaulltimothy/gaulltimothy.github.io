@@ -1,0 +1,131 @@
+---
+// Illustration 02: the tag on each stage decides what happens to it.
+import '../../styles/kit-diagrams.css';
+import { stages, typeLabel } from './stages';
+const outcome = {
+  mechanical: { label: 'Skill', line: 'Runs on its own' },
+  hybrid: { label: 'Skill + your OK', line: 'AI drafts, you approve' },
+  judgment: { label: 'You', line: 'Your call, now written down' },
+} as const;
+const count = (t: string) => stages.filter((s) => s.type === t).length;
+const summary = [
+  { h: `${count('mechanical')} stages run as skills`, b: 'Written once, tested on your past decisions, checked every week. You stop doing them by hand.' },
+  { h: `${count('hybrid')} stages get a skill and your sign-off`, b: 'The AI does the legwork. You make the one decision inside it and approve.' },
+  { h: `${count('judgment')} stages stay with you`, b: 'The map records what you look at and why, so your calls get faster, and one day teachable.' },
+];
+---
+<figure class="kd kd-tags">
+  <ol class="kd-flow" aria-label="What happens to each stage">
+    {stages.map((s, i) => (
+      <li>
+        <div class="kd-card">
+          <span class="kd-tag"><span class={`mk mk-${s.type}`} aria-hidden="true"></span>{typeLabel[s.type]}</span>
+          <h3>{s.name}</h3>
+          <p>{s.note}</p>
+        </div>
+        <svg class="kd-down" viewBox="0 0 12 40" aria-hidden="true"><path d="M6 0v37M1 32l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" /></svg>
+        <div class={`kd-out kd-out-${s.type}`}>
+          <span class="kd-out-label">{outcome[s.type].label}</span>
+          <span class="kd-out-line">{outcome[s.type].line}</span>
+        </div>
+        {i < stages.length - 1 && (
+          <svg class="kd-arrow" viewBox="0 0 18 12" aria-hidden="true"><path d="M0 6h16M11 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" /></svg>
+        )}
+      </li>
+    ))}
+  </ol>
+  <div class="kd-summary">
+    {summary.map((s) => (
+      <div>
+        <h3>{s.h}</h3>
+        <p>{s.b}</p>
+      </div>
+    ))}
+  </div>
+  <figcaption class="kd-close">Your week moves toward the calls only you can make.</figcaption>
+</figure>
+
+<style>
+  .kd-tags .kd-flow > li {
+    display: flex;
+    flex-direction: column;
+  }
+  .kd-tags .kd-card {
+    height: auto;
+    flex: 1;
+  }
+  .kd-tags .kd-arrow {
+    top: 60px;
+  }
+  .kd-down {
+    display: block;
+    width: 12px;
+    height: 40px;
+    margin: 10px auto;
+    color: var(--ink);
+  }
+  .kd-out {
+    border: 2px solid var(--ink);
+    border-radius: 12px;
+    padding: 12px 14px;
+    display: grid;
+    gap: 4px;
+    height: 88px;
+    box-sizing: border-box;
+  }
+  .kd-out-mechanical {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .kd-out-hybrid {
+    background: var(--surface);
+  }
+  .kd-out-judgment {
+    border-style: dashed;
+  }
+  .kd-out-label {
+    font: 500 0.66rem var(--mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .kd-out-line {
+    font: 500 0.85rem/1.3 var(--body);
+  }
+  .kd-summary {
+    margin-top: 44px;
+    padding-top: 28px;
+    border-top: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 32px;
+  }
+  .kd-summary h3 {
+    font-size: 1.15rem;
+    margin: 0 0 8px;
+  }
+  .kd-summary p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  @media (max-width: 900px) {
+    .kd-tags .kd-flow > li {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 28px minmax(0, 0.8fr);
+      align-items: center;
+      gap: 0 10px;
+    }
+    .kd-down {
+      transform: rotate(-90deg);
+      margin: 0 auto;
+      height: 28px;
+    }
+    .kd-tags .kd-arrow {
+      display: none;
+    }
+    .kd-summary {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+  }
+</style>

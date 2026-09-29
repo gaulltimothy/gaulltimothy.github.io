@@ -1,0 +1,165 @@
+/* Kit diagrams: single-ink linework on paper, matching the Figma illustrations.
+   Stage types are shown by fill (solid, half, outline), never by color. */
+
+.kd {
+  margin: 0;
+}
+
+.kd-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin: 0 0 24px;
+  padding: 0;
+  list-style: none;
+  max-width: none;
+  font-size: 0.9rem;
+}
+
+.kd-legend li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+/* Tag marker: 14px square, solid / half / outline */
+.mk {
+  flex: none;
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--ink);
+  border-radius: 3px;
+  background: transparent;
+}
+
+.mk-mechanical {
+  background: var(--ink);
+}
+
+.mk-hybrid {
+  background: linear-gradient(90deg, var(--ink) 50%, transparent 50%);
+}
+
+.kd-tag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font: 500 0.68rem/1 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* A row of stages joined by arrows; stacks vertically on narrow screens. */
+.kd-flow {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-width: none;
+  display: grid;
+  grid-template-columns: repeat(var(--kd-cols, 7), minmax(0, 1fr));
+  gap: 22px;
+  counter-reset: kd;
+}
+
+.kd-flow > li {
+  position: relative;
+  margin: 0;
+  counter-increment: kd;
+}
+
+.kd-card {
+  background: var(--surface);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 14px 14px 16px;
+  display: grid;
+  gap: 8px;
+  align-content: start;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.kd-card h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.15;
+}
+
+.kd-card p {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+.kd-num {
+  display: block;
+  font: 500 0.75rem var(--mono);
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.kd-arrow {
+  position: absolute;
+  top: calc(50% + 10px);
+  right: -20px;
+  width: 18px;
+  height: 12px;
+  color: var(--ink);
+}
+
+.kd-eg {
+  display: block;
+  margin-top: 10px;
+  font: 500 0.66rem/1.4 var(--mono);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.kd-exit {
+  margin-top: 14px;
+  border: 2px dashed var(--ink);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+.kd-exit strong {
+  display: block;
+  font-family: var(--display);
+}
+
+.kd-exit span {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.kd-foot {
+  margin: 20px 0 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.kd-close {
+  margin: 28px 0 0;
+  font: 700 1.3rem/1.3 var(--display);
+  max-width: 40ch;
+}
+
+@media (max-width: 900px) {
+  .kd-flow {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .kd-arrow {
+    top: auto;
+    right: auto;
+    left: 24px;
+    bottom: -26px;
+    transform: rotate(90deg);
+  }
+}

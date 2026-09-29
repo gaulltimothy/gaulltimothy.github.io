@@ -1,0 +1,105 @@
+---
+// Illustration 04: three real projects, anonymized until each client approves naming.
+import '../../styles/kit-diagrams.css';
+const panels = [
+  {
+    label: 'A fabrication shop',
+    before: 'Calls missed while the owner is on a job site in the busy season.',
+    after: 'A request form and a virtual assistant catch leads while the owner is on site. He calls back the ones worth quoting.',
+    gain: 'Owner’s time goes to site visits and accurate estimates.',
+  },
+  {
+    label: 'An animal rescue',
+    before: 'Adoption applications on paper, and paper gets lost.',
+    after: 'Volunteers list pets from their phones, and applications arrive complete, online.',
+    gain: 'Volunteer time goes to the animals.',
+  },
+  {
+    label: 'A global sales team',
+    before: 'Years of client relationships kept in private spreadsheets, off the system.',
+    after: 'A relationship stage with no pressure to close, so the whole picture is finally visible.',
+    gain: 'Advisors’ time goes to the relationships.',
+  },
+];
+---
+<figure class="kd kd-ba">
+  <div class="kd-ba-grid">
+    {panels.map((p) => (
+      <div class="kd-ba-panel">
+        <p class="kd-ba-label">{p.label}</p>
+        <div class="kd-ba-before">
+          <span class="kd-ba-tag">Before</span>
+          <p>{p.before}</p>
+        </div>
+        <svg class="kd-ba-arrow" viewBox="0 0 12 28" aria-hidden="true"><path d="M6 0v25M1 20l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" /></svg>
+        <div class="kd-ba-after">
+          <span class="kd-ba-tag">After</span>
+          <p>{p.after}</p>
+        </div>
+        <p class="kd-ba-gain">{p.gain}</p>
+      </div>
+    ))}
+  </div>
+  <figcaption class="kd-close">The routine moves to simple tools. The judgment stays human, and gets more time.</figcaption>
+</figure>
+
+<style>
+  .kd-ba-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 32px;
+  }
+  .kd-ba-panel {
+    display: grid;
+    grid-template-rows: auto 1fr auto 1fr auto;
+    gap: 12px;
+  }
+  .kd-ba-label {
+    margin: 0;
+    font: 500 0.75rem var(--mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .kd-ba-before,
+  .kd-ba-after {
+    border: 2px solid var(--ink);
+    border-radius: 12px;
+    padding: 16px 18px;
+  }
+  .kd-ba-before {
+    border-style: dashed;
+  }
+  .kd-ba-after {
+    background: var(--surface);
+  }
+  .kd-ba-after p {
+    font: 700 1.1rem/1.3 var(--display);
+  }
+  .kd-ba-before p,
+  .kd-ba-after p {
+    margin: 6px 0 0;
+  }
+  .kd-ba-tag {
+    font: 500 0.66rem var(--mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .kd-ba-arrow {
+    width: 12px;
+    height: 28px;
+    color: var(--ink);
+    margin-left: 6px;
+  }
+  .kd-ba-gain {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  @media (max-width: 900px) {
+    .kd-ba-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
+</style>
