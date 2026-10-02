@@ -8,9 +8,11 @@ interface Props {
   image?: string;
   // Extra schema.org objects for this page (merged into one @graph with the Person and WebSite).
   schema?: Record<string, unknown>[];
+  // Keep a page out of search results (for example, the thank-you page after a tip).
+  noindex?: boolean;
 }
 
-const { title, description = SITE.description, image = '/og/default.png', schema = [] } = Astro.props;
+const { title, description = SITE.description, image = '/og/default.png', schema = [], noindex = false } = Astro.props;
 const pageTitle = title ? `${title} · ${SITE.name}` : SITE.title;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(image, Astro.site);
@@ -93,7 +95,7 @@ const graph = { '@context': 'https://schema.org', '@graph': [personLd, practiceL
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage.href} />
     <meta name="author" content="Timothy Gaull" />
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+    <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large, max-snippet:-1'} />
     <link rel="alternate" type="text/plain" title="LLM summary" href="/llms.txt" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
