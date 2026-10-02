@@ -27,11 +27,16 @@
     // Embedded tips (Stripe Checkout Sessions + Payment Element). Tips stay hidden until the
     // publishable key, the tip product and the STRIPE_SECRET_KEY secret are all set for live mode.
     "STRIPE_PUBLISHABLE_KEY": "pk_live_51UKBXeRfJENryS20edheUWKrzsgaL4Jjf8dgKeSFn8WZIpnHjzh3100qpJ8n7igl8vHYAhIrHTyJJr6gAm1cH46Z00mQOPGyXN",
-    "STRIPE_TIP_PRODUCT": "prod_VLT9BQt5nWFVk7"
+    "STRIPE_TIP_PRODUCT": "prod_VLT9BQt5nWFVk7",
+    // Private /admin/ dashboard: Cloudflare Access app "Admin" on timothygaull.com/admin. Not secrets;
+    // the Worker checks Access's signed token against these. ADMIN_EMAILS is a dashboard secret.
+    "ACCESS_TEAM_DOMAIN": "timothygaull.cloudflareaccess.com",
+    "ACCESS_AUD": "5de6280c7fbdb5db0ed19e7ace4ee9ebd69aa309b611d1cdc074c3dfbe0598c9"
   },
   "observability": { "enabled": true },
   // Secrets, set in the Cloudflare dashboard (never in this file):
-  //   TURNSTILE_SECRET, DOWNLOAD_SIGNING_KEY, STRIPE_SECRET_KEY (restricted key: Checkout Sessions write)
+  //   TURNSTILE_SECRET, DOWNLOAD_SIGNING_KEY, STRIPE_SECRET_KEY (restricted key: Checkout Sessions write),
+  //   ADMIN_EMAILS (comma-separated; kept out of this public repo)
   // timothygaull.com is canonical (timgaul.com, one L, belongs to someone else). Every other
   // host below is attached so it gets a certificate, and the Worker 301-redirects it here.
   "routes": [
