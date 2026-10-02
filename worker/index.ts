@@ -12,6 +12,8 @@
 //   GET  /api/tip/status    payment status for the tip return page
 import kitZip from '../kit-build/ai-foundation-kit.zip';
 
+import { handleAdmin } from './admin';
+
 interface Env {
   ASSETS: Fetcher;
   DB: D1Database;
@@ -27,6 +29,10 @@ interface Env {
   // Local development only (.dev.vars). Lets Cloudflare's always-pass test keys through,
   // which report no action and a placeholder hostname. Never set in production.
   TURNSTILE_TEST_MODE?: string;
+  // Private /admin/ dashboard (worker/admin.ts). Off until all three are set and Cloudflare Access protects /admin/.
+  ACCESS_TEAM_DOMAIN?: string;
+  ACCESS_AUD?: string;
+  ADMIN_EMAILS?: string;
 }
 
 const CANONICAL_HOST = 'timothygaull.com';
@@ -51,6 +57,7 @@ export default {
     if (insecure || shouldRedirect(url.hostname)) {
       return Response.redirect(`https://${CANONICAL_HOST}${url.pathname}${url.search}`, 301);
     }
+    if (url.pathname === '/admin' || url.pathname.startsWith('/admin/')) return handleAdmin(request, env, url);
     if (url.pathname.startsWith('/api/') && (!env.DOWNLOAD_SIGNING_KEY || !env.TURNSTILE_SECRET)) {
       return json({ error: 'not_configured' }, 503);
     }
