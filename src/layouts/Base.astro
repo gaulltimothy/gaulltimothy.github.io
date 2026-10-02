@@ -51,13 +51,20 @@ const service = (name: string, description: string) => ({
 const practiceLd = {
   '@type': 'ProfessionalService',
   '@id': 'https://timothygaull.com/#practice',
-  name: 'Timothy Gaull',
+  // Matches the verified Google Business Profile name, so search ties the profile to this site.
+  name: 'Gaull & Co',
+  alternateName: 'Timothy Gaull',
   url: 'https://timothygaull.com/',
   image: new URL('/images/timothy-gaull.jpg', Astro.site).href,
   description: 'AI adoption, brand and business systems consulting for owner-led businesses.',
   founder: { '@id': 'https://timothygaull.com/#person' },
   address: { '@type': 'PostalAddress', addressLocality: 'Nashville', addressRegion: 'TN', addressCountry: 'US' },
-  areaServed: [{ '@type': 'City', name: 'Nashville' }, { '@type': 'Country', name: 'United States' }],
+  areaServed: [
+    { '@type': 'City', name: 'Nashville' },
+    { '@type': 'City', name: 'Franklin' },
+    { '@type': 'City', name: 'Memphis' },
+    { '@type': 'Country', name: 'United States' },
+  ],
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
     name: 'Consulting services',
@@ -129,7 +136,7 @@ const graph = { '@context': 'https://schema.org', '@graph': [personLd, practiceL
       <div class="wrap footer-inner">
         <div>
           <p class="footer-name">Timothy Gaull</p>
-          <p class="muted">AI, brand and business systems for owner-led companies. Nashville, Tennessee.</p>
+          <p class="muted">Gaull &amp; Co. AI, brand and business systems for owner-led companies. Nashville, Tennessee.</p>
         </div>
         <ul class="footer-links">
           <li><a href="/work/">Work</a></li>
@@ -139,7 +146,7 @@ const graph = { '@context': 'https://schema.org', '@graph': [personLd, practiceL
         </ul>
       </div>
       <div class="wrap">
-        <p class="muted small">© {new Date().getFullYear()} Timothy Gaull</p>
+        <p class="muted small">© {new Date().getFullYear()} Gaull &amp; Co</p>
       </div>
     </footer>
   </body>
