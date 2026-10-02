@@ -49,6 +49,9 @@
     { "pattern": "timothygual.com", "custom_domain": true },
     { "pattern": "www.timothygual.com", "custom_domain": true },
     { "pattern": "timgual.com", "custom_domain": true },
-    { "pattern": "www.timgual.com", "custom_domain": true }
+    { "pattern": "www.timgual.com", "custom_domain": true },
+    // gaullco.com: the practice name (Gaull & Co, the Google Business Profile), redirected here.
+    { "pattern": "gaullco.com", "custom_domain": true },
+    { "pattern": "www.gaullco.com", "custom_domain": true }
   ]
 }
