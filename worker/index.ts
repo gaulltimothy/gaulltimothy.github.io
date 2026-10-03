@@ -7,6 +7,8 @@
 //   GET  /api/kit/download  verify the link's signature and expiry → the zip
 //   POST /api/intro/request honeypot → fields → rate limit → Turnstile siteverify
 //                           → save the intro call request for Tim's weekly review
+//   POST /api/feedback      honeypot → fields → rate limit → Turnstile siteverify
+//                           → save a client's project feedback (quotes need their approval)
 //   POST /api/tip/session   valid kit download signature → rate limit → Stripe Checkout
 //                           Session (ui_mode elements) for a pay-what-you-want tip
 //   GET  /api/tip/status    payment status for the tip return page
@@ -38,6 +40,7 @@ interface Env {
 const CANONICAL_HOST = 'timothygaull.com';
 const KIT_ACTION = 'kit_download';
 const INTRO_ACTION = 'intro_request';
+const FEEDBACK_ACTION = 'feedback';
 const LINK_TTL_SECONDS = 15 * 60;
 const MAX_ATTEMPTS_PER_HOUR = 10;
 const TIP_MIN_CENTS = 300;
@@ -64,6 +67,7 @@ export default {
     if (url.pathname === '/api/kit/request' && request.method === 'POST') return requestKit(request, env);
     if (url.pathname === '/api/kit/download' && request.method === 'GET') return downloadKit(url, env);
     if (url.pathname === '/api/intro/request' && request.method === 'POST') return requestIntro(request, env);
+    if (url.pathname === '/api/feedback' && request.method === 'POST') return submitFeedback(request, env);
     if (url.pathname === '/api/tip/session' && request.method === 'POST') return createTipSession(request, env);
     if (url.pathname === '/api/tip/status' && request.method === 'GET') return tipStatus(url, env);
     if (url.pathname.startsWith('/api/')) return json({ error: 'not_found' }, 404);
@@ -169,6 +173,39 @@ async function requestIntro(request: Request, env: Env): Promise<Response> {
      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
   )
     .bind(new Date().toISOString(), fields.name, email, fields.company, fields.site, fields.team_size, fields.business, fields.pain, fields.timeline, fields.budget, fields.source)
+    .run();
+  return json({ ok: true });
+}
+
+const FEEDBACK_ANSWERS = ['before_state', 'tried', 'why_hire', 'first_meeting', 'first_look', 'now_can', 'timing', 'advice', 'anything_else'] as const;
+
+async function submitFeedback(request: Request, env: Env): Promise<Response> {
+  let body: Record<string, unknown>;
+  try {
+    body = await request.json();
+  } catch {
+    return json({ error: 'bad_request' }, 400);
+  }
+  if (typeof body.website === 'string' && body.website.trim() !== '') return json({ error: 'bad_request' }, 400);
+
+  const text = (key: string, max: number) => (typeof body[key] === 'string' ? (body[key] as string).trim().slice(0, max) : '');
+  const email = text('email', 254).toLowerCase();
+  const name = text('name', 120);
+  const answers = FEEDBACK_ANSWERS.map((k) => text(k, 3000));
+  if (!EMAIL_RE.test(email)) return json({ error: 'invalid_email' }, 400);
+  if (!name || !answers.some((a) => a.length >= 3)) return json({ error: 'missing_fields' }, 400);
+  const token = body.token;
+  if (typeof token !== 'string' || token.length === 0 || token.length > 2048) return json({ error: 'verification_failed' }, 403);
+
+  const ip = request.headers.get('CF-Connecting-IP') ?? '';
+  if (await rateLimited(ip, env)) return json({ error: 'rate_limited' }, 429);
+  if (!(await verifyTurnstile(token, ip, FEEDBACK_ACTION, env))) return json({ error: 'verification_failed' }, 403);
+
+  await env.DB.prepare(
+    `INSERT INTO feedback (created_at, name, email, company, role, ${FEEDBACK_ANSWERS.join(', ')}, ok_name, ok_photo)
+     VALUES (?, ?, ?, ?, ?, ${FEEDBACK_ANSWERS.map(() => '?').join(', ')}, ?, ?)`,
+  )
+    .bind(new Date().toISOString(), name, email, text('company', 160), text('role', 120), ...answers, body.ok_name === '1' ? 1 : 0, body.ok_photo === '1' ? 1 : 0)
     .run();
   return json({ ok: true });
 }

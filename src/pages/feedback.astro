@@ -1,0 +1,185 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../site';
+
+// A private link Tim sends to clients after a project; not in the menu or the sitemap.
+// /feedback/?company=Gunter%20Metals fills in the company field.
+const sections = [
+  {
+    heading: 'Before we started',
+    questions: [
+      ['before_state', 'Where were things before we met? What was getting in the way?'],
+      ['tried', 'Had you tried to solve it yourselves, with AI tools or anyone else? How far did you get?'],
+    ],
+  },
+  {
+    heading: 'Working together',
+    questions: [
+      ['why_hire', 'What made you decide to work with me?'],
+      ['first_meeting', 'What was our first conversation or interview like? Did anything surprise you?'],
+    ],
+  },
+  {
+    heading: 'What changed',
+    questions: [
+      ['first_look', 'When you first saw the finished work, what went through your mind?'],
+      ['now_can', "What can you do now that you couldn't before?"],
+      ['timing', "How did the time and cost compare with what you'd planned?"],
+    ],
+  },
+  {
+    heading: 'For other owners',
+    questions: [
+      ['advice', "What would you tell another owner who's thinking about using AI, or about working with me?"],
+      ['anything_else', "Anything else you'd like to say?"],
+    ],
+  },
+];
+---
+<Base
+  title="A few questions about our project"
+  description="A short questionnaire for Timothy Gaull's clients about a finished project."
+  noindex
+>
+  <div class="wrap hero">
+    <p class="eyebrow">Client feedback</p>
+    <h1>A few questions about our project.</h1>
+    <p class="lede">
+      Thank you for working with me. I'd love to tell the story of our project in your words. This takes about 10
+      minutes; answer as many questions as you like, as short or long as you like. Nothing goes public until you've
+      read and approved the exact quote.
+    </p>
+
+    <form class="kit-form intro-form feedback-form" id="feedback-form" novalidate>
+      <div class="field-row">
+        <label>
+          <span>Your name</span>
+          <input type="text" name="name" autocomplete="name" required maxlength="120" />
+        </label>
+        <label>
+          <span>Email</span>
+          <input type="email" name="email" autocomplete="email" required maxlength="254" />
+        </label>
+      </div>
+      <div class="field-row">
+        <label>
+          <span>Company</span>
+          <input type="text" name="company" id="fb-company" autocomplete="organization" maxlength="160" />
+        </label>
+        <label>
+          <span>Your role <span class="muted">(optional)</span></span>
+          <input type="text" name="role" autocomplete="organization-title" maxlength="120" placeholder="Owner, co-owner, manager..." />
+        </label>
+      </div>
+
+      {sections.map((s) => (
+        <fieldset>
+          <legend>{s.heading}</legend>
+          {s.questions.map(([name, q]) => (
+            <label>
+              <span>{q}</span>
+              <textarea name={name} rows="3" maxlength="3000"></textarea>
+            </label>
+          ))}
+        </fieldset>
+      ))}
+
+      <fieldset>
+        <legend>Permission</legend>
+        <label class="check">
+          <input type="checkbox" name="ok_name" value="1" />
+          <span>You may use my name and company with my quotes, once I've approved the wording.</span>
+        </label>
+        <label class="check">
+          <input type="checkbox" name="ok_photo" value="1" />
+          <span>You may use a photo of me or our business. We'll pick which one together.</span>
+        </label>
+      </fieldset>
+
+      <label class="hp" aria-hidden="true">
+        Leave this empty
+        <input type="text" name="website" tabindex="-1" autocomplete="off" />
+      </label>
+      <div id="cf-turnstile-box" class="turnstile"></div>
+      <button class="btn" type="submit">Send my answers</button>
+      <p class="small muted">Your answers go only to me. They're never sold or shared, and nothing is published without your approval.</p>
+      <p class="form-status" id="feedback-status" role="status" aria-live="polite"></p>
+    </form>
+
+    <div class="kit-done" id="feedback-done" hidden tabindex="-1">
+      <h2>Thank you. Your answers are in.</h2>
+      <p>I'll send you any quote I'd like to use so you can approve or change it first. This means a lot to a small practice like mine.</p>
+    </div>
+  </div>
+
+  <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+  <script define:vars={{ sitekey: SITE.turnstileSiteKey }}>
+    const form = document.getElementById('feedback-form');
+    const statusEl = document.getElementById('feedback-status');
+    const done = document.getElementById('feedback-done');
+    const company = new URLSearchParams(location.search).get('company');
+    if (company) document.getElementById('fb-company').value = company.slice(0, 160);
+    let widgetId = null;
+    let token = '';
+
+    const wait = setInterval(() => {
+      if (typeof window.turnstile?.render !== 'function') return;
+      clearInterval(wait);
+      widgetId = window.turnstile.render('#cf-turnstile-box', {
+        sitekey,
+        action: 'feedback',
+        callback: (t) => { token = t; },
+        'expired-callback': () => { token = ''; },
+        'error-callback': () => { token = ''; },
+      });
+    }, 200);
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const firstInvalid = [...form.querySelectorAll('[required]')].find((el) => !el.value.trim() || !el.checkValidity());
+      if (firstInvalid) {
+        statusEl.textContent = 'Please add your name and a valid email.';
+        firstInvalid.focus();
+        return;
+      }
+      if (![...form.querySelectorAll('textarea')].some((el) => el.value.trim().length >= 3)) {
+        statusEl.textContent = 'Please answer at least one question.';
+        form.querySelector('textarea').focus();
+        return;
+      }
+      if (!token) {
+        statusEl.textContent = 'One moment: the human check is still loading. Try again in a second.';
+        return;
+      }
+      const button = form.querySelector('button[type=submit]');
+      button.disabled = true;
+      statusEl.textContent = 'Sending...';
+      const data = Object.fromEntries(new FormData(form));
+      try {
+        const res = await fetch('/api/feedback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...data, token }),
+        });
+        const body = await res.json().catch(() => ({}));
+        if (!res.ok || !body.ok) {
+          statusEl.textContent =
+            res.status === 429 ? 'Too many tries from this connection. Please wait a bit and try again.' :
+            body.error === 'invalid_email' ? 'Please enter a valid email address.' :
+            body.error === 'missing_fields' ? 'Please add your name and answer at least one question.' :
+            'Something went wrong with the check. Please try again.';
+          return;
+        }
+        form.hidden = true;
+        done.hidden = false;
+        done.focus();
+      } catch {
+        statusEl.textContent = 'Network error. Please try again. Your answers are still here.';
+      } finally {
+        button.disabled = false;
+        token = '';
+        if (window.turnstile && widgetId !== null) window.turnstile.reset(widgetId);
+      }
+    });
+  </script>
+</Base>

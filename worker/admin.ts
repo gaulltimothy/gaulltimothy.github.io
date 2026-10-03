@@ -36,6 +36,10 @@ export async function handleAdmin(request: Request, env: AdminEnv, url: URL): Pr
     const { results } = await env.DB.prepare('SELECT * FROM intro_requests ORDER BY created_at DESC').all();
     return csv(results, 'intro-requests.csv');
   }
+  if (url.pathname === '/admin/feedback.csv') {
+    const { results } = await env.DB.prepare('SELECT * FROM feedback ORDER BY created_at DESC').all();
+    return csv(results, 'feedback.csv');
+  }
   if (url.pathname === '/admin/' || url.pathname === '/admin') return dashboard(env, email);
   return notFound();
 }
@@ -112,7 +116,7 @@ function csv(rows: Record<string, unknown>[], name: string): Response {
 }
 
 async function dashboard(env: AdminEnv, email: string): Promise<Response> {
-  const [totals, signups, intros] = await Promise.all([
+  const [totals, signups, intros, feedback] = await Promise.all([
     env.DB.prepare(
       `SELECT (SELECT COUNT(*) FROM signups) AS total,
               (SELECT COUNT(*) FROM signups WHERE wants_updates = 1) AS opted_in,
@@ -121,6 +125,7 @@ async function dashboard(env: AdminEnv, email: string): Promise<Response> {
     ).first<{ total: number; opted_in: number; week: number; intro_new: number }>(),
     env.DB.prepare('SELECT created_at, name, email, wants_updates, download_count FROM signups ORDER BY created_at DESC LIMIT 200').all(),
     env.DB.prepare('SELECT created_at, name, email, company, business, pain, timeline, budget, status FROM intro_requests ORDER BY created_at DESC LIMIT 100').all(),
+    env.DB.prepare('SELECT * FROM feedback ORDER BY created_at DESC LIMIT 100').all(),
   ]);
   const t = totals ?? { total: 0, opted_in: 0, week: 0, intro_new: 0 };
 
@@ -139,6 +144,27 @@ async function dashboard(env: AdminEnv, email: string): Promise<Response> {
         )
         .join('')
     : '<p class="m">No intro-call requests yet.</p>';
+
+  const feedbackQuestions: [string, string][] = [
+    ['before_state', 'Before'],
+    ['tried', 'What they tried'],
+    ['why_hire', 'Why they hired you'],
+    ['first_meeting', 'First conversation'],
+    ['first_look', 'First look'],
+    ['now_can', 'What they can do now'],
+    ['timing', 'Time and cost'],
+    ['advice', 'To other owners'],
+    ['anything_else', 'Anything else'],
+  ];
+  const feedbackRows = feedback.results.length
+    ? feedback.results
+        .map(
+          (r) => `<article class="req"><header><strong>${esc(r.name)}</strong>${r.company ? ` · ${esc(r.company)}` : ''}${r.role ? ` · ${esc(r.role)}` : ''}<span class="m"> ${when(r.created_at)}</span></header>
+<p><a href="mailto:${esc(r.email)}">${esc(r.email)}</a> · Name OK: ${r.ok_name ? 'Yes' : 'No'} · Photo OK: ${r.ok_photo ? 'Yes' : 'No'}</p>
+<dl>${feedbackQuestions.filter(([k]) => r[k]).map(([k, label]) => `<dt>${label}</dt><dd>${esc(r[k])}</dd>`).join('')}</dl></article>`,
+        )
+        .join('')
+    : '<p class="m">No client feedback yet. Send clients https://timothygaull.com/feedback/?company=Their%20Company</p>';
 
   const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow"><title>Signups · timothygaull.com</title>
@@ -163,10 +189,12 @@ dl{display:grid;grid-template-columns:max-content 1fr;gap:4px 14px;margin:8px 0 
 <div class="stat"><b>${t.opted_in}</b>opted in to the follow-up</div>
 <div class="stat"><b>${t.intro_new}</b>new intro requests</div>
 </section>
-<p class="dl"><a href="/admin/signups.csv">Download signups (CSV)</a><a href="/admin/intro-requests.csv">Download intro requests (CSV)</a></p>
+<p class="dl"><a href="/admin/signups.csv">Download signups (CSV)</a><a href="/admin/intro-requests.csv">Download intro requests (CSV)</a><a href="/admin/feedback.csv">Download client feedback (CSV)</a></p>
 <h2>Kit signups</h2>
 <div class="wrap"><table><thead><tr><th scope="col">When</th><th scope="col">Name</th><th scope="col">Email</th><th scope="col">Follow-up</th><th scope="col">Downloads</th></tr></thead><tbody>${signupRows}</tbody></table></div>
 <h2>Intro-call requests</h2>${introRows}
+<h2>Client feedback</h2>${feedbackRows}
+<p class="m">Quote clients only after they approve the exact wording, and use names only where Name OK says Yes.</p>
 <p class="m" style="margin-top:32px">Only email people who opted in to the follow-up, and only once site email with an unsubscribe link is set up.</p>
 </main></body></html>`;
   return new Response(html, { headers: { ...privateHeaders, 'Content-Type': 'text/html; charset=utf-8' } });
