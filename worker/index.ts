@@ -35,6 +35,12 @@ interface Env {
   ACCESS_TEAM_DOMAIN?: string;
   ACCESS_AUD?: string;
   ADMIN_EMAILS?: string;
+  // Email alerts to Tim for intro-call requests and client feedback. Off until all three are set:
+  // the send_email binding (Cloudflare Email Service, sender domain onboarded), ALERT_FROM and ALERT_TO
+  // (a verified destination address).
+  EMAIL?: { send(message: { to: string; from: string | { email: string; name?: string }; replyTo?: string; subject: string; text: string }): Promise<unknown> };
+  ALERT_FROM?: string;
+  ALERT_TO?: string;
 }
 
 const CANONICAL_HOST = 'timothygaull.com';
@@ -51,7 +57,7 @@ const TIP_GRACE_SECONDS = 60 * 60;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 export default {
-  async fetch(request: Request, env: Env): Promise<Response> {
+  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
     // Other hosts, and plain http on the canonical host, go to https://timothygaull.com.
     // Stripe's payment form and the wallets refuse to load on an insecure page.
@@ -66,8 +72,8 @@ export default {
     }
     if (url.pathname === '/api/kit/request' && request.method === 'POST') return requestKit(request, env);
     if (url.pathname === '/api/kit/download' && request.method === 'GET') return downloadKit(url, env);
-    if (url.pathname === '/api/intro/request' && request.method === 'POST') return requestIntro(request, env);
-    if (url.pathname === '/api/feedback' && request.method === 'POST') return submitFeedback(request, env);
+    if (url.pathname === '/api/intro/request' && request.method === 'POST') return requestIntro(request, env, ctx);
+    if (url.pathname === '/api/feedback' && request.method === 'POST') return submitFeedback(request, env, ctx);
     if (url.pathname === '/api/tip/session' && request.method === 'POST') return createTipSession(request, env);
     if (url.pathname === '/api/tip/status' && request.method === 'GET') return tipStatus(url, env);
     if (url.pathname.startsWith('/api/')) return json({ error: 'not_found' }, 404);
@@ -133,7 +139,7 @@ const INTRO_CHOICES = {
   budget: ['Not sure yet', 'Under $2,500', '$2,500 to $10,000', 'More than $10,000', 'Ongoing monthly help'],
 } as const;
 
-async function requestIntro(request: Request, env: Env): Promise<Response> {
+async function requestIntro(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
   let body: Record<string, unknown>;
   try {
     body = await request.json();
@@ -174,12 +180,24 @@ async function requestIntro(request: Request, env: Env): Promise<Response> {
   )
     .bind(new Date().toISOString(), fields.name, email, fields.company, fields.site, fields.team_size, fields.business, fields.pain, fields.timeline, fields.budget, fields.source)
     .run();
+  alert(env, ctx, `Intro call request: ${fields.name}${fields.company ? `, ${fields.company}` : ''}`, email, [
+    ['Name', fields.name],
+    ['Email', email],
+    ['Company', fields.company],
+    ['Website', fields.site],
+    ['Team size', fields.team_size],
+    ['Business', fields.business],
+    ["What's eating their week", fields.pain],
+    ['Timeline', fields.timeline],
+    ['Budget', fields.budget],
+    ['How they found you', fields.source],
+  ]);
   return json({ ok: true });
 }
 
 const FEEDBACK_ANSWERS = ['before_state', 'tried', 'why_hire', 'first_meeting', 'first_look', 'now_can', 'timing', 'advice', 'anything_else'] as const;
 
-async function submitFeedback(request: Request, env: Env): Promise<Response> {
+async function submitFeedback(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
   let body: Record<string, unknown>;
   try {
     body = await request.json();
@@ -207,7 +225,28 @@ async function submitFeedback(request: Request, env: Env): Promise<Response> {
   )
     .bind(new Date().toISOString(), name, email, text('company', 160), text('role', 120), ...answers, body.ok_name === '1' ? 1 : 0, body.ok_photo === '1' ? 1 : 0)
     .run();
+  alert(env, ctx, `Client feedback: ${name}${text('company', 160) ? `, ${text('company', 160)}` : ''}`, email, [
+    ['Name', name],
+    ['Email', email],
+    ['Company', text('company', 160)],
+    ['Role', text('role', 120)],
+    ...FEEDBACK_ANSWERS.map((k, n): [string, string] => [k.replace(/_/g, ' '), answers.at(n) ?? '']),
+    ['Name OK', body.ok_name === '1' ? 'Yes' : 'No'],
+    ['Photo OK', body.ok_photo === '1' ? 'Yes' : 'No'],
+  ]);
   return json({ ok: true });
+}
+
+// Sends Tim a plain-text alert after the response goes out. A failed send never fails the form:
+// the submission is already saved and shows on /admin/.
+function alert(env: Env, ctx: ExecutionContext, subject: string, replyTo: string, rows: [string, string][]): void {
+  if (!env.EMAIL || !env.ALERT_FROM || !env.ALERT_TO) return;
+  const text = [...rows.filter(([, v]) => v).map(([k, v]) => `${k}:\n${v}\n`), 'All requests: https://timothygaull.com/admin/'].join('\n');
+  ctx.waitUntil(
+    env.EMAIL.send({ to: env.ALERT_TO, from: { email: env.ALERT_FROM, name: 'timothygaull.com' }, replyTo, subject: subject.slice(0, 150), text }).catch((e) =>
+      console.error('alert email failed', e instanceof Error ? e.message : e),
+    ),
+  );
 }
 
 function tipsEnabled(env: Env): boolean {
