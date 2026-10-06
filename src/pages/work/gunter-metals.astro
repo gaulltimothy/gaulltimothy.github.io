@@ -1,6 +1,7 @@
 ---
 // Search targets (docs/seo-strategy.md): B1 brand identity with AI; B3 logo for metal fabrication; I2 AI for metal fabrication.
 import CaseFeature from '../../layouts/CaseFeature.astro';
+import '../../styles/gunter.css';
 
 const steps = [
   ['Research', 'A competitive map of regional shops and a mood board built from real steel: mill scale, galvanizing, powder coat.'],
@@ -54,28 +55,30 @@ const phones = [
   ]}
   theme={{
     '--cs-accent': '#e0552c',
-    '--cs-hero-bg': 'radial-gradient(70% 60% at 12% 0%, rgba(205,218,230,.13), transparent 65%), radial-gradient(130% 110% at 55% 35%, transparent 45%, rgba(0,0,0,.5)), repeating-linear-gradient(179deg, rgba(255,255,255,.022) 0 1px, transparent 1px 5px), linear-gradient(165deg, #363c43, #1c1f23 72%)',
+    '--cs-hero-bg': 'radial-gradient(85% 70% at 16% 6%, rgba(214,226,238,.16), transparent 62%), radial-gradient(140% 120% at 50% 40%, transparent 50%, rgba(0,0,0,.5)), repeating-linear-gradient(179deg, rgba(255,255,255,.02) 0 1px, transparent 1px 5px), linear-gradient(158deg, #383e45 0%, #2a2f35 45%, #202428 100%)',
     '--cs-hero-ink': '#f1f3f4',
     '--cs-hero-muted': '#a8b0b7',
     '--cs-hero-line': 'rgba(255,255,255,.12)',
     '--cs-hero-chip': 'rgba(16,18,21,.55)',
     '--cs-dark': '#16191c',
-    '--cs-stock': '#e9e6df',
+    '--cs-stock': '#e4e1da',
   }}
   next={{ href: '/work/alliancebernstein/', title: 'Taking 6,000 people off paper at a global asset manager' }}
 >
-  <!-- Signature moment. Draft: the static wordmark. Planned: the storefront's live torch cut, driven by scroll. -->
-  <section slot="signature" class="cs-band cs-band--stock">
-    <div class="cs-wide">
-      <p class="cs-label" data-reveal>The wordmark</p>
-      <figure class="cs-plate cs-plate--wide" data-reveal>
-        <div><img src="/images/work/gunter-wordmark-hero.jpg" alt="The Gunter Metals LLC wordmark in dark steel on a pale background, with stencil bridges cut through the R and the A." width="1600" height="911" /></div>
-        <figcaption>The gaps in the R and the A are stencil bridges, sized so the letters can be cut from a steel sheet with a torch.</figcaption>
-      </figure>
+  <!-- Signature moment: the storefront's own torch cut, driven by scroll. -->
+  <section slot="signature" id="gm-cut" class="gm-cut">
+    <div class="gm-cut__pin">
+      <gm-cutsheet reveal="scroll" track="#gm-cut" edge="soft" label="Gunter Metals LLC">
+        <noscript><img src="/images/work/gunter-wordmark-hero.jpg" alt="The Gunter Metals LLC wordmark, cut from steel." width="1600" height="911" /></noscript>
+      </gm-cutsheet>
+      <p class="gm-cut__caption">
+        <span class="gm-cut__cutting">The wordmark, cut from a sheet of steel as you scroll</span>
+        <span class="gm-cut__done">The gaps in the R and the A are stencil bridges, sized so a torch can cut the letters from the sheet</span>
+      </p>
     </div>
   </section>
 
-  <section class="cs-band">
+  <section class="cs-band cs-band--fade">
     <div class="cs-wide">
       <p class="cs-label" data-reveal>The situation</p>
       <p class="cs-statement" data-words>Like most trades businesses, Gunter Metals ran through its owners. Quotes, orders and questions all came to their phones.</p>
@@ -123,7 +126,7 @@ const phones = [
       <div class="cs-plates">
         {finishes.map(([file, name], i) => (
           <figure class="cs-plate" data-reveal style={`--i: ${i}; --cs-plate-bg: #f4f2ee`}>
-            <div><img src={`/images/work/gunter-wordmark-${file}.svg`} alt={`The wordmark in a ${name.toLowerCase()} finish`} width="448" height="315" loading="lazy" /></div>
+            <div><gm-wordmark finish={file} scroll="cover" label={`Gunter Metals LLC wordmark, ${name.toLowerCase()} finish`}><img src={`/images/work/gunter-wordmark-${file}.svg`} alt={`The wordmark in a ${name.toLowerCase()} finish`} width="448" height="315" loading="lazy" /></gm-wordmark></div>
             <figcaption>{name}</figcaption>
           </figure>
         ))}
@@ -205,3 +208,8 @@ const phones = [
     </div>
   </section>
 </CaseFeature>
+
+<script>
+  // <gm-wordmark> and <gm-cutsheet>, from the Gunter Metals storefront theme.
+  import '../../vendor/gm-cutsheet.js';
+</script>

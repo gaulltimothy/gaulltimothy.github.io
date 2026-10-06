@@ -1,0 +1,92 @@
+/* Gunter Metals case study: the torch-cut signature, using the storefront's <gm-cutsheet>
+   (src/vendor/gm-cutsheet.js). Its sizes and colours follow the theme's gm-cutsheet-hero section. */
+
+.gm-cut {
+  position: relative;
+  height: 240svh;
+  padding: 0;
+  border: 0;
+  /* The sheet's own steel, so a gap can never show the page through. */
+  background: linear-gradient(158deg, #383e45 0%, #2a2f35 45%, #202428 100%);
+}
+
+@media (min-width: 750px) {
+  .gm-cut {
+    height: 340svh;
+  }
+}
+
+.gm-cut__pin {
+  position: sticky;
+  top: var(--header-h, 65px);
+  height: calc(100svh - var(--header-h, 65px));
+  overflow: hidden;
+  color: #e9e9e6;
+}
+
+.gm-cut__pin > gm-cutsheet {
+  position: absolute;
+  inset: 0;
+}
+
+gm-cutsheet:not(:defined) {
+  display: block;
+  background:
+    radial-gradient(85% 70% at 16% 6%, rgba(214, 226, 238, 0.16), transparent 62%),
+    radial-gradient(140% 120% at 50% 40%, transparent 50%, rgba(0, 0, 0, 0.5)),
+    linear-gradient(158deg, #383e45 0%, #2a2f35 45%, #202428 100%);
+}
+
+gm-cutsheet noscript img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gm-cut__caption {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 1;
+  max-width: none;
+  margin: 0;
+  padding: 22px max(16px, calc((100% - 1320px) / 2));
+  font: 500 0.72rem/1.5 var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: color 0.9s ease;
+}
+
+.gm-cut__done {
+  display: none;
+}
+
+/* Once the sheet lifts, the letters lie on the light surface beneath: dark caption, and the finished note. */
+.gm-cut__pin:has(> gm-cutsheet:is([data-state='lifting'], [data-state='done'])) {
+  color: #16191c;
+}
+
+.gm-cut__pin:has(> gm-cutsheet[data-state='done']) .gm-cut__cutting {
+  display: none;
+}
+
+.gm-cut__pin:has(> gm-cutsheet[data-state='done']) .gm-cut__done {
+  display: inline;
+}
+
+/* Live wordmarks on the finish plates */
+.cs-plate gm-wordmark {
+  width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gm-cut {
+    height: auto;
+  }
+
+  .gm-cut__pin {
+    position: relative;
+    top: 0;
+  }
+}

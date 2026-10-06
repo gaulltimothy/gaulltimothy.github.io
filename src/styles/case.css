@@ -24,6 +24,8 @@
 
 .cs-band {
   padding-block: clamp(88px, 12vw, 176px);
+  /* Bands change ground instead of using the site's hairline between sections. */
+  border-top: 0;
 }
 
 .cs-band--dark {
@@ -671,4 +673,9 @@
   .cs-plates--4 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+}
+
+/* A band that starts on the story's stock colour and settles into the page. */
+.cs-band--fade {
+  background: linear-gradient(var(--cs-stock), var(--paper) 60%);
 }
