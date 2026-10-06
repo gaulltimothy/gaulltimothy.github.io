@@ -11,22 +11,26 @@ Run through this while drafting a case study in `src/pages/work/`. The keyword c
 
 ## 2. CaseStudy props (`src/layouts/CaseStudy.astro`)
 
-- [ ] **`title`** (also the H1 and Article headline):
-  - about **44 characters or less**, so it stays at about 60 or less once Base adds " · Timothy Gaull"
+- [ ] **`title`** (the H1 and Article headline; also the search title unless `seoTitle` is set):
+  - search title (`seoTitle`, or `title` if no `seoTitle`) about **44 characters or less**, so it stays at about 60 or less once Base adds " · Timothy Gaull"
   - primary phrase near the front
-  - pattern `Client: primary phrase`, for example "Gunter Metals: AI-designed brand identity"
+  - pattern `Client: primary phrase`, for example "Gunter Metals: brand identity designed with AI"
   - no keyword lists, pipes or "Case study:" prefix
-- [ ] **`description`** (also the meta description and the visible lede):
-  - **150 to 160 characters**, written as the story's first sentence
+- [ ] **`description`** (the visible lede; also the meta description unless `metaDescription` is set):
+  - meta description (`metaDescription`, or `description` if none) **150 to 160 characters**, written as the story's first sentence
   - pattern `What was done for [client], a [industry] in [place]. How. Result.`
   - includes the primary phrase once, and the place for local clients
-- [ ] **`eyebrow`**: `Client · industry`, under about 45 characters, client name first (it also becomes Article `about`).
+- [ ] **`eyebrow`**: `Client · industry`, under about 45 characters, client name first. Article `about` uses `client` when it is set, otherwise the eyebrow.
 - [ ] **`facts`**: 3 to 5 items using the standard labels.
   - Industry, Location, Service, Timeline, Result
   - optional: Tools, Status, Role
   - **Service** is an exact service name: AI Opportunity Sprint, Brand & Business Foundations, or Fractional AI & Growth Partner
   - **Result** is one verified number with a unit
-- [ ] If the layout has the optional props by then (`seoTitle`, `metaDescription`, `image`, `published`/`updated`), fill them in. If not, see quick wins 2, 3 and 5 in the strategy.
+- [ ] Optional props:
+  - `seoTitle` and `metaDescription` when the H1 or lede run longer than search results show
+  - `image` (`{ src, width, height }`) for the share image; omit to use the default card
+  - `published` and `updated` (YYYY-MM-DD); bump `updated` only when the story itself changes
+  - `client` (`{ name, url }`); add `url` only if the client has a public site
 
 ## 3. Body
 

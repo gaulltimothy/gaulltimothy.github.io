@@ -1,6 +1,6 @@
 # Timothy Gaull
 
-> Timothy Gaull is an independent consultant in Nashville, Tennessee who helps owner-led businesses (roughly 5 to 200 people) put AI to work, sharpen their brand, and build systems so the company can grow without everything running through the owner. He was an AVP at AllianceBernstein, Designer in Residence at Lightbank, and Staff Product Designer at Included, an AI startup that won a 2023 SXSW Innovation Award and was later acquired by Phenom.
+> Timothy Gaull is an independent consultant in Nashville, Tennessee (practice name: Gaull & Co) who helps owner-led businesses (roughly 5 to 200 people) put AI to work, sharpen their brand, and build systems so the company can grow without everything running through the owner. He was an AVP at AllianceBernstein, Designer in Residence at Lightbank, and Staff Product Designer at Included, an AI startup that won a 2023 SXSW Innovation Award and was later acquired by Phenom.
 
 His approach: most businesses don't have an AI problem, they have a systems problem. You can't automate what isn't written down, so the work starts by interviewing the owner to map how work actually moves, writing down the rules only they know, and turning one recurring task at a time into an AI skill that is tested on past decisions before it's trusted.
 
@@ -14,6 +14,7 @@ His approach: most businesses don't have an AI problem, they have a systems prob
 - Brand & Business Foundations (4 to 6 weeks): positioning, offer, identity and website grounded in customer interviews.
 - Fractional AI & Growth Partner (monthly): ongoing strategy and hands-on automations, brand and marketing systems.
 - Every engagement starts with a short intro call, by request at https://timothygaull.com/intro-call/.
+- Service area: Nashville and Middle Tennessee, and clients anywhere remotely.
 
 ## Case studies
 
@@ -22,8 +23,17 @@ His approach: most businesses don't have an AI problem, they have a systems prob
 - [AllianceBernstein](https://timothygaull.com/work/alliancebernstein/): a firmwide paperless program for 3,500 employees and 2,500 contractors, with an estimated $10M a year in savings.
 - [Included](https://timothygaull.com/work/included/): a tokenized design system for an AI people-analytics platform; development cycles about 30% faster.
 
+## Contact
+
+- Gaull & Co, Nashville, TN
+- Phone: (615) 933-9645
+- Email: tim@gaullco.com
+- Intro calls by request: https://timothygaull.com/intro-call/
+
 ## More
 
 - [About Timothy Gaull](https://timothygaull.com/about/)
 - [All work](https://timothygaull.com/work/)
 - [LinkedIn](https://www.linkedin.com/in/timothygaull/)
+
+Last updated: 2026-10-06

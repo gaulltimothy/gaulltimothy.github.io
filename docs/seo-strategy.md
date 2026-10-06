@@ -44,7 +44,7 @@ The broad national terms ("AI consultant", "AI consulting for small business") b
 1. **Make sure search engines can find the site at all.** In testing with the research search tool (not Google), searches for "Timothy Gaull" and "Gaull & Co" did not return the site, and "Gunter Metals" returned neither the case study nor guntermetals.com. Set up Google Search Console and Bing Webmaster Tools, submit the sitemap, and request indexing for every page. Turn on Cloudflare Crawler Hints (IndexNow). This takes an hour and everything else depends on it.
 2. **Finish the Gaull & Co Google Business Profile and copy it to Bing Places and Apple Business Connect.** Primary category "Business management consultant", service areas across Middle Tennessee, all three services listed, and the first 5 to 10 real client reviews. ChatGPT's local answers lean heavily on Bing data, so Bing Places matters as much as Google.
 3. **Build the pages that can rank.** Today the three services exist only as cards on the home page, with no URL of their own. Add `/ai-consulting/`, `/fractional-ai/`, `/brand-strategy/` and one strong `/nashville/` page. Without these, there is nothing for "AI consultant Nashville" or "fractional AI" to land on.
-4. **Fix titles, descriptions and case study schema** (section 9). Every case study title runs 68 to 90 characters with the name added, and every description runs 183 to 296. Add dates, images and breadcrumbs to the case study schema. Retitle Gunter Metals around "AI-designed brand identity".
+4. **Fix titles, descriptions and case study schema** (section 9). Every case study title runs 68 to 90 characters with the name added, and every description runs 183 to 296. Add dates, images and breadcrumbs to the case study schema. Retitle Gunter Metals around "brand identity designed with AI".
 5. **Publish the next case study with the playbook in section 7, aimed at AI for trades: quoting, intake triage or lead capture.** Only if there is real client work to show. The kit page's before/after panel already describes a real fabrication-shop lead-capture project, anonymized until the client approves naming.
 
 **Realistic timing.** Local map results can move in 1 to 3 months once the profile, reviews and a Nashville page exist. National long-tail searches usually take 3 to 9 months for a new site. National head terms are out of reach for at least a year, and maybe for good.
@@ -306,7 +306,7 @@ The layout is `src/layouts/CaseStudy.astro`. It takes four props: `title`, `desc
 - **Keep it to about 44 characters** so the full title, with " · Timothy Gaull" added, stays at about 60 or less. Google truncates by pixel width, not a fixed count, and drops the end first. So if you must go to 45 to 50 characters, put the search phrase at the front and let the name get cut. ([Google: title links](https://developers.google.com/search/docs/appearance/title-link))
 - **The tradeoff:** `title` is also the H1. A 44-character H1 is fine and matches the site's punchy style. If a story needs a longer H1, add an optional `seoTitle` prop in `CaseStudy.astro` that falls back to `title` (see quick win 2). Keep the two close in meaning, or Google may rewrite the title.
 - **Formulas:**
-  - `[Client]: [primary search phrase]`, as in "Gunter Metals: AI-designed brand identity" (41 / 57 full)
+  - `[Client]: [primary search phrase]`, as in "Gunter Metals: brand identity designed with AI" (46 / 62 full). "Designed with AI", not "AI-designed": AI widened the options, Tim made the calls
   - `[Primary phrase] for a [industry]`, as in "AI quote triage for a fabrication shop" (38 / 54)
   - `[Result] at [client]`, as in "AllianceBernstein: 6,000 people off paper" (41 / 57)
 - No keyword lists, no pipes, no "Case study:" prefix (the eyebrow already says "Work").
@@ -324,7 +324,7 @@ The layout is `src/layouts/CaseStudy.astro`. It takes four props: `title`, `desc
 
 - Pattern: **`Client · industry`**, such as "Gunter Metals · metal fabrication" or "Pedro Pet Pals · animal rescue, volunteer".
 - Keep it under about 45 characters. It adds the industry word near the top of the page.
-- Because it also becomes Article `about`, keep the client name first.
+- Keep the client name first. Article `about` uses the `client` prop when it is set, otherwise the eyebrow.
 
 ### 7.5 Facts (`facts` prop)
 
@@ -376,7 +376,7 @@ Every case study should be linked from:
 - `src/pages/index.astro` (the `work` array) if it's one of the top three
 - `public/llms.txt`
 
-Use descriptive link text ("the AI-designed brand for a metal fabrication shop"), never "click here" or "read more" alone.
+Use descriptive link text ("the brand designed with AI for a metal fabrication shop"), never "click here" or "read more" alone.
 
 ### 7.9 Images and alt text
 
@@ -443,11 +443,23 @@ Cadence: one case study or guide every 4 to 6 weeks beats a burst followed by si
 
 ---
 
-## 9. Quick wins for the current site (recommendations only; no files were changed)
+## 9. Quick wins for the current site
+
+**Status, October 6, 2026.**
+- **Done:**
+  - #1, #2, #4 and #6.
+  - #3: Gunter Metals only.
+  - #5: schema only; no visible dates yet.
+  - #9: phone, email and `knowsAbout`. `sameAs` and the Memphis question are still open.
+  - #10, #11 and #14.
+  - #12: title and description only.
+  - #13: title, description, and one FAQ.
+- **Open:** #7 and #8 (new pages), the body changes in #15, #16, #17 (needs the Business Profile review link) and #18 (Cloudflare dashboard).
+- Case study titles and descriptions were shortened with the new `seoTitle` and `metaDescription` props, so the H1s and ledes are unchanged.
 
 | # | Change | File(s) it would touch | Why |
 |---|---|---|---|
-| 1 | Shorten case study titles to about 44 characters: "Gunter Metals: AI-designed brand identity" (57 full), "AllianceBernstein: 6,000 people off paper" (57), "Included: design system for an AI product" (57), "Pedro Pet Pals: an animal rescue website" (56). Today they run 68 to 90 characters with the name | `src/pages/work/*.astro` | Titles get cut off; the primary phrase should come first |
+| 1 | Shorten case study titles to about 44 characters: "Gunter Metals: brand identity designed with AI" (62 full), "AllianceBernstein: 6,000 people off paper" (57), "Included: design system for an AI product" (57), "Pedro Pet Pals: an animal rescue website" (56). Today they run 68 to 90 characters with the name | `src/pages/work/*.astro` | Titles get cut off; the primary phrase should come first |
 | 2 | Add optional `seoTitle` and `metaDescription` props to CaseStudy (fall back to `title` and `description`) so the H1 and lede can stay long when needed | `src/layouts/CaseStudy.astro` | Removes the H1-versus-title tradeoff |
 | 3 | Add an optional `image` prop to CaseStudy, pass it to Base for og:image and to the Article schema; use `/images/work/gunter-wordmark-hero.jpg` for Gunter | `src/layouts/CaseStudy.astro`, `src/pages/work/gunter-metals.astro` | Every case study currently shares `/og/default.png`; Google recommends an Article image |
 | 4 | Tighten descriptions to 150 to 160 characters (today 183 to 296). Drafts: Gunter (158) in section 7.3; AllianceBernstein (154): "I led AllianceBernstein's firmwide paperless program: 3,500 employees and 2,500 contractors moved onto digital workflows, saving an estimated $10M a year." Included (151): "I built the design system for Included, an AI people-analytics platform that won a 2023 SXSW Innovation Award. Development cycles got about 30% faster." Pedro (159): "A volunteer website for Pedro Pet Pals, an animal rescue: every adoptable animal listed live from the shelter software, plus a phone photo tool for volunteers." | `src/pages/work/*.astro` (or the new `metaDescription` prop) | Snippets get cut; quotable first sentences |
@@ -529,7 +541,7 @@ A future session can repeat the autocomplete research. Request `https://suggestq
 - **Product names change.** "Claude for Small Business" and "Cowork" are Anthropic's names as of 2026 and may change. Never imply a partnership, certification or endorsement.
 - **Google Business Profile state is unknown** beyond "verified" (per the repo). Categories, reviews, photos and service areas weren't visible.
 - **Facts Tim must supply before some recommendations can ship:**
-  - a business phone and/or email for NAP
+  - ~~a business phone and/or email for NAP~~ Supplied: (615) 933-9645, tim@gaullco.com
   - which towns he meets clients in person
   - price ranges or cost drivers (A5, B4)
   - whether Memphis in `areaServed` is intentional
