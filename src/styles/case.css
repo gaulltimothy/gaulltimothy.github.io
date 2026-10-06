@@ -695,3 +695,73 @@
 .cs-band--fade {
   background: linear-gradient(var(--cs-stock), var(--paper) 60%);
 }
+
+/* Before and after: two screenshots in plain browser frames, side by side */
+
+.cs-compare {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(12px, 2vw, 28px);
+  margin-top: clamp(40px, 6vw, 72px);
+}
+
+.cs-browser {
+  margin: 0;
+}
+
+.cs-browser > div {
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: 0 30px 60px -36px rgba(20, 20, 20, 0.35);
+}
+
+.cs-browser__bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  max-width: none;
+  margin: 0;
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--rule);
+  background: var(--soft);
+  font: 500 0.68rem/1 var(--mono);
+  color: var(--muted);
+}
+
+.cs-browser__bar i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--rule);
+}
+
+.cs-browser__bar span {
+  margin-left: 8px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.cs-browser img {
+  width: 100%;
+}
+
+.cs-browser figcaption {
+  margin-top: 12px;
+  font: 500 0.72rem/1.4 var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.cs-compare + .cs-split {
+  margin-top: clamp(32px, 5vw, 56px);
+}
+
+@media (max-width: 760px) {
+  .cs-compare {
+    grid-template-columns: 1fr;
+  }
+}
