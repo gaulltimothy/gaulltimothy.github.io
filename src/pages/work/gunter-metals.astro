@@ -1,7 +1,29 @@
 ---
-// Search targets (docs/seo-strategy.md): B1 brand identity with AI; B3 logo for metal fabrication; I2 AI for metal fabrication.
+// Search targets (docs/seo-strategy.md): I2 AI and online sales for metal fabrication; B1 brand identity with AI; B3 branding for a fabrication shop.
 import CaseFeature from '../../layouts/CaseFeature.astro';
 import '../../styles/gunter.css';
+
+const before = ['A one-page website', 'A simple contact form', 'No way to buy metal online', 'Service requests with little to go on'];
+
+const after = [
+  'A digital metal counter with dynamic pricing',
+  'Real products and inventory, kept up to date from a spreadsheet',
+  'Metal ordered to length from a phone, ready the same day when it is on the rack',
+  'Requests for proposals that go straight into Jobber',
+];
+
+const flow = [
+  ['Tim and Etta keep a spreadsheet', "What's for sale, what it costs and what's on the rack live in one spreadsheet they already know how to edit. Change a row and the prices and stock on the site follow."],
+  ['Every size is a real product', 'Steel, stainless and aluminum in tube, angle, channel, flat bar, plate and more, each with its own price and inventory, so customers see whether it is on the rack or has to be ordered in.'],
+  ['Customers type a cut list', '“4 @ 36” and “2 @ 8 ft” turn into pieces and total length as they type, the way a good counter clerk would add it up.'],
+  ['They pick it up the same day', 'Stock on the rack is ready the same day. Anything else gets a call with a pickup date.'],
+];
+
+const phones = [
+  ['zoom-start', 'Metal, cut to length', 'The top of the Gunter Metals buying page on a phone: “Metal, cut to length. Ready today.” over a jobsite photo.'],
+  ['zoom-shapes', 'Pick a shape', 'The shape picker: square tube, rect tube, angle, channel, flat bar, plate, round tube, round bar and remnants, above the metal, shape, size and cut list steps.'],
+  ['zoom-cutlist', 'Type the cut list', 'A cut list typed as “4 @ 36” and “2 @ 8 ft”, totaling 6 pieces and 28 feet, with the stock status and an Add to cut list button.'],
+];
 
 const steps = [
   ['Research', 'A competitive map of regional shops and a mood board built from real steel: mill scale, galvanizing, powder coat.'],
@@ -23,35 +45,22 @@ const finishes = [
   ['galvanized', 'Galvanized'],
   ['powder-black', 'Powder black'],
 ];
-
-const flow = [
-  ['Tim and Etta keep a spreadsheet', "What's on the rack and what it costs live in one spreadsheet they already know how to edit. Change a row and the site follows."],
-  ['Customers pick metal, shape and size', 'Steel, stainless or aluminum. Tube, angle, channel, flat bar, plate and more. Every size shows whether it is on the rack or has to be ordered in.'],
-  ['They type a cut list the way they say it', '“4 @ 36” and “2 @ 8 ft” turn into pieces and total length as they type, the way a good counter clerk would add it up.'],
-  ['They pick it up the same day', 'Stock on the rack is ready the same day. Anything else gets a call with a pickup date.'],
-];
-
-const phones = [
-  ['zoom-start', 'Metal, cut to length', 'The top of the Gunter Metals buying page on a phone: “Metal, cut to length. Ready today.” over a jobsite photo.'],
-  ['zoom-shapes', 'Pick a shape', 'The shape picker: square tube, rect tube, angle, channel, flat bar, plate, round tube, round bar and remnants, above the metal, shape, size and cut list steps.'],
-  ['zoom-cutlist', 'Type the cut list', 'A cut list typed as “4 @ 36” and “2 @ 8 ft”, totaling 6 pieces and 28 feet, with the stock status and an Add to cut list button.'],
-];
 ---
 <CaseFeature
-  title="Gunter Metals: a brand identity designed with AI in four days"
-  description="Gunter Metals is a metal fabrication shop in Middle Tennessee: metal cut to length, welding, commercial railings, gates, stairs and repairs. I designed its brand identity with Claude as my design partner, then built a storefront that lets customers price and order without calling Tim or Etta."
-  seoTitle="Gunter Metals: brand identity designed with AI"
-  metaDescription="I designed Gunter Metals' brand identity with Claude in four days, then built the Middle Tennessee shop a storefront where customers order metal from a phone."
+  title="Gunter Metals: from a contact form to a digital metal counter"
+  description="Gunter Metals is a metal fabrication shop in Middle Tennessee. It had a one-page website with a contact form. Now customers buy metal cut to length from their phones and see what is in stock, and requests for proposals go straight into Jobber. I designed the brand and built the storefront."
+  seoTitle="Gunter Metals: a digital metal counter"
+  metaDescription="Gunter Metals went from a one-page site and a contact form to a phone-first metal counter with live stock, and service requests that flow into Jobber."
   eyebrow="Gunter Metals"
   image={{ src: '/images/work/gunter-wordmark-hero.jpg', width: 1600, height: 911 }}
   published="2026-09-26"
   updated="2026-10-06"
   client={{ name: 'Gunter Metals', url: 'https://guntermetals.com/' }}
   facts={[
-    { label: 'Role', value: 'Brand, strategy, design and build' },
+    { label: 'Role', value: 'Brand, storefront and systems' },
+    { label: 'Phase one', value: 'Live at guntermetals.com' },
+    { label: 'Built on', value: 'Shopify, with Jobber for service requests' },
     { label: 'Brand identity', value: '4 days, designed with Claude' },
-    { label: 'Tools', value: 'Claude, Illustrator, Figma' },
-    { label: 'Status', value: 'Live at guntermetals.com' },
   ]}
   theme={{
     '--cs-accent': '#e0552c',
@@ -80,20 +89,78 @@ const phones = [
 
   <section class="cs-band cs-band--fade">
     <div class="cs-wide">
-      <p class="cs-label" data-reveal>The situation</p>
-      <p class="cs-statement" data-words>Like most trades businesses, Gunter Metals ran through its owners, Tim and Etta. Quotes, orders and questions all came to their phones.</p>
+      <p class="cs-label" data-reveal>Before</p>
+      <p class="cs-statement" data-words>Gunter Metals had a one-page website with a contact form.</p>
       <div class="cs-after">
-        <p data-reveal>The website did little more than list a number to call.</p>
-        <p data-reveal style="--i: 1">The shop needed a brand that looks like the work it does, and a storefront that works like a good counter clerk: customers figure out what they need, get a price and order, with AI doing real work behind it.</p>
+        <p data-reveal>There was no way to buy metal online, and service requests came in with little to go on. Orders, quotes and questions all ran through Tim and Etta's phones.</p>
+        <p data-reveal style="--i: 1">The shop needed a digital metal counter: somewhere customers could find the metal they need, see the price and whether it is in stock, and order it cut to length without a phone call.</p>
       </div>
     </div>
   </section>
 
   <section class="cs-band" style="padding-top: 0">
     <div class="cs-wide">
-      <p class="cs-label" data-reveal>The identity</p>
+      <p class="cs-label" data-reveal>Phase one</p>
+      <h2 class="cs-h2" data-reveal>What the shop can do now</h2>
+      <div class="cs-split" data-reveal>
+        <div>
+          <h3>Before</h3>
+          <ul>
+            {before.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+        <div>
+          <h3>After phase one</h3>
+          <ul>
+            {after.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+      </div>
+      <p class="cs-pull" data-reveal>Phase one came in <em>well above expectations</em>. The metal counter works, and Tim and Etta can run it themselves.</p>
+    </div>
+  </section>
+
+  <section class="cs-band cs-band--dark">
+    <div class="cs-wide">
+      <p class="cs-label" data-reveal>The metal counter</p>
+      <h2 class="cs-h2" data-reveal>A digital metal counter, built for phones</h2>
+      <p class="cs-intro" data-reveal>Live at <a href="https://guntermetals.com/">guntermetals.com</a>. Customers pick the metal, shape and size, see whether it is on the rack, and type a cut list the way they would say it at the counter.</p>
+      <div class="cs-flow">
+        <ol class="cs-flow__steps">
+          {flow.map(([title, body], i) => (
+            <li data-reveal style={`--i: ${i}`}>
+              <h3>{title}</h3>
+              <p>{body}</p>
+            </li>
+          ))}
+        </ol>
+        <div class="cs-phones">
+          {phones.map(([file, caption, alt], i) => (
+            <figure class="cs-phone" data-reveal style={`--i: ${i}`}>
+              <div><img src={`/images/work/gunter/${file}.jpg`} alt={alt} width="1170" height="1680" loading="lazy" /></div>
+              <figcaption>{caption}</figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+      <div class="cs-also">
+        <div data-reveal>
+          <h3>Requests for proposals go into Jobber</h3>
+          <p>Service and commercial requests flow straight into Jobber, so every request arrives in one place and nothing lives only in a text message.</p>
+        </div>
+        <div data-reveal style="--i: 1">
+          <h3>A catalog AI can read</h3>
+          <p>Product and pricing rules sit in plain, tested files, so the same logic serves the website, AI shopping assistants and future tools for contractors.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cs-band">
+    <div class="cs-wide">
+      <p class="cs-label" data-reveal>The brand</p>
       <h2 class="cs-h2" data-reveal>Four days, with Claude as a design partner</h2>
-      <p class="cs-intro" data-reveal>The brand identity was designed with AI in four days and a lot of iteration. I used Claude through every step I would normally run with a studio team.</p>
+      <p class="cs-intro" data-reveal>The shop also needed a brand that looks like the work it does. The brand identity was designed with AI in four days and a lot of iteration. I used Claude through every step I would normally run with a studio team.</p>
       <ol class="cs-steps">
         {steps.map(([title, body], i) => (
           <li data-reveal style={`--i: ${i}`}>
@@ -134,42 +201,6 @@ const phones = [
     </div>
   </section>
 
-  <section class="cs-band cs-band--dark">
-    <div class="cs-wide">
-      <p class="cs-label" data-reveal>The storefront</p>
-      <h2 class="cs-h2" data-reveal>A storefront that works like a good counter clerk</h2>
-      <p class="cs-intro" data-reveal>Live at <a href="https://guntermetals.com/">guntermetals.com</a>. At its center is a buying widget built for phones first, so a customer can go from “what do I need?” to an order without calling the shop.</p>
-      <div class="cs-flow">
-        <ol class="cs-flow__steps">
-          {flow.map(([title, body], i) => (
-            <li data-reveal style={`--i: ${i}`}>
-              <h3>{title}</h3>
-              <p>{body}</p>
-            </li>
-          ))}
-        </ol>
-        <div class="cs-phones">
-          {phones.map(([file, caption, alt], i) => (
-            <figure class="cs-phone" data-reveal style={`--i: ${i}`}>
-              <div><img src={`/images/work/gunter/${file}.jpg`} alt={alt} width="1170" height="1680" loading="lazy" /></div>
-              <figcaption>{caption}</figcaption>
-            </figure>
-          ))}
-        </div>
-      </div>
-      <div class="cs-also">
-        <div data-reveal>
-          <h3>One lead pipeline</h3>
-          <p>Service and commercial estimate requests land in a single queue, so nothing lives only in a text message.</p>
-        </div>
-        <div data-reveal style="--i: 1">
-          <h3>A catalog AI can read</h3>
-          <p>Product and pricing rules sit in plain, tested files, so the same logic serves the website, AI shopping assistants and future tools for contractors.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <section class="cs-band">
     <div class="cs-wide">
       <p class="cs-label" data-reveal>Who did what</p>
@@ -197,12 +228,29 @@ const phones = [
     </div>
   </section>
 
+  <section class="cs-band cs-band--dark">
+    <div class="cs-wide">
+      <p class="cs-label" data-reveal>What's next</p>
+      <h2 class="cs-h2" data-reveal>Phase two: sharper quotes and more metal sales</h2>
+      <div class="cs-also">
+        <div data-reveal>
+          <h3>Quote requests that capture the job</h3>
+          <p>More automation in the request flow, so customers can describe the work precisely and the shop gets what it needs to quote.</p>
+        </div>
+        <div data-reveal style="--i: 1">
+          <h3>Campaigns for metal sales</h3>
+          <p>Campaigns that bring buyers to the metal counter, so metal sales grow alongside fabrication work and the business has more than one source of income.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="cs-band cs-band--stock">
     <div class="cs-wide">
       <p class="cs-label" data-reveal>Why it matters for your business</p>
       <p class="cs-statement cs-statement--wide" data-words>The AI part only works because the business rules were written down first.</p>
       <div class="cs-after">
-        <p data-reveal>What the shop takes on, how a cut list gets checked and how work gets priced all became files every tool reads from.</p>
+        <p data-reveal>What the shop sells, what it costs, how a cut list gets checked and how a request reaches the shop all became files and systems every tool reads from.</p>
         <p data-reveal style="--i: 1">That's the same foundation the <a href="/kit/">free AI Foundation Kit</a> helps you build.</p>
       </div>
     </div>
