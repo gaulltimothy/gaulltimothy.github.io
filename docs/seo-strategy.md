@@ -1,6 +1,6 @@
 # SEO strategy for timothygaull.com
 
-Last updated: October 2026. Research and recommendations only. No site files were changed.
+Last updated: October 6, 2026. Section 9 lists which quick wins have been made on the site.
 
 **Read this first.** There was no keyword tool and no Search Console data. Every demand and competition figure here is an **estimate** built from public signals: Google autocomplete, Bing autocomplete, who shows up in search results, and what owners write in forums. None of it is real search volume. Section 10 says how to replace the estimates with real numbers.
 
@@ -186,7 +186,7 @@ Evidence:
 
 - **Name:** "Gaull & Co" on listings. "Timothy Gaull" as the person on the site and LinkedIn.
 - **Address:** "Nashville, TN" (city only, as a service-area business). The site's schema already does this.
-- **Phone and email:** the site shows neither today. Contact runs through `/intro-call/`. Most directories need a phone. **Tim to decide** on one business number (for example a Google Voice line) and use it everywhere, character for character.
+- **Phone and email:** (615) 933-9645 and tim@gaullco.com, shown in the site footer and schema. Use them on every listing, character for character. Intro calls still run through `/intro-call/`.
 - **One description sentence everywhere.** Use the same one-line description on the Business Profile, Bing Places, Apple Business Connect, LinkedIn, Clutch, `llms.txt` and the schema. AI engines and Google both match entities by repeated, consistent facts.
 - Keep a simple log (a spreadsheet) of every listing: URL, login and the exact NAP used.
 
@@ -541,7 +541,7 @@ A future session can repeat the autocomplete research. Request `https://suggestq
 - **Product names change.** "Claude for Small Business" and "Cowork" are Anthropic's names as of 2026 and may change. Never imply a partnership, certification or endorsement.
 - **Google Business Profile state is unknown** beyond "verified" (per the repo). Categories, reviews, photos and service areas weren't visible.
 - **Facts Tim must supply before some recommendations can ship:**
-  - ~~a business phone and/or email for NAP~~ Supplied: (615) 933-9645, tim@gaullco.com
+  - a business phone and email for NAP (done: (615) 933-9645 and tim@gaullco.com)
   - which towns he meets clients in person
   - price ranges or cost drivers (A5, B4)
   - whether Memphis in `areaServed` is intentional
