@@ -1,7 +1,34 @@
 ---
-import CaseStudy from '../../layouts/CaseStudy.astro';
+// Search targets (docs/seo-strategy.md): B1 brand identity with AI; B3 logo for metal fabrication; I2 AI for metal fabrication.
+import CaseFeature from '../../layouts/CaseFeature.astro';
+
+const steps = [
+  ['Research', 'A competitive map of regional shops and a mood board built from real steel: mill scale, galvanizing, powder coat.'],
+  ['Surface study', 'How bare, galvanized and powder-coated steel actually read on screen, so the brand colors come from the material instead of a trend.'],
+  ['Letterforms', 'Monogram and stencil studies, then a wordmark drawn to be manufactured. The bridges in the letters are sized to what a torch and the sheet can hold.'],
+  ['Iteration', 'Many rounds across Claude, Illustrator and Figma. AI widened the options and pressure-tested them. I made the calls.'],
+];
+
+const finishes = [
+  ['mill-steel', 'Mill steel'],
+  ['galvanized', 'Galvanized'],
+  ['powder-black', 'Powder black'],
+];
+
+const flow = [
+  ['The owners keep a spreadsheet', "What's on the rack and what it costs live in one spreadsheet the owners already know how to edit. Change a row and the site follows."],
+  ['Customers pick metal, shape and size', 'Steel, stainless or aluminum. Tube, angle, channel, flat bar, plate and more. Every size shows whether it is on the rack or has to be ordered in.'],
+  ['They type a cut list the way they say it', '“4 @ 36” and “2 @ 8 ft” turn into pieces and total length as they type, the way a good counter clerk would add it up.'],
+  ['They pick it up the same day', 'Stock on the rack is ready the same day. Anything else gets a call with a pickup date.'],
+];
+
+const phones = [
+  ['buy-start', 'Metal, cut to length', 'The Gunter Metals buying page on a phone: “Metal, cut to length. Ready today.” over a jobsite photo, with steel, stainless and aluminum to choose from.'],
+  ['buy-shapes', 'Pick a shape', 'The shape picker: square tube, rect tube, angle, channel, flat bar, plate, round tube, round bar and remnants.'],
+  ['buy-cutlist', 'Type the cut list', 'A cut list typed as “4 @ 36” and “2 @ 8 ft”, totaling 6 pieces and 28 feet, with the stock status and an Add to cut list button.'],
+];
 ---
-<CaseStudy
+<CaseFeature
   title="Gunter Metals: a brand identity designed with AI in four days"
   description="Gunter Metals is a metal fabrication shop in Middle Tennessee: metal cut to length, welding, commercial railings, gates, stairs and repairs. I designed its brand identity with Claude as my design partner, then built a storefront that lets customers price and order without the owner on the phone."
   seoTitle="Gunter Metals: brand identity designed with AI"
@@ -9,55 +36,152 @@ import CaseStudy from '../../layouts/CaseStudy.astro';
   eyebrow="Gunter Metals"
   image={{ src: '/images/work/gunter-wordmark-hero.jpg', width: 1600, height: 911 }}
   published="2026-09-26"
-  updated="2026-10-03"
+  updated="2026-10-06"
   client={{ name: 'Gunter Metals', url: 'https://guntermetals.com/' }}
   facts={[
     { label: 'Role', value: 'Brand, strategy, design and build' },
     { label: 'Brand identity', value: '4 days, designed with Claude' },
+    { label: 'Tools', value: 'Claude, Illustrator, Figma' },
     { label: 'Status', value: 'Live at guntermetals.com' },
   ]}
+  theme={{
+    '--cs-accent': '#e0552c',
+    '--cs-hero-bg': 'radial-gradient(70% 60% at 12% 0%, rgba(205,218,230,.13), transparent 65%), radial-gradient(130% 110% at 55% 35%, transparent 45%, rgba(0,0,0,.5)), repeating-linear-gradient(179deg, rgba(255,255,255,.022) 0 1px, transparent 1px 5px), linear-gradient(165deg, #363c43, #1c1f23 72%)',
+    '--cs-hero-ink': '#f1f3f4',
+    '--cs-hero-muted': '#a8b0b7',
+    '--cs-hero-line': 'rgba(255,255,255,.12)',
+    '--cs-hero-chip': 'rgba(16,18,21,.55)',
+    '--cs-dark': '#16191c',
+    '--cs-stock': '#e9e6df',
+  }}
+  next={{ href: '/work/alliancebernstein/', title: 'Taking 6,000 people off paper at a global asset manager' }}
 >
-  <figure class="figure">
-    <img src="/images/work/gunter-wordmark-hero.jpg" alt="The Gunter Metals LLC wordmark in dark steel on a pale background, with stencil bridges cut through the R and the A." width="1600" height="911" />
-    <figcaption>The wordmark. The gaps in the R and the A are stencil bridges, sized so the letters can be cut from a steel sheet with a torch.</figcaption>
-  </figure>
+  <!-- Signature moment. Draft: the static wordmark. Planned: the storefront's live torch cut, driven by scroll. -->
+  <section slot="signature" class="cs-band cs-band--stock">
+    <div class="cs-wide">
+      <p class="cs-label" data-reveal>The wordmark</p>
+      <figure class="cs-plate cs-plate--wide" data-reveal>
+        <div><img src="/images/work/gunter-wordmark-hero.jpg" alt="The Gunter Metals LLC wordmark in dark steel on a pale background, with stencil bridges cut through the R and the A." width="1600" height="911" /></div>
+        <figcaption>The gaps in the R and the A are stencil bridges, sized so the letters can be cut from a steel sheet with a torch.</figcaption>
+      </figure>
+    </div>
+  </section>
 
-  <h2>The situation</h2>
-  <p>Like most trades businesses, this one ran through the owner. Quotes, orders and questions all came to his phone, and the website did little more than list a number to call. He needed a brand that looked like the work he does, and a storefront that works like a good counter clerk: customers figure out what they need, get a price and order, with AI doing real work behind it.</p>
+  <section class="cs-band">
+    <div class="cs-wide">
+      <p class="cs-label" data-reveal>The situation</p>
+      <p class="cs-statement" data-words>Like most trades businesses, Gunter Metals ran through its owners. Quotes, orders and questions all came to their phones.</p>
+      <div class="cs-after">
+        <p data-reveal>The website did little more than list a number to call.</p>
+        <p data-reveal style="--i: 1">The shop needed a brand that looks like the work it does, and a storefront that works like a good counter clerk: customers figure out what they need, get a price and order, with AI doing real work behind it.</p>
+      </div>
+    </div>
+  </section>
 
-  <h2>Designing the identity with AI</h2>
-  <p>The brand took four days and a lot of iteration. I used Claude as a design partner through every step I would normally run with a studio team:</p>
-  <ul>
-    <li><strong>Research.</strong> A competitive map of regional shops and a mood board built from real steel: mill scale, galvanizing, powder coat.</li>
-    <li><strong>A surface study.</strong> How bare, galvanized and powder-coated steel actually read on screen, so the brand colors come from the material instead of a trend.</li>
-    <li><strong>Letterform research.</strong> Monogram and stencil studies, then a wordmark drawn to be manufactured. The bridges in the letters are sized to what a torch and the sheet can hold.</li>
-    <li><strong>Iteration at speed.</strong> Many rounds across Claude, Illustrator and Figma. AI widened the options and pressure-tested them; I made the calls.</li>
-  </ul>
-  <div class="finishes">
-    <figure>
-      <img src="/images/work/gunter-wordmark-mill-steel.svg" alt="Wordmark in mill steel finish" width="448" height="315" loading="lazy" />
-      <figcaption>Mill steel</figcaption>
-    </figure>
-    <figure>
-      <img src="/images/work/gunter-wordmark-galvanized.svg" alt="Wordmark in galvanized finish" width="448" height="315" loading="lazy" />
-      <figcaption>Galvanized</figcaption>
-    </figure>
-    <figure>
-      <img src="/images/work/gunter-wordmark-powder-black.svg" alt="Wordmark in black powder coat finish" width="448" height="315" loading="lazy" />
-      <figcaption>Powder black</figcaption>
-    </figure>
-  </div>
-  <p>AI didn't design the brand. It made it possible for one person to do a studio's worth of exploring in a week, and to spend the saved time on the decisions that matter.</p>
+  <section class="cs-band" style="padding-top: 0">
+    <div class="cs-wide">
+      <p class="cs-label" data-reveal>The identity</p>
+      <h2 class="cs-h2" data-reveal>Four days, with Claude as a design partner</h2>
+      <p class="cs-intro" data-reveal>The brand identity was designed with AI in four days and a lot of iteration. I used Claude through every step I would normally run with a studio team.</p>
+      <ol class="cs-steps">
+        {steps.map(([title, body], i) => (
+          <li data-reveal style={`--i: ${i}`}>
+            <span class="cs-steps__n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{title}</h3>
+            <p>{body}</p>
+          </li>
+        ))}
+      </ol>
+      <p class="cs-pull" data-reveal>AI didn't design the brand. It let one person do <em>a studio's worth of exploring</em> in four days, and spend the saved time on the decisions that matter.</p>
+    </div>
+  </section>
 
-  <h2>Building the storefront</h2>
-  <p>The storefront is live at <a href="https://guntermetals.com/">guntermetals.com</a>.</p>
-  <ul>
-    <li><strong>An opening that shows the craft.</strong> The storefront opens with the wordmark being cut from a steel sheet, then gets out of the way so customers can shop.</li>
-    <li><strong>Ordering in shop language.</strong> A phone-first flow where a customer picks the metal, the shape and the size, then types a cut list the way they'd say it at the counter, with live totals.</li>
-    <li><strong>One lead pipeline.</strong> Service and commercial estimate requests land in a single queue, so nothing lives only in a text message.</li>
-    <li><strong>A catalog AI can read.</strong> Product and pricing rules sit in plain, tested files, so the same logic serves the website, AI shopping assistants and future tools for contractors.</li>
-  </ul>
+  <section class="cs-band cs-band--stock">
+    <div class="cs-wide">
+      <p class="cs-label" data-reveal>The finishes</p>
+      <h2 class="cs-h2" data-reveal>Colors from the material, not a trend</h2>
+      <div class="cs-plates">
+        {finishes.map(([file, name], i) => (
+          <figure class="cs-plate" data-reveal style={`--i: ${i}; --cs-plate-bg: #f4f2ee`}>
+            <div><img src={`/images/work/gunter-wordmark-${file}.svg`} alt={`The wordmark in a ${name.toLowerCase()} finish`} width="448" height="315" loading="lazy" /></div>
+            <figcaption>{name}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
 
-  <h2>Why it matters for your business</h2>
-  <p>The AI part only works because the business rules were written down first. What the shop takes on, how a cut list gets checked, and how work gets priced all became files every tool reads from. That's the same foundation the <a href="/kit/">free AI Foundation Kit</a> helps you build.</p>
-</CaseStudy>
+  <section class="cs-band cs-band--dark">
+    <div class="cs-wide">
+      <p class="cs-label" data-reveal>The storefront</p>
+      <h2 class="cs-h2" data-reveal>A storefront that works like a good counter clerk</h2>
+      <p class="cs-intro" data-reveal>Live at <a href="https://guntermetals.com/">guntermetals.com</a>. At its center is a buying widget built for phones first, so a customer can go from “what do I need?” to an order without calling the shop.</p>
+      <div class="cs-flow">
+        <ol class="cs-flow__steps">
+          {flow.map(([title, body], i) => (
+            <li data-reveal style={`--i: ${i}`}>
+              <h3>{title}</h3>
+              <p>{body}</p>
+            </li>
+          ))}
+        </ol>
+        <div class="cs-phones">
+          {phones.map(([file, caption, alt], i) => (
+            <figure class="cs-phone" data-reveal style={`--i: ${i}`}>
+              <div><img src={`/images/work/gunter/${file}.jpg`} alt={alt} width="780" height="1688" loading="lazy" /></div>
+              <figcaption>{caption}</figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+      <div class="cs-also">
+        <div data-reveal>
+          <h3>One lead pipeline</h3>
+          <p>Service and commercial estimate requests land in a single queue, so nothing lives only in a text message.</p>
+        </div>
+        <div data-reveal style="--i: 1">
+          <h3>A catalog AI can read</h3>
+          <p>Product and pricing rules sit in plain, tested files, so the same logic serves the website, AI shopping assistants and future tools for contractors.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cs-band">
+    <div class="cs-wide">
+      <p class="cs-label" data-reveal>Who did what</p>
+      <h2 class="cs-h2" data-reveal>AI widened the options. I made the calls.</h2>
+      <div class="cs-split" data-reveal>
+        <div>
+          <h3>What AI did</h3>
+          <ul>
+            <li>Mapped regional competitors and built mood boards from real steel</li>
+            <li>Studied how bare, galvanized and powder-coated steel read on screen</li>
+            <li>Generated monogram and stencil studies, round after round</li>
+            <li>Pressure-tested every direction</li>
+          </ul>
+        </div>
+        <div>
+          <h3>What I decided</h3>
+          <ul>
+            <li>A stencil wordmark, with bridges sized to what a torch and the sheet can hold</li>
+            <li>Brand colors taken from the material</li>
+            <li>An ordering flow in shop language: metal, shape, size, cut list</li>
+            <li>Writing the business rules down before AI touched pricing</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cs-band cs-band--stock">
+    <div class="cs-wide">
+      <p class="cs-label" data-reveal>Why it matters for your business</p>
+      <p class="cs-statement cs-statement--wide" data-words>The AI part only works because the business rules were written down first.</p>
+      <div class="cs-after">
+        <p data-reveal>What the shop takes on, how a cut list gets checked and how work gets priced all became files every tool reads from.</p>
+        <p data-reveal style="--i: 1">That's the same foundation the <a href="/kit/">free AI Foundation Kit</a> helps you build.</p>
+      </div>
+    </div>
+  </section>
+</CaseFeature>
