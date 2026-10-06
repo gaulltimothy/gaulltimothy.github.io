@@ -18,7 +18,7 @@ His approach: most businesses don't have an AI problem, they have a systems prob
 
 ## Case studies
 
-- [Gunter Metals](https://timothygaull.com/work/gunter-metals/): a Middle Tennessee metal fabrication shop that went from a one-page website and contact form to a phone-first metal counter with dynamic pricing and inventory kept in a spreadsheet, requests for proposals that flow into Jobber, and a brand identity designed with AI in four days.
+- [Gunter Metals](https://timothygaull.com/work/gunter-metals/): a Middle Tennessee metal fabrication shop that went from a one-page website and contact form to a phone-first metal counter with dynamic pricing and inventory kept in a spreadsheet, requests for proposals that flow into Jobber, the shop's CRM and quoting tool, and a brand identity designed with AI in four days.
 - [Pedro Pet Pals](https://timothygaull.com/work/pedro-pet-pals/): volunteer project for an animal rescue; adoptable animals published live from shelter software, a volunteer photo tool and approved onboarding.
 - [AllianceBernstein](https://timothygaull.com/work/alliancebernstein/): a firmwide paperless program for 3,500 employees and 2,500 contractors, with an estimated $10M a year in savings.
 - [Included](https://timothygaull.com/work/included/): a tokenized design system for an AI people-analytics platform; development cycles about 30% faster.
