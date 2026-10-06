@@ -9,6 +9,14 @@ const steps = [
   ['Iteration', 'Many rounds across Claude, Illustrator and Figma. AI widened the options and pressure-tested them. I made the calls.'],
 ];
 
+// From the ShapeExploration page of the Gunter Metals Figma file.
+const studies = [
+  ['study-up.webp', 1342, 945, 'Scroll top · looking up', 'The 3D wordmark seen from slightly below, its extruded edges showing above the letters.'],
+  ['study-straight.webp', 1342, 945, 'Mid-scroll · straight on', 'The 3D wordmark seen straight on.'],
+  ['study-down.webp', 1342, 945, 'Scroll bottom · looking down', 'The 3D wordmark seen from slightly above, its extruded edges showing below the letters.'],
+  ['bridge-study.svg', 136, 136, 'Bridge study · G monogram', 'A round G monogram with a stencil bridge.'],
+];
+
 const finishes = [
   ['mill-steel', 'Mill steel'],
   ['galvanized', 'Galvanized'],
@@ -92,6 +100,18 @@ const phones = [
           </li>
         ))}
       </ol>
+      <div class="cs-studies">
+        <p class="cs-label" data-reveal>Motion studies, from the Figma file</p>
+        <div class="cs-plates cs-plates--4">
+          {studies.map(([file, w, h, name, alt], i) => (
+            <figure class="cs-plate" data-reveal style={`--i: ${i}`}>
+              <div><img src={`/images/work/gunter/${file}`} alt={alt} width={w} height={h} loading="lazy" /></div>
+              <figcaption>{name}</figcaption>
+            </figure>
+          ))}
+        </div>
+        <p class="cs-note" data-reveal>Early studies for how the wordmark tilts as the page scrolls, drawn before the stencil bridges were added.</p>
+      </div>
       <p class="cs-pull" data-reveal>AI didn't design the brand. It let one person do <em>a studio's worth of exploring</em> in four days, and spend the saved time on the decisions that matter.</p>
     </div>
   </section>
