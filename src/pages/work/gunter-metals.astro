@@ -25,21 +25,21 @@ const finishes = [
 ];
 
 const flow = [
-  ['The owners keep a spreadsheet', "What's on the rack and what it costs live in one spreadsheet the owners already know how to edit. Change a row and the site follows."],
+  ['Tim and Etta keep a spreadsheet', "What's on the rack and what it costs live in one spreadsheet they already know how to edit. Change a row and the site follows."],
   ['Customers pick metal, shape and size', 'Steel, stainless or aluminum. Tube, angle, channel, flat bar, plate and more. Every size shows whether it is on the rack or has to be ordered in.'],
   ['They type a cut list the way they say it', '“4 @ 36” and “2 @ 8 ft” turn into pieces and total length as they type, the way a good counter clerk would add it up.'],
   ['They pick it up the same day', 'Stock on the rack is ready the same day. Anything else gets a call with a pickup date.'],
 ];
 
 const phones = [
-  ['buy-start', 'Metal, cut to length', 'The Gunter Metals buying page on a phone: “Metal, cut to length. Ready today.” over a jobsite photo, with steel, stainless and aluminum to choose from.'],
-  ['buy-shapes', 'Pick a shape', 'The shape picker: square tube, rect tube, angle, channel, flat bar, plate, round tube, round bar and remnants.'],
-  ['buy-cutlist', 'Type the cut list', 'A cut list typed as “4 @ 36” and “2 @ 8 ft”, totaling 6 pieces and 28 feet, with the stock status and an Add to cut list button.'],
+  ['zoom-start', 'Metal, cut to length', 'The top of the Gunter Metals buying page on a phone: “Metal, cut to length. Ready today.” over a jobsite photo.'],
+  ['zoom-shapes', 'Pick a shape', 'The shape picker: square tube, rect tube, angle, channel, flat bar, plate, round tube, round bar and remnants, above the metal, shape, size and cut list steps.'],
+  ['zoom-cutlist', 'Type the cut list', 'A cut list typed as “4 @ 36” and “2 @ 8 ft”, totaling 6 pieces and 28 feet, with the stock status and an Add to cut list button.'],
 ];
 ---
 <CaseFeature
   title="Gunter Metals: a brand identity designed with AI in four days"
-  description="Gunter Metals is a metal fabrication shop in Middle Tennessee: metal cut to length, welding, commercial railings, gates, stairs and repairs. I designed its brand identity with Claude as my design partner, then built a storefront that lets customers price and order without the owner on the phone."
+  description="Gunter Metals is a metal fabrication shop in Middle Tennessee: metal cut to length, welding, commercial railings, gates, stairs and repairs. I designed its brand identity with Claude as my design partner, then built a storefront that lets customers price and order without calling Tim or Etta."
   seoTitle="Gunter Metals: brand identity designed with AI"
   metaDescription="I designed Gunter Metals' brand identity with Claude in four days, then built the Middle Tennessee shop a storefront where customers order metal from a phone."
   eyebrow="Gunter Metals"
@@ -81,7 +81,7 @@ const phones = [
   <section class="cs-band cs-band--fade">
     <div class="cs-wide">
       <p class="cs-label" data-reveal>The situation</p>
-      <p class="cs-statement" data-words>Like most trades businesses, Gunter Metals ran through its owners. Quotes, orders and questions all came to their phones.</p>
+      <p class="cs-statement" data-words>Like most trades businesses, Gunter Metals ran through its owners, Tim and Etta. Quotes, orders and questions all came to their phones.</p>
       <div class="cs-after">
         <p data-reveal>The website did little more than list a number to call.</p>
         <p data-reveal style="--i: 1">The shop needed a brand that looks like the work it does, and a storefront that works like a good counter clerk: customers figure out what they need, get a price and order, with AI doing real work behind it.</p>
@@ -151,7 +151,7 @@ const phones = [
         <div class="cs-phones">
           {phones.map(([file, caption, alt], i) => (
             <figure class="cs-phone" data-reveal style={`--i: ${i}`}>
-              <div><img src={`/images/work/gunter/${file}.jpg`} alt={alt} width="780" height="1688" loading="lazy" /></div>
+              <div><img src={`/images/work/gunter/${file}.jpg`} alt={alt} width="1170" height="1680" loading="lazy" /></div>
               <figcaption>{caption}</figcaption>
             </figure>
           ))}

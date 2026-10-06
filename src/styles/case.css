@@ -355,19 +355,16 @@
   text-transform: none;
 }
 
-/* Product flow: steps beside phone screens */
+/* Product flow: numbered steps in a row, then the screens large beneath them */
 
 .cs-flow {
-  display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-  gap: clamp(40px, 7vw, 120px);
-  align-items: start;
   margin-top: clamp(48px, 7vw, 96px);
 }
 
 .cs-flow__steps {
-  position: sticky;
-  top: calc(var(--header-h) + 32px);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0 clamp(16px, 2.4vw, 32px);
   margin: 0;
   padding: 0;
   max-width: none;
@@ -377,44 +374,43 @@
 
 .cs-flow__steps li {
   counter-increment: flow;
-  display: grid;
-  grid-template-columns: 3.2rem 1fr;
-  gap: 4px 12px;
   margin: 0;
-  padding: 22px 0;
+  padding: 22px 0 0;
   border-top: 1px solid var(--cs-dark-line);
 }
 
 .cs-flow__steps li::before {
   content: counter(flow, decimal-leading-zero);
-  grid-row: span 2;
-  font: 500 0.8rem/1.9 var(--mono);
+  display: block;
+  margin-bottom: 14px;
+  font: 500 0.8rem/1 var(--mono);
   color: var(--cs-accent);
 }
 
 .cs-flow__steps h3 {
-  margin: 0;
-  font-size: 1.25rem;
+  margin: 0 0 8px;
+  font-size: 1.2rem;
 }
 
 .cs-flow__steps p {
-  grid-column: 2;
   margin: 0;
+  font-size: 0.98rem;
   color: var(--cs-dark-muted);
 }
 
 .cs-phones {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(12px, 2vw, 28px);
+  gap: clamp(16px, 2.6vw, 40px);
+  margin-top: clamp(48px, 7vw, 96px);
 }
 
 .cs-phones > :nth-child(2) {
-  margin-top: 18%;
+  margin-top: 8%;
 }
 
 .cs-phones > :nth-child(3) {
-  margin-top: 36%;
+  margin-top: 16%;
 }
 
 .cs-phone {
@@ -422,9 +418,10 @@
 }
 
 .cs-phone > div {
-  aspect-ratio: 390 / 844;
+  /* Screens are shown as 390 × 560 crops of the phone, zoomed in on the widget. */
+  aspect-ratio: 390 / 560;
   padding: 7px;
-  border-radius: clamp(26px, 3.4vw, 46px);
+  border-radius: clamp(22px, 2.8vw, 38px);
   background: linear-gradient(150deg, #454b52, #101214 60%);
   box-shadow: 0 50px 90px -40px rgba(0, 0, 0, 0.75), inset 0 0 0 1px rgba(255, 255, 255, 0.09);
 }
@@ -434,12 +431,12 @@
   height: 100%;
   object-fit: cover;
   object-position: top;
-  border-radius: clamp(20px, 2.8vw, 39px);
+  border-radius: clamp(16px, 2.2vw, 31px);
 }
 
 .cs-phone figcaption {
-  margin-top: 14px;
-  font: 500 0.7rem/1.4 var(--mono);
+  margin-top: 16px;
+  font: 500 0.72rem/1.4 var(--mono);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--cs-dark-muted);
@@ -597,12 +594,9 @@
     border-top: 1px solid var(--rule);
   }
 
-  .cs-flow {
-    grid-template-columns: 1fr;
-  }
-
   .cs-flow__steps {
-    position: static;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px 24px;
   }
 }
 
@@ -623,12 +617,34 @@
     grid-template-columns: 1fr;
   }
 
+  /* Screens become a swipe row, each nearly the width of the phone it is viewed on. */
   .cs-phones {
-    gap: 8px;
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 78%;
+    gap: 14px;
+    margin-inline: -16px;
+    padding: 0 16px 8px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 16px;
+    overscroll-behavior-x: contain;
+  }
+
+  .cs-phones > * {
+    scroll-snap-align: start;
+  }
+
+  .cs-phones > :nth-child(n) {
+    margin-top: 0;
   }
 }
 
 @media (max-width: 560px) {
+  .cs-flow__steps {
+    grid-template-columns: 1fr;
+  }
+
   .cs-steps {
     grid-template-columns: 1fr;
   }
