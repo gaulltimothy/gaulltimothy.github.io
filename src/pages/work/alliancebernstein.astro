@@ -1,40 +1,303 @@
 ---
-import CaseStudy from '../../layouts/CaseStudy.astro';
+// Search targets (docs/seo-strategy.md): F4 change management for technology adoption, as in
+// "how to get people to adopt new technology". Supporting: AI change management consultant,
+// why AI projects fail. Facts are from Tim's résumé and the AB Paperless app source (v1.5.1).
+import CaseFeature from '../../layouts/CaseFeature.astro';
+import '../../styles/ab.css';
+
+// The app's home screen, tile by tile, in its own 1024 × 768 coordinates: x, y, width, height,
+// the tile colour, and how much of the tile that colour fills.
+const sheets = [
+  [38, 118, 223, 270, '#b21dac', '100%'],
+  [281, 159, 230, 161, '#6987b9', '41.3%'],
+  [518, 159, 230, 161, '#fcba17', '41.3%'],
+  [755, 159, 230, 161, '#f05050', '41.3%'],
+  [38, 406, 223, 250, '#4fbeae', '100%'],
+  [281, 327, 230, 161, '#50beaf', '41.3%'],
+  [518, 327, 230, 161, '#722c85', '41.3%'],
+  [755, 327, 230, 161, '#9adadb', '41.3%'],
+  [281, 495, 230, 161, '#6987b9', '41.3%'],
+];
+
+const steps = [
+  ['Study the real work', 'Before anyone chose tools, I studied how teams actually handled documents, so the new workflows fit the work instead of the org chart.'],
+  ['Design the workflows', 'Digital ways to do the same jobs people already did: keep files, share them, mark them up, run a meeting, take notes, call a colleague.'],
+  ['Teach the job, not the tool', 'Training was named for the task, like “Annotate” or “Run meetings”, and then showed which app does it, in a short video and a step-by-step walkthrough.'],
+  ['Keep help one tap away', 'Email, call and IT Product Central sat at the bottom of every screen, so nobody got stuck on their own.'],
+];
+
+const clips = [
+  ['paperless-pingid', 'Set up PingID sign-in', 'A walkthrough on an iPhone: the PingID app is installed from the AB folder, its terms are accepted, and it asks for location and notification access.'],
+  ['paperless-onenote', 'Get started with OneNote', 'A walkthrough on an iPad: OneNote opens, sign-in is approved with PingID, and the first notebook appears with “Welcome to OneNote” handwritten on the page.'],
+  ['paperless-onedrive', 'Open your files in OneDrive', 'A walkthrough on an iPad: OneDrive opens, PingID asks for Touch ID, and the sign-in shows as authenticated.'],
+];
+
+const tasks = [
+  ['Work with personal files', '#6987b9'],
+  ['Work with team files', '#fcba17'],
+  ['Annotate', '#f05050'],
+  ['Run meetings', '#50beaf'],
+  ['Take notes', '#722c85'],
+  ['Chat with colleagues', '#9adadb'],
+  ['Make a call', '#6987b9'],
+];
+
+const guides = ['PingID', 'OneDrive', 'SharePoint', 'OneNote', 'Office apps', 'Symphony', 'Jabber'];
+
+const art = [
+  ['product-central-pingid', 900, 'PingID', 'Line icons for PingID on white: a phone, a tablet, a fingerprint tap and arrows between devices.'],
+  ['product-central-collaboration', 800, 'Collaboration tools', 'A purple field of small tool icons, with one row lit up in green, teal and blue.'],
+  ['product-central-zoom', 900, 'Zoom', 'White line icons for Zoom on AB blue: a play button, a globe, a tablet and a phone.'],
+];
 ---
-<CaseStudy
-  title="Taking 6,000 people off paper at a global asset manager"
-  description="AllianceBernstein ran on paper: printing, filing and routing documents across offices worldwide. I led the program that moved the firm onto digital workflows, and the change work that made the new habits stick."
-  seoTitle="AllianceBernstein: 6,000 people off paper"
+<CaseFeature
+  title="AllianceBernstein: 6,000 people off paper"
+  description="AllianceBernstein, a global asset manager, ran on printing, filing and routing paper. I led the program that moved 3,500 employees and 2,500 contractors onto iPads and digital workflows, and designed and built the app that taught them how."
   metaDescription="I led AllianceBernstein's firmwide paperless program: 3,500 employees and 2,500 contractors moved onto digital workflows, saving an estimated $10M a year."
-  eyebrow="AllianceBernstein"
+  eyebrow="AllianceBernstein · asset management"
+  image={{ src: '/images/work/ab/paperless-share.jpg', width: 1200, height: 630 }}
   published="2026-09-26"
-  client={{ name: 'AllianceBernstein' }}
+  updated="2026-10-07"
+  client={{ name: 'AllianceBernstein', url: 'https://www.alliancebernstein.com/' }}
   facts={[
     { label: 'Role', value: 'AVP, User Experience Lead' },
     { label: 'Scale', value: '3,500 employees and 2,500 contractors' },
     { label: 'Result', value: 'An estimated $10M a year in savings' },
     { label: 'Years', value: '2017 to 2021' },
   ]}
+  theme={{
+    '--cs-accent': '#1b6fa0',
+    '--cs-hero-bg': 'radial-gradient(120% 90% at 85% 0%, rgba(54,164,218,.10), transparent 60%), repeating-linear-gradient(0deg, rgba(20,20,20,.018) 0 1px, transparent 1px 4px), #f4f1ea',
+    '--cs-hero-ink': '#16191c',
+    '--cs-hero-muted': '#5d5a55',
+    '--cs-hero-line': 'rgba(22,25,28,.12)',
+    '--cs-hero-chip': 'rgba(255,255,255,.6)',
+    '--cs-name-size': 'clamp(2.2rem, 8.2vw, 8.4rem)',
+    '--cs-dark': '#12161b',
+    '--cs-stock': '#ebe7de',
+    '--ab-paper': '#f4f1ea',
+  }}
+  next={{ href: '/work/alliancebernstein-institutional/', title: 'Mapping a 20-year sale, and the CRM advisors skipped' }}
 >
-  <h2>The situation</h2>
-  <p>Paper was slow, it was expensive, and in a regulated business it was a compliance risk. Buying document software was the easy part. The hard part was changing how thousands of people did their daily work, across teams that each had their own way of handling documents.</p>
+  <!-- Signature moment: a pile of printouts sorts itself into the AB Paperless home screen. -->
+  <section slot="signature" id="ab-paper" class="ab-paper">
+    <div class="ab-paper__pin">
+      <div class="ab-paper__stage">
+        <div class="ab-device">
+          <span class="ab-paper__bezel" aria-hidden="true"></span>
+          <div class="ab-screen">
+            <span class="ab-paper__ground" aria-hidden="true"></span>
+            {sheets.map(([x, y, w, h, c, b]) => (
+              <span class="ab-sheet" aria-hidden="true" style={`--x: ${x}; --y: ${y}; --w: ${w}; --h: ${h}; --c: ${c}; --b: ${b}`}>
+                <b class="ab-sheet__block"></b>
+                <i class="ab-sheet__paper"></i>
+              </span>
+            ))}
+            <img class="ab-screen__shot" src="/images/work/ab/paperless-home.jpg" alt="The AB Paperless iPad app home screen: “Setting up your device” in purple, a “Why Paperless” video, and seven tiles under “Learn to work digitally”: work with personal files, work with team files, annotate, run meetings, take notes, chat with colleagues and making a call." width="2048" height="1536" />
+          </div>
+        </div>
+      </div>
+      <p class="ab-paper__caption">
+        <span class="ab-paper__before">Printed, filed and routed by hand</span>
+        <span class="ab-paper__after">AB Paperless, the iPad app that taught people to work digitally</span>
+      </p>
+    </div>
+  </section>
 
-  <h2>What I did</h2>
-  <ul>
-    <li>Led strategy and cross-functional delivery of the firmwide paperless initiative.</li>
-    <li>Researched how teams actually handled documents before anyone chose tools, so the new workflows fit the real work instead of the org chart.</li>
-    <li>Designed the digital workflows along with the training and change plan, then brought 3,500 employees and 2,500 contractors onto them.</li>
-    <li>Built a shared design system with the firm's developer and UX guilds, so new internal tools looked and behaved consistently from the start.</li>
-  </ul>
+  <section class="cs-band cs-band--fade">
+    <div class="cs-wide">
+      <p class="cs-label" data-reveal>Before</p>
+      <p class="cs-statement" data-words>Thousands of people did their daily work on paper.</p>
+      <div class="cs-after">
+        <p data-reveal>Documents were printed, filed and routed by hand across offices worldwide. It was slow and expensive, and in a regulated business, paper is a compliance risk.</p>
+        <p data-reveal style="--i: 1">Buying document software was the easy part. The hard part was changing how thousands of people did their work, across teams that each handled documents their own way.</p>
+      </div>
+    </div>
+  </section>
 
-  <h2>What changed</h2>
-  <ul>
-    <li>An estimated $10M a year in savings.</li>
-    <li>The training approach grew into digital training tools later used by more than 5,500 employees worldwide.</li>
-    <li>In a later role as AVP of Business Innovation Strategy, I led the Salesforce redesign for institutional advisors, including a mobile app for their daily workflows.</li>
-  </ul>
+  <section class="cs-band" style="padding-top: 0">
+    <div class="cs-wide">
+      <p class="cs-label" data-reveal>The approach</p>
+      <h2 class="cs-h2" data-reveal>How do you get people to adopt new technology?</h2>
+      <p class="cs-intro" data-reveal>Start with the work, not the software. Change management for a technology rollout comes down to four habits, and the paperless program used all of them.</p>
+      <ol class="cs-steps">
+        {steps.map(([title, body], i) => (
+          <li data-reveal style={`--i: ${i}`}>
+            <span class="cs-steps__n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{title}</h3>
+            <p>{body}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
 
-  <h2>Why it matters for your business</h2>
-  <blockquote>The software was the easy part. Adoption was the hard part.</blockquote>
-  <p>AI works the same way. Tools don't change a business; new habits do. Every AI rollout I run now starts where this one did: with how the work really happens, and with the people who do it.</p>
-</CaseStudy>
+  <section class="cs-band cs-band--dark">
+    <div class="cs-wide">
+      <p class="cs-label" data-reveal>AB Paperless</p>
+      <h2 class="cs-h2" data-reveal>An app that teaches the job, not the software</h2>
+      <p class="cs-intro" data-reveal>I designed and built AB Paperless, an iPad app for everyone setting up a new iPad. It walked people through setting up, then taught each task with a short video and an animated walkthrough. It shipped and kept improving through version 1.5.</p>
+      <div class="ab-clips">
+        {clips.map(([file, caption, label], i) => (
+          <figure class="ab-clip" data-reveal style={`--i: ${i}`}>
+            <video src={`/images/work/ab/${file}.mp4`} poster={`/images/work/ab/${file}.jpg`} width="1200" height="750" muted loop playsinline preload="none" aria-label={label} data-autoplay></video>
+            <figcaption>{caption}</figcaption>
+          </figure>
+        ))}
+      </div>
+      <div class="ab-lists" data-reveal>
+        <div>
+          <h3>Learn to work digitally</h3>
+          <ul>
+            {tasks.map(([task, c]) => <li><i style={`--c: ${c}`} aria-hidden="true"></i>{task}</li>)}
+          </ul>
+        </div>
+        <div>
+          <h3>Set up your device</h3>
+          <ul>
+            {guides.map((guide) => <li>{guide}</li>)}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cs-band cs-band--stock">
+    <div class="cs-wide">
+      <p class="cs-label" data-reveal>IT Product Central</p>
+      <h2 class="cs-h2" data-reveal>Every tool, its guide and its training in one place</h2>
+      <p class="cs-intro" data-reveal>The app's last button opened IT Product Central, an intranet site I designed and built on WordPress. Each product had its own page, its guides and training sessions people could sign up for, and it was built on a shared design system I made with the firm's developer and UX guilds, so new internal tools looked and behaved the same from the start.</p>
+      <div class="cs-plates ab-art">
+        {art.map(([file, h, name, alt], i) => (
+          <figure class="cs-plate cs-plate--wide" data-reveal style={`--i: ${i}`}>
+            <div><img src={`/images/work/ab/${file}.jpg`} alt={alt} width="1600" height={h} loading="lazy" /></div>
+            <figcaption>Product page art · {name}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="cs-band">
+    <div class="cs-wide">
+      <p class="cs-label" data-reveal>What changed</p>
+      <h2 class="cs-h2" data-reveal>Paper out, new habits in</h2>
+      <dl class="ab-stats" data-reveal>
+        <div>
+          <dt>6,000</dt>
+          <dd>people moved onto digital workflows: 3,500 employees and 2,500 contractors</dd>
+        </div>
+        <div>
+          <dt>~$10M</dt>
+          <dd>a year in estimated savings</dd>
+        </div>
+        <div>
+          <dt>5,500+</dt>
+          <dd>employees worldwide later used the digital training tools that grew out of this approach</dd>
+        </div>
+      </dl>
+      <p class="cs-pull" data-reveal>The software was the easy part. <em>Adoption was the hard part.</em></p>
+    </div>
+  </section>
+
+  <section class="cs-band cs-band--stock">
+    <div class="cs-wide">
+      <p class="cs-label" data-reveal>Why it matters for your business</p>
+      <p class="cs-statement cs-statement--wide" style="text-wrap: balance" data-words>Tools don't change a business. New habits do.</p>
+      <div class="cs-after">
+        <p data-reveal>AI works the same way. Every AI rollout I run now starts where this one did: with how the work really happens, and with the people who do it. The <a href="/kit/">free AI Foundation Kit</a> starts there too.</p>
+        <p data-reveal style="--i: 1">Later at AllianceBernstein I did the same for institutional sales: <a href="/work/alliancebernstein-institutional/">mapping the sale and redesigning the CRM around how advisors actually work</a>.</p>
+      </div>
+    </div>
+  </section>
+</CaseFeature>
+
+<script>
+  // The signature: printouts fly into the app's tiles as the visitor scrolls, the iPad appears
+  // around them, and the real screenshot settles in. Reduced motion keeps the finished screen.
+  const section = document.getElementById('ab-paper');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (section && !reduce) {
+    const pin = section.querySelector<HTMLElement>('.ab-paper__pin')!;
+    const screen = section.querySelector<HTMLElement>('.ab-screen')!;
+    const shot = section.querySelector<HTMLElement>('.ab-screen__shot')!;
+    const sheets = [...section.querySelectorAll<HTMLElement>('.ab-sheet')];
+    // Where each sheet sits in the pile: offset from the centre (as a share of the screen) and tilt.
+    const pile = [
+      [-0.05, 0.03, -8], [0.09, -0.04, 7], [-0.13, 0.05, 12], [0.03, 0.08, -4], [0.14, 0.03, 10],
+      [-0.03, -0.06, -13], [0.07, 0.01, 3], [-0.1, -0.02, 8], [0.01, 0.04, -2],
+    ];
+    const clamp = (v: number) => Math.min(1, Math.max(0, v));
+    const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
+    const ramp = (p: number, a: number, b: number) => clamp((p - a) / (b - a));
+    let start: { dx: number; dy: number; r: number; sx: number; sy: number }[] = [];
+    let stickyTop = 0;
+
+    const measure = () => {
+      stickyTop = parseFloat(getComputedStyle(pin).top) || 0;
+      const W = screen.clientWidth;
+      const H = screen.clientHeight;
+      const pw = Math.min(W * 0.29, (H * 0.86) / 1.294);
+      const ph = pw * 1.294;
+      start = sheets.map((el, i) => {
+        const tw = el.offsetWidth;
+        const th = el.offsetHeight;
+        const [ox, oy, r] = pile[i % pile.length];
+        return {
+          dx: W * (0.5 + ox) - (el.offsetLeft + tw / 2),
+          dy: H * (0.5 + oy) - (el.offsetTop + th / 2),
+          r,
+          sx: pw / tw,
+          sy: ph / th,
+        };
+      });
+    };
+
+    let queued = false;
+    const paint = () => {
+      queued = false;
+      // 0 when the pin first sticks under the header, 1 when it lets go.
+      const travel = section.offsetHeight - pin.offsetHeight;
+      const p = clamp((stickyTop - section.getBoundingClientRect().top) / Math.max(1, travel));
+      sheets.forEach((el, i) => {
+        const s = start[i];
+        const e = ease(ramp(p, 0.06 + i * 0.05, 0.4 + i * 0.05));
+        const k = 1 - e;
+        el.style.transform = `translate(${s.dx * k}px, ${s.dy * k}px) rotate(${s.r * k}deg) scale(${s.sx + (1 - s.sx) * e}, ${s.sy + (1 - s.sy) * e})`;
+        (el.lastElementChild as HTMLElement).style.opacity = String(1 - ramp(e, 0.55, 1));
+        (el.firstElementChild as HTMLElement).style.opacity = String(ramp(e, 0.3, 0.95));
+      });
+      section.style.setProperty('--frame', String(ease(ramp(p, 0.4, 0.72))));
+      shot.style.opacity = String(ramp(p, 0.8, 0.92));
+      section.classList.toggle('is-done', p > 0.8);
+    };
+    const onScroll = () => {
+      if (!queued) {
+        queued = true;
+        requestAnimationFrame(paint);
+      }
+    };
+
+    section.classList.add('is-live');
+    measure();
+    paint();
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', () => {
+      measure();
+      onScroll();
+    });
+  }
+
+  // Walkthrough clips play only while on screen, and never when motion is reduced.
+  if (!reduce) {
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        const v = e.target as HTMLVideoElement;
+        if (e.isIntersecting) v.play().catch(() => {});
+        else v.pause();
+      }
+    }, { threshold: 0.4 });
+    document.querySelectorAll('video[data-autoplay]').forEach((v) => io.observe(v));
+  }
+</script>

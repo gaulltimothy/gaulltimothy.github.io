@@ -1,0 +1,296 @@
+---
+// Search targets: none of the clusters in docs/seo-strategy.md fit exactly. Primary (estimate,
+// check against Search Console): why salespeople don't use the CRM / CRM adoption. Supporting:
+// sales process map, service blueprint example, customer journey map example.
+// Facts are from the January 2020 deck "Institutional CRM Experience: Research Findings and
+// Product Enhancements" and its research plan. Personas are composites; client data is removed.
+import CaseFeature from '../../layouts/CaseFeature.astro';
+import '../../styles/ab.css';
+
+// The sales and account lifecycle map, stage by stage. `line` is in the client's words when it
+// is quoted on the map; otherwise it says what the stage is.
+const stages = [
+  { name: 'Lead generation', phase: 'lead', span: '0 to 12 months', quote: true, line: 'Who do you think you are?', client: 'A consultant recommends AB, a marketing email lands, or a client asks to meet.', hidden: 'Leads live in personal spreadsheets or a paper journal, all off-line.' },
+  { name: 'Qualified lead', phase: 'lead', quote: true, line: 'That’s interesting.', client: 'The client names a strategy they want to explore. The advisor turns the talk into a lead.', hidden: 'Every advisor does this differently, and most of it never reaches the CRM.' },
+  { name: 'Lead to opportunity', phase: 'opp', span: '6 months to 2 years', quote: true, line: 'Tell me more.', client: 'The need becomes clear, usually through a request for proposal.', hidden: 'Notes arrive on paper or in Excel. A relationship advisor types them into Salesforce.' },
+  { name: 'Advancing discussions', phase: 'opp', quote: true, line: 'AB rep is my expert.', client: 'Deep dives with portfolio managers and product specialists.', hidden: 'Research and product decks live in many places, so meeting prep eats the day.' },
+  { name: 'Pre-pipeline', phase: 'opp', quote: true, line: 'AB rep is my advisor.', client: 'AB makes the finals. Materials are pulled together, approved by compliance and rehearsed.', hidden: 'Many meetings with the product team, each one set up by hand.' },
+  { name: 'Closed', phase: 'opp', line: 'The mandate is won.', client: 'Fees are negotiated and the opportunity becomes an account.', hidden: 'Corporate leads finalize the fee structure and approvals.' },
+  { name: 'Convert to account', phase: 'acct', span: '3 to 20 years', line: 'Paperwork and plumbing.', client: 'The relationship advisor works through cash flows and account setup with the client.', hidden: 'Operations sets up custodial accounts and reporting, out of the client’s sight.' },
+  { name: 'Account onboarding', phase: 'acct', line: 'A new main contact.', client: 'The relationship advisor becomes the client’s main point of contact at AB.', hidden: 'Onboarding teams finish the setup and hand it to client servicing.' },
+  { name: 'Routine servicing', phase: 'acct', line: 'Quarterly updates.', client: 'Reports, fund commentaries and presentations, and a watch for red flags.', hidden: 'Associates monitor accounts and pull reporting with the BI team.' },
+  { name: 'Account servicing', phase: 'acct', line: 'Concerns, or good news.', client: 'The client calls in, often leading to a meeting with the product team.', hidden: 'Associates build custom reports and keep materials current and compliant.' },
+  { name: 'Account close', phase: 'acct', line: 'All good things end.', client: 'Strategies change, a new CIO arrives, and the account closes.', hidden: 'Advisors coordinate the off-boarding with custodians and operations.' },
+];
+
+const spans = [
+  ['lead', '0 to 12 months'],
+  ['opp', '6 months to 2 years'],
+  ['acct', '3 to 20 years'],
+];
+
+const steps = [
+  ['Interview', '22 sales advisors, relationship managers and associates across the firm’s global footprint, in their own words.'],
+  ['Personas', 'Four composite people built from the interviews, so every feature idea could be tested against a real kind of user.'],
+  ['Maps', 'A day in the life of an advisor, hour by hour, and the full sales and account lifecycle, stage by stage.'],
+  ['Prototype', 'Sketches first, then a working version in a Salesforce sandbox for the sales and relationship advisor profiles.'],
+];
+
+const personas = [
+  { name: 'Mateo', role: 'Institutional sales advisor', c: '#1f9ad6', about: 'Santiago, covering Chile, Colombia and Peru. Four client meetings a day, Monday to Thursday. Fridays go to admin.', quote: 'I have a weekly call with my boss to keep me accountable, but at this time there’s no track record of the meetings.' },
+  { name: 'John', role: 'Institutional sales advisor', c: '#4fbfa8', about: 'Sydney. Always traveling, often off-line, and keeps his own spreadsheets because entering data on the road is too slow.', quote: 'Here it just serves as a data repository. It’s not accessible enough, so I just use my own offline processes.' },
+  { name: 'Yuto', role: 'Institutional sales advisor', c: '#f7a531', about: 'Tokyo. A handful of large clients within half an hour of the office, and meeting notes he would rather write in Japanese.', quote: 'It would be useful to have access to a client’s contact information from anywhere, without any clicks, to help us when we’re going from meeting to meeting.' },
+  { name: 'Jane', role: 'Institutional relationships', c: '#ef5d5d', about: 'Nashville. Keeps the advisor she supports equipped, opens accounts and compiles the briefings and reports.', quote: 'The number one prospects I’m interested in are our existing clients.' },
+];
+
+const themes = [
+  ['I need better training', 'I don’t understand how to use this as a CRM. It just seems like a data repository for reporting to management.'],
+  ['Salesforce is too difficult to use', 'It doesn’t match my sales or relationship management process.'],
+  ['I need better insights for my clients', 'I want to streamline research and meeting prep, to give me time to really be ahead of the curve and anticipate client needs.'],
+];
+
+const asks = [
+  ['Notes in my own language', 'Advisors wanted to enter meeting notes in their primary language, and to turn the takeaways straight into follow-up tasks.'],
+  ['The sale, by stage', 'Sort relationships, contacts and opportunities by where they are in the sales lifecycle, and link strategies to each.'],
+  ['Everything before a meeting', 'One view of prior meetings, notes, contacts and research, ready on a phone between meetings.'],
+  ['Clean data, without the chore', 'Batch editing for associates, and tiers that update themselves so priorities stay current.'],
+];
+---
+<CaseFeature
+  title="AllianceBernstein: mapping a 20-year sale"
+  description="AllianceBernstein's institutional sales advisors kept their pipelines in spreadsheets and paper journals, and Salesforce had become a chore for reporting to management. I interviewed 22 people across the globe, mapped the sale from first call to closed account, and redesigned the CRM around how advisors actually work."
+  seoTitle="AllianceBernstein: why sales skipped the CRM"
+  metaDescription="I interviewed 22 AllianceBernstein advisors worldwide, mapped an institutional sale that can last 20 years, and redesigned Salesforce around how they sell."
+  eyebrow="AllianceBernstein · institutional sales"
+  image={{ src: '/images/work/ab/crm-share.jpg', width: 1200, height: 630 }}
+  published="2026-10-07"
+  client={{ name: 'AllianceBernstein', url: 'https://www.alliancebernstein.com/' }}
+  facts={[
+    { label: 'Role', value: 'Lead UX strategist' },
+    { label: 'Research', value: '22 interviews across the globe' },
+    { label: 'Team', value: 'One UX lead and one BA/PM' },
+    { label: 'Year', value: '2020' },
+  ]}
+  theme={{
+    '--cs-accent': '#4fbfa8',
+    '--cs-hero-bg': 'radial-gradient(90% 80% at 12% 0%, rgba(79,191,168,.16), transparent 60%), radial-gradient(80% 70% at 100% 100%, rgba(31,154,214,.14), transparent 60%), #0f1724',
+    '--cs-hero-bg-solid': '#0f1724',
+    '--cs-hero-ink': '#eef2f5',
+    '--cs-hero-muted': '#9aa7b4',
+    '--cs-hero-line': 'rgba(255,255,255,.14)',
+    '--cs-hero-chip': 'rgba(10,16,26,.55)',
+    '--cs-name-size': 'clamp(2.2rem, 8.2vw, 8.4rem)',
+    '--cs-dark': '#0f1724',
+    '--cs-dark-muted': '#9aa7b4',
+    '--cs-stock': '#e9edf0',
+    '--k-lead': '#33a7e0',
+    '--k-opp': '#f7a531',
+    '--k-acct': '#ef5d5d',
+  }}
+  next={{ href: '/work/included/', title: 'The design system behind an award-winning AI product' }}
+>
+  <!-- Signature moment: the lifecycle map, redrawn, scrolling sideways through the sale. -->
+  <section slot="signature" id="ab-life" class="ab-life" aria-label="The institutional sales and account lifecycle, in eleven stages">
+    <div class="ab-life__pin">
+      <div class="cs-wide ab-life__head">
+        <p class="cs-label">The sale, from first call to closed account</p>
+        <p class="ab-life__spans" aria-hidden="true">
+          {spans.map(([k, label]) => <span data-span={k} style={`--k: var(--k-${k})`}>{label}</span>)}
+        </p>
+      </div>
+      <div class="ab-life__viewport">
+        <ol class="ab-life__track">
+          {stages.map((s) => (
+            <li class="ab-stage" data-phase={s.phase} style={`--k: var(--k-${s.phase})`}>
+              <span class="ab-stage__dot" aria-hidden="true"></span>
+              <h3 class="ab-stage__name">{s.name}{s.span && <small>{s.span}</small>}</h3>
+              <div class="ab-stage__top">
+                <p class:list={['ab-stage__line', { 'is-quote': s.quote }]}>{s.quote ? `“${s.line}”` : s.line}</p>
+                <p>{s.client}</p>
+              </div>
+              <p class="ab-stage__hidden"><span>Below the line of visibility</span>{s.hidden}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+      <p class="cs-wide ab-life__note">Redrawn from the lifecycle map. Lines in quotes are the client’s frame of mind at each stage.</p>
+    </div>
+  </section>
+
+  <section class="cs-band cs-band--fade">
+    <div class="cs-wide">
+      <p class="cs-label" data-reveal>Before</p>
+      <p class="cs-statement cs-statement--wide" data-words>Salesforce had become a place to report to management, not a tool to sell with.</p>
+      <div class="cs-after">
+        <p data-reveal>Advisors tracked their leads in elaborate spreadsheets or a paper journal. Notes from client meetings waited for Friday, or for an associate to type them in. Client and contact history got lost along the way.</p>
+        <p data-reveal style="--i: 1">Nobody needed to try harder. The CRM needed to match how institutional sales actually works, and nobody had written that down yet.</p>
+      </div>
+      <p class="cs-pull" data-reveal>“Here it just serves as a data repository. It’s not accessible enough, so <em>I just use my own offline processes.</em>”</p>
+      <p class="cs-note" data-reveal>From the research</p>
+    </div>
+  </section>
+
+  <section class="cs-band" style="padding-top: 0">
+    <div class="cs-wide">
+      <p class="cs-label" data-reveal>The research</p>
+      <h2 class="cs-h2" data-reveal>Why don't salespeople use the CRM?</h2>
+      <p class="cs-intro" data-reveal>To find out, I asked them. I led the research with a project manager, then turned what we heard into tools the whole team could use to decide what to build.</p>
+      <ol class="cs-steps">
+        {steps.map(([title, body], i) => (
+          <li data-reveal style={`--i: ${i}`}>
+            <span class="cs-steps__n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{title}</h3>
+            <p>{body}</p>
+          </li>
+        ))}
+      </ol>
+      <div class="ab-personas">
+        {personas.map((p, i) => (
+          <figure class="ab-persona" data-reveal style={`--i: ${i}; --c: ${p.c}`}>
+            <span class="ab-persona__mono" aria-hidden="true">{p.name[0]}</span>
+            <h3>{p.name}</h3>
+            <p class="ab-persona__role">{p.role}</p>
+            <p class="ab-persona__about">{p.about}</p>
+            <blockquote>{p.quote}</blockquote>
+          </figure>
+        ))}
+      </div>
+      <p class="cs-note" data-reveal>Personas are composites of the people we interviewed, with invented names.</p>
+    </div>
+  </section>
+
+  <section class="cs-band cs-band--stock">
+    <div class="cs-wide">
+      <p class="cs-label" data-reveal>A day in the life</p>
+      <h2 class="cs-h2" data-reveal>The CRM was never where the advisor was</h2>
+      <p class="cs-intro" data-reveal>We mapped an advisor's day hour by hour, from morning reading to an evening reception. The ease line drops each time a meeting ends and the follow-up has to be written down somewhere.</p>
+      <figure class="ab-figure ab-figure--scroll" data-reveal>
+        <div><img src="/images/work/ab/crm-day-in-the-life.jpg" alt="Day in the life of an institutional sales advisor: six time blocks from 8am to 8:30pm, an ease line that dips after each meeting, the tasks in each block with the CRM moments highlighted, and the tools used in each, from Outlook and the iPad to Salesforce and printed materials." width="2000" height="1385" loading="lazy" /></div>
+        <figcaption>The day-in-the-life map from the research. Highlighted tasks are the moments the CRM should have helped.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="cs-band">
+    <div class="cs-wide">
+      <p class="cs-label" data-reveal>The lifecycle map</p>
+      <h2 class="cs-h2" data-reveal>One map, eleven stages, every role</h2>
+      <p class="cs-intro" data-reveal>The sales and account lifecycle became a living document: what the client is thinking at each stage, who at the firm is involved, what happens out of the client's sight, which tools each role uses, and what should be captured as evidence.</p>
+      <figure class="ab-figure" data-reveal>
+        <div><img src="/images/work/ab/crm-lifecycle-map.jpg" alt="The full sales and account lifecycle map, blurred: eleven stages along a coloured timeline, with rows for the client, the sales and relationship advisors, the teams behind the line of visibility, technology, and evidence." width="1800" height="1246" loading="lazy" /></div>
+        <figcaption>The original map, January 2020. Blurred here because it names internal teams and systems; the journey at the top of this page is a redrawn version.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="cs-band cs-band--dark">
+    <div class="cs-wide">
+      <p class="cs-label" data-reveal>What we found</p>
+      <h2 class="cs-h2" data-reveal>About 22 pain points, three themes</h2>
+      <ol class="ab-themes">
+        {themes.map(([title, quote], i) => (
+          <li data-reveal style={`--i: ${i}`}>
+            <span class="ab-themes__n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{title}</h3>
+            <blockquote>“{quote}”</blockquote>
+          </li>
+        ))}
+      </ol>
+      <div class="cs-also">
+        {asks.map(([title, body], i) => (
+          <div data-reveal style={`--i: ${i % 2}`}>
+            <h3>{title}</h3>
+            <p>{body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="cs-band">
+    <div class="cs-wide">
+      <p class="cs-label" data-reveal>The redesign</p>
+      <h2 class="cs-h2" data-reveal>An action center for the advisor's day</h2>
+      <p class="cs-intro" data-reveal>Sketches first: a single-page action center where an advisor moves from prospecting to opportunities to tasks without hunting through menus. Then a working version in a Salesforce sandbox for the sales and relationship advisor profiles, and a mobile concept built on Salesforce's Lightning Design System.</p>
+      <figure class="ab-figure ab-figure--bare" data-reveal>
+        <div><img src="/images/work/ab/crm-wireframe.jpg" alt="Hand-drawn wireframes on grid paper: an earlier layout on the left and, on the right, the action center with a panel, tabs for tasks, RFPs and DDQs, opportunities and cases, quick links and an activity feed, annotated in orange." width="1800" height="829" loading="lazy" /></div>
+        <figcaption>Wireframes for the action center, annotated by hand.</figcaption>
+      </figure>
+      <figure class="ab-figure ab-figure--bare" data-reveal>
+        <div><img src="/images/work/ab/crm-redesign.jpg" alt="The redesigned Salesforce home on a desktop monitor, with open opportunities, won-but-not-funded opportunities, tier 1 relationships and training, beside a phone showing the IIM Sales Mobile concept with today's agenda and my opportunities." width="1040" height="720" loading="lazy" /></div>
+        <figcaption>The sandbox redesign for desktop and the mobile concept. Client names and figures are pixelated.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="cs-band cs-band--stock">
+    <div class="cs-wide">
+      <p class="cs-label" data-reveal>Phase two</p>
+      <h2 class="cs-h2" data-reveal>A redesign, and the training to go with it</h2>
+      <p class="cs-intro" data-reveal>The findings went back to every interviewee to check, then into a phase two plan for steering committee approval. I went on to lead the Salesforce redesign for institutional advisors, including a mobile app for their daily work, with training built in from the start: a guided tour of each change, an announcement for each community, and a quick resource guide.</p>
+    </div>
+  </section>
+
+  <section class="cs-band">
+    <div class="cs-wide">
+      <p class="cs-label" data-reveal>Why it matters for your business</p>
+      <p class="cs-statement cs-statement--wide" data-words>People don't skip the CRM because they're lazy. They skip it because it doesn't fit how they sell.</p>
+      <div class="cs-after">
+        <p data-reveal>It's the same at a ten-person company. At Gunter Metals, <a href="/work/gunter-metals/">requests for proposals flow straight into Jobber, the shop's CRM and quoting tool</a>, so nobody retypes a request from a text message.</p>
+        <p data-reveal style="--i: 1">Map how the work really happens before choosing or changing a tool. That's also where the <a href="/kit/">free AI Foundation Kit</a> starts, and where <a href="/work/alliancebernstein/">the AllianceBernstein paperless program</a> started too.</p>
+      </div>
+    </div>
+  </section>
+</CaseFeature>
+
+<script>
+  // The signature: vertical scroll moves the lifecycle sideways, one stage at a time, and lights
+  // the stages and the time span the visitor has reached. Reduced motion leaves a swipeable row.
+  const section = document.getElementById('ab-life');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (section && !reduce) {
+    const pin = section.querySelector<HTMLElement>('.ab-life__pin')!;
+    const track = section.querySelector<HTMLElement>('.ab-life__track')!;
+    const stages = [...track.querySelectorAll<HTMLElement>('.ab-stage')];
+    const spans = [...section.querySelectorAll<HTMLElement>('[data-span]')];
+    let distance = 0;
+    let stickyTop = 0;
+
+    const measure = () => {
+      section.classList.add('is-live');
+      stickyTop = parseFloat(getComputedStyle(pin).top) || 0;
+      distance = Math.max(0, track.scrollWidth - document.documentElement.clientWidth);
+      // One pixel sideways for each pixel scrolled, plus a short hold at each end.
+      section.style.height = `${pin.offsetHeight + distance + innerHeight * 0.3}px`;
+    };
+
+    let queued = false;
+    const paint = () => {
+      queued = false;
+      const travel = section.offsetHeight - pin.offsetHeight;
+      const raw = (stickyTop - section.getBoundingClientRect().top) / Math.max(1, travel);
+      const p = Math.min(1, Math.max(0, (raw - 0.1) / 0.8));
+      track.style.transform = `translateX(${-p * distance}px)`;
+      // Stages light one by one with the scroll; the last lit stage names the time span.
+      const lit = Math.round(p * (stages.length - 1));
+      stages.forEach((el, i) => el.classList.toggle('is-on', i <= lit));
+      const phase = stages[lit].dataset.phase;
+      spans.forEach((s) => s.classList.toggle('is-on', s.dataset.span === phase));
+    };
+    const onScroll = () => {
+      if (!queued) {
+        queued = true;
+        requestAnimationFrame(paint);
+      }
+    };
+
+    measure();
+    paint();
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', () => {
+      measure();
+      onScroll();
+    });
+  }
+</script>

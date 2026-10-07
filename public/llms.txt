@@ -20,7 +20,8 @@ His approach: most businesses don't have an AI problem, they have a systems prob
 
 - [Gunter Metals](https://timothygaull.com/work/gunter-metals/): a Middle Tennessee metal fabrication shop that went from a one-page website and contact form to a phone-first metal counter with dynamic pricing and inventory kept in a spreadsheet, requests for proposals that flow into Jobber, the shop's CRM and quoting tool, and a brand identity designed with AI in four days.
 - [Pedro Pet Pals](https://timothygaull.com/work/pedro-pet-pals/): volunteer project for an animal rescue; adoptable animals published live from shelter software, a volunteer photo tool and approved onboarding.
-- [AllianceBernstein](https://timothygaull.com/work/alliancebernstein/): a firmwide paperless program for 3,500 employees and 2,500 contractors, with an estimated $10M a year in savings.
+- [AllianceBernstein: paperless](https://timothygaull.com/work/alliancebernstein/): a firmwide paperless program at a global asset manager that moved 3,500 employees and 2,500 contractors onto iPads and digital workflows, taught by an iPad app Tim designed and built, with an estimated $10M a year in savings.
+- [AllianceBernstein: institutional sales](https://timothygaull.com/work/alliancebernstein-institutional/): research with 22 institutional sales advisors, relationship managers and associates worldwide, personas, a day-in-the-life map and a sales and account lifecycle map, then a Salesforce redesign built around how advisors sell.
 - [Included](https://timothygaull.com/work/included/): a tokenized design system for an AI people-analytics platform; development cycles about 30% faster.
 
 ## Contact
@@ -36,4 +37,4 @@ His approach: most businesses don't have an AI problem, they have a systems prob
 - [All work](https://timothygaull.com/work/)
 - [LinkedIn](https://www.linkedin.com/in/timothygaull/)
 
-Last updated: 2026-10-06
+Last updated: 2026-10-07

@@ -121,7 +121,8 @@
 
 .cs-hero__name {
   display: block;
-  font-size: clamp(3.2rem, 10.4vw, 10rem);
+  /* Long client names set --cs-name-size through the theme so the name stays on one line. */
+  font-size: var(--cs-name-size, clamp(3.2rem, 10.4vw, 10rem));
   line-height: 0.86;
   letter-spacing: -0.042em;
 }
