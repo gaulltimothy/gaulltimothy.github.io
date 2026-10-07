@@ -1,39 +1,285 @@
 ---
-import CaseStudy from '../../layouts/CaseStudy.astro';
+// Search targets (docs/seo-strategy.md): no cluster fits exactly. Primary (estimate): design system for an
+// AI product. Supporting: design handoff process, working with an offshore development team, people analytics
+// dashboard design. Facts are from Tim's interview (Oct 7, 2026) and the Included Figma files, imported from his
+// backup. Permission to show the work: Raghu Gollamudi and Chandan Golla. All screens use demo data. The largest
+// client is named only as "a Fortune 50 automaker", by Tim's choice.
+import CaseFeature from '../../layouts/CaseFeature.astro';
+import '../../styles/included.css';
+
+const pages = [
+  { name: 'Cover', body: 'The job, its persona and a picture of where it stands.' },
+  { name: 'Visual research', body: 'References and directions, explored closely with the founders.' },
+  { name: 'User research', body: 'What clients told us about the job and how they do it today.' },
+  { name: 'Discovery', body: 'Sketches and options with the founders, the product manager and clients, until the process was written down.' },
+  { name: 'Flow', body: 'How the software could surface it, step by step.', tag: 'Developers, this is subject to change, a lot.', kind: 'flow' },
+  { name: 'Build', body: 'The approved version, ready for development.', tag: 'Developers, this has consensus and user buy-in and won’t change.', kind: 'build' },
+];
+
+// Feature files from the Included Figma folder, with each file's cover colour.
+const jobs = [
+  ['2', 'TA Manager DEI dashboard', '#1f2f4a'],
+  ['3', 'DEI objectives and goals reporting', '#3b5a8a'],
+  ['4', 'Job operations and tactics', '#8a3f2a'],
+  ['5', 'Find applicants', '#5a2a1a'],
+  ['6', 'DEI prospecting assistant', '#c5dcf2', '#141414'],
+  ['7', 'Slack conversations', '#2b2b2b'],
+  ['8', 'Org Health Scorecard', '#f2877d', '#141414'],
+  ['10', 'Storyboard', '#a9c52a', '#141414'],
+  ['13', 'Jobs done navigation', '#4a4a4a'],
+];
+
+const changed = [
+  ['A design system from the ground up', 'Built from nothing into the shared parts the whole product was designed and built from.'],
+  ['A design team that leveled up', 'The offshore designers grew far beyond where they started, and the organization got organized around how design work moves.'],
+  ['Fewer rebuilds', 'Engineering only touched work that had consensus.'],
+  ['Clearer handoffs', 'What the offshore engineers needed to build became a lot less fuzzy.'],
+  ['Faster validation', 'We proved each job to be done with clients in Figma, before any code.'],
+  ['Better interfaces', 'Usability and visual design improved, and developers began exploring new interaction patterns themselves.'],
+];
 ---
-<CaseStudy
-  title="The design system behind an award-winning AI product"
-  description="Included began as a talent-acquisition tool. Its customers needed a full people-analytics platform, and a small team had to build it fast without the product turning into a patchwork."
-  seoTitle="Included: design system for an AI product"
-  metaDescription="I built the design system for Included, an AI people-analytics platform that won a 2023 SXSW Innovation Award."
-  eyebrow="Included"
+<CaseFeature
+  title="Included: design system for an AI product"
+  description="Included started as a DEI analytics startup and grew into a people management platform with natural language tools and data visualizations. As Staff Product Designer and Lead Designer, I built the design system from the ground up, matured the design practice, and set up how the founders, product, clients and an offshore team worked together."
+  metaDescription="I built the design system for Included, an AI people-analytics platform that won a 2023 SXSW Innovation Award, so its offshore team built only settled work."
+  eyebrow="Included · AI people analytics"
+  image={{ src: '/images/work/included/included-share.jpg', width: 1200, height: 630 }}
   published="2026-09-26"
+  updated="2026-10-07"
   client={{ name: 'Included' }}
   facts={[
-    { label: 'Role', value: 'Staff Product Designer' },
-    { label: 'Product', value: 'AI people analytics for HR and DEI leaders' },
-    { label: 'Result', value: 'Fewer rebuilds, clearer handoffs' },
-    { label: 'Recognition', value: '2023 SXSW Innovation Award; later acquired by Phenom' },
+    { label: 'Role', value: 'Staff Product Designer, Lead Designer' },
+    { label: 'Team', value: 'Founders, product, offshore design and engineering' },
+    { label: 'Result', value: 'A design practice built from the ground up' },
+    { label: 'Recognition', value: '2023 SXSW Innovation Award; acquired by Phenom' },
   ]}
+  theme={{
+    '--cs-accent': '#f2877d',
+    '--cs-hero-bg': 'radial-gradient(80% 70% at 10% 0%, rgba(242,135,125,.20), transparent 60%), radial-gradient(70% 60% at 100% 100%, rgba(84,173,204,.16), transparent 60%), #141414',
+    '--cs-hero-bg-solid': '#141414',
+    '--cs-hero-ink': '#f5f2ef',
+    '--cs-hero-muted': '#a9a29d',
+    '--cs-hero-line': 'rgba(255,255,255,.14)',
+    '--cs-hero-chip': 'rgba(20,20,20,.55)',
+    '--cs-dark': '#141414',
+    '--cs-dark-muted': '#a9a29d',
+    '--cs-stock': '#f3eeea',
+    '--in-flow': '#e6a23c',
+    '--in-build': '#4caf6a',
+  }}
+  next={{ href: '/work/gunter-metals/', title: 'Gunter Metals: from a contact form to a digital metal counter' }}
 >
-  <h2>The situation</h2>
-  <p>A growing AI platform with a small team, an offshore design group, and a roadmap that had drifted away from what customers were asking for. Every new screen was being designed and built from scratch.</p>
+  <!-- Signature moment: the six pages every feature file shared. Scrolling walks one feature from Cover to Build. -->
+  <section slot="signature" id="in-pages" class="in-pages" aria-labelledby="in-pages-title">
+    <div class="in-pages__pin">
+      <div class="cs-wide">
+        <p class="cs-label">The system</p>
+        <h2 class="cs-h2" id="in-pages-title">Every feature file had the same six pages</h2>
+        <p class="cs-intro">The page names did the coordinating. Exploration stayed cheap and open on the first five. The offshore team built only from the last one.</p>
+        <ol class="in-pages__list">
+          {pages.map((p, i) => (
+            <li class:list={['in-page', p.kind && `in-page--${p.kind}`]}>
+              <span class="in-page__n">{String(i + 1).padStart(2, '0')}</span>
+              <h3>{p.name}</h3>
+              <p>{p.body}</p>
+              {p.tag && <p class="in-page__tag">“{p.tag}”</p>}
+              {p.kind === 'build' && <span class="in-page__stamp" aria-hidden="true">Ready to build</span>}
+            </li>
+          ))}
+        </ol>
+        <div class="in-pages__bar" aria-hidden="true"><i></i></div>
+        <p class="in-pages__rail" aria-hidden="true"><span data-span="explore">Explore with founders, product and clients</span><span data-span="flow">Still moving</span><span data-span="build">Ship it</span></p>
+      </div>
+    </div>
+  </section>
 
-  <h2>What I did</h2>
-  <ul>
-    <li>Built and led a tokenized design system in Figma and React, so designers and engineers worked from the same parts and could prototype in real time.</li>
-    <li>Directed the offshore design team and taught them design systems practice.</li>
-    <li>Ran generative interviews with HR and DEI leaders and turned them into a service blueprint that brought the roadmap back in line with customer needs. Used Kano analysis to decide what to build first.</li>
-    <li>Designed the data visualizations and the client presentations for the product.</li>
-  </ul>
+  <section class="cs-band cs-band--fade">
+    <div class="cs-wide">
+      <p class="cs-label" data-reveal>What was slowing Included down?</p>
+      <p class="cs-statement cs-statement--wide" data-words>Every new idea cost engineering time, so exploring was slow.</p>
+      <div class="cs-after">
+        <p data-reveal>When I joined, the founder worked directly with the development team, and the CTO built ideas live in the product. Engineering cycles were expensive at the time.</p>
+        <p data-reveal style="--i: 1">The product was changing shape too. Working with a Fortune 50 automaker’s head of people and Included’s core clients, we grew a DEI analytics tool into a platform that shows talent leaders, recruiters, people managers and heads of people the whole people story of their organization.</p>
+      </div>
+    </div>
+  </section>
 
-  <h2>What changed</h2>
-  <ul>
-    <li>The product evolved from a hiring tool into a full people-analytics platform.</li>
-    <li>It won a 2023 SXSW Innovation Award, and Included was later acquired by Phenom.</li>
-  </ul>
+  <section class="cs-band" style="padding-top: 0">
+    <div class="cs-wide">
+      <p class="cs-label" data-reveal>What we did</p>
+      <h2 class="cs-h2" data-reveal>A design system for an AI product, organized by jobs instead of screens</h2>
+      <p class="cs-intro" data-reveal>Each job to be done, for each persona or function, got its own numbered Figma file and its own cover colour. The file browser read like a map of the product, and everyone knew where a feature lived and how settled it was.</p>
+      <ol class="in-jobs">
+        {jobs.map(([n, name, c, on], i) => (
+          <li class="in-job" data-reveal style={`--i: ${i % 3}; --c: ${c}${on ? `; --on: ${on}` : ''}`}>
+            <b>{n}_0_000</b>
+            <span>{name}</span>
+          </li>
+        ))}
+      </ol>
+      <p class="cs-note" data-reveal>Nine of the feature files, by number.</p>
+    </div>
+  </section>
 
-  <h2>Why it matters for your business</h2>
-  <blockquote>A system of reusable parts beats heroic one-offs.</blockquote>
-  <p>That's true for design systems, and it's just as true for AI. The prompt libraries, context files and skills I build for clients follow the same idea: write the standard once, reuse it everywhere, and improve it in one place.</p>
-</CaseStudy>
+  <section class="cs-band cs-band--stock">
+    <div class="cs-wide">
+      <p class="cs-label" data-reveal>The flagship</p>
+      <h2 class="cs-h2" data-reveal>An Org Health Scorecard for heads of people at the biggest clients</h2>
+      <p class="cs-intro" data-reveal>One of the most significant bodies of work was analytics for the heads of people at Included’s largest clients. The interface reads like a sentence: “View Org Health Scorecard by time in United States, Active.” Each word in a box is a control, so you change the question by editing the sentence.</p>
+      <figure class="in-figure" data-reveal>
+        <div><img src="/images/work/included/org-health-scorecard.jpg" alt="The Org Health Scorecard cover: a coral title card above the product, where a sentence reading “View Org Health Scorecard by time in United States, Active” sits over a table of headcount, growth and leadership levels by quarter, each row with a trend line." width="1600" height="960" loading="lazy" /></div>
+        <figcaption>The cover of the Org Health Scorecard file. Demo data.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="cs-band">
+    <div class="cs-wide">
+      <p class="cs-label" data-reveal>Discovery</p>
+      <h2 class="cs-h2" data-reveal>Explore wide while it’s cheap</h2>
+      <p class="cs-intro" data-reveal>Discovery was where we argued with pictures: line, scatter and heatmap views, stacked bars, KPI cards, dark data tables and table specs, side by side, before a developer touched any of it.</p>
+      <figure class="in-figure in-figure--scroll" data-reveal>
+        <div><img src="/images/work/included/discovery-board.jpg" alt="The Discovery board for the Org Health Scorecard, zoomed far out: rows of full-screen explorations with their parts laid beside them, including a line chart, a scatter plot, a heatmap table, stacked bar charts, KPI tiles and several dark data-table studies." width="2000" height="1270" loading="lazy" /></div>
+        <figcaption>One Discovery board, zoomed out to show its scale. On a phone, swipe across it.</figcaption>
+      </figure>
+      <figure class="in-figure" data-reveal>
+        <div><img src="/images/work/included/metric-rules.jpg" alt="Seven versions of a rules builder for a metric, side by side: from a simple list such as “Attrition count greater than 3 equals red” to versions with operators, values and colour pickers, a gradient scale, and an if-else layout, plus a column of palette colours." width="2000" height="1128" loading="lazy" /></div>
+        <figcaption>Seven versions of a builder that lets clients set their own thresholds and colours for a metric.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="cs-band cs-band--stock">
+    <div class="cs-wide">
+      <p class="cs-label" data-reveal>Flow, then Build</p>
+      <h2 class="cs-h2" data-reveal>Recommended, not recommended, then settled</h2>
+      <p class="cs-intro" data-reveal>Flow pages put options next to each other with a recommendation, so the team could decide by looking. Here, keeping the sentence and its filters on one line won over splitting them across two.</p>
+      <div class="cs-compare">
+        <figure class="cs-browser" data-reveal>
+          <div>
+            <p class="cs-browser__bar" aria-hidden="true"><i></i><i></i><i></i><span>Flow · recommended</span></p>
+            <img src="/images/work/included/flow-recommended.jpg" alt="The recommended header: “View Org Health Scorecard by time across departments in United States, Active” on a single line, with Compare With on the right and view controls below." width="1156" height="400" loading="lazy" />
+          </div>
+          <figcaption>Recommended · one line</figcaption>
+        </figure>
+        <figure class="cs-browser" data-reveal style="--i: 1">
+          <div>
+            <p class="cs-browser__bar" aria-hidden="true"><i></i><i></i><i></i><span>Flow · not recommended</span></p>
+            <img src="/images/work/included/flow-not-recommended.jpg" alt="The header that was not recommended: the same sentence with its filters wrapped onto a second line." width="1156" height="400" loading="lazy" />
+          </div>
+          <figcaption>Not recommended · two lines</figcaption>
+        </figure>
+      </div>
+      <figure class="in-figure" data-reveal>
+        <div><img src="/images/work/included/build-screens.jpg" alt="Two finished screens from the Build page: an attrition rate view and the Org Health Scorecard by time, each with a quarterly table, trend lines and view controls." width="2204" height="300" loading="lazy" /></div>
+        <figcaption>The Build page: the screens the offshore team built from.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="cs-band">
+    <div class="cs-wide">
+      <p class="cs-label" data-reveal>Where it went</p>
+      <h2 class="cs-h2" data-reveal>From tables to “Show me a story”</h2>
+      <p class="cs-intro" data-reveal>By the end of my year there, we had built out a component library, and I designed a story view for a more natural language interface. Instead of configuring a table, a people leader asks: “Show me a story about Org Health.” The page answers with key insights in plain words, a short overview and the few numbers that matter.</p>
+      <div class="in-pair">
+        <figure class="in-figure" data-reveal>
+          <div><img src="/images/work/included/sketch-story-view.jpg" alt="A hand sketch of the story view: a key insight summary at the top, an Organization Overview row of metric cards, a Workforce Growth headcount chart, and cards for new starts and attrition, with handwritten notes in the margins." width="1200" height="1399" loading="lazy" /></div>
+          <figcaption>Discovery: the story view, sketched first.</figcaption>
+        </figure>
+        <figure class="in-figure" data-reveal style="--i: 1">
+          <div><img src="/images/work/included/stories-org-health.jpg" alt="The story view: “Show me a story about Org Health” with tabs for summary, headcount, starts, attrition, engagement and tenure, a Key Insights panel such as “Attrition rate in G&A is high in Q3, up 12%”, an overview paragraph and KPI tiles." width="760" height="636" loading="lazy" /></div>
+          <figcaption>The story view, designed.</figcaption>
+        </figure>
+      </div>
+      <figure class="in-figure" data-reveal>
+        <div><img src="/images/work/included/people-dashboard.jpg" alt="The Organization Health dashboard: cards for headcount, attrition, headcount cost, a recruiting funnel, org structure and projected headcount, each with an Explore More button." width="1114" height="1318" loading="lazy" style="max-width: 760px; margin-inline: auto" /></div>
+        <figcaption>Organization Health. Demo data.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="cs-band cs-band--dark">
+    <div class="cs-wide">
+      <p class="cs-label" data-reveal>What changed</p>
+      <h2 class="cs-h2" data-reveal>A design practice, built from the ground up</h2>
+      <div class="cs-also">
+        {changed.map(([title, body], i) => (
+          <div data-reveal style={`--i: ${i % 2}`}>
+            <h3>{title}</h3>
+            <p>{body}</p>
+          </div>
+        ))}
+      </div>
+      <p class="in-credits" data-reveal>I did this work alongside Chandan Golla, Founder and Head of Product, and Raghu Gollamudi, co-founder and CEO. Conversations with Erik Otteson shaped how I thought about the move from DEI analytics to people analytics. Included won a 2023 SXSW Innovation Award and was later acquired by Phenom.</p>
+    </div>
+  </section>
+
+  <section class="cs-band">
+    <div class="cs-wide">
+      <p class="cs-label" data-reveal>What this means for your business</p>
+      <p class="cs-statement cs-statement--wide" data-words>Write down what’s settled and what’s still moving, so people can work fast without waiting on you.</p>
+      <div class="cs-after">
+        <p data-reveal>At Included it was Flow and Build pages. In a ten-person company it might be a price list, an intake form or a first AI skill. At Gunter Metals, <a href="/work/gunter-metals/">the shop’s prices and stock live in one spreadsheet the owners already edit</a>.</p>
+        <p data-reveal style="--i: 1">That habit is where the <a href="/kit/">free AI Foundation Kit</a> starts.</p>
+      </div>
+    </div>
+  </section>
+</CaseFeature>
+
+<script>
+  // The signature: while the six pages are pinned, scrolling walks one feature through the file,
+  // lighting each page in turn and filling the bar beneath. Reduced motion and small screens get
+  // the static grid with every page shown.
+  const section = document.getElementById('in-pages');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const wide = matchMedia('(min-width: 900px)');
+
+  if (section && !reduce) {
+    const pin = section.querySelector<HTMLElement>('.in-pages__pin')!;
+    const cards = [...section.querySelectorAll<HTMLElement>('.in-page')];
+    const spans = [...section.querySelectorAll<HTMLElement>('[data-span]')];
+    let stickyTop = 0;
+    let queued = false;
+
+    const measure = () => {
+      if (!wide.matches) {
+        section.classList.remove('is-live');
+        section.style.height = '';
+        return;
+      }
+      section.classList.add('is-live');
+      section.style.height = '';
+      stickyTop = parseFloat(getComputedStyle(pin).top) || 0;
+      // About one screen of scrolling per two pages, plus a short hold on Build.
+      section.style.height = `${pin.offsetHeight + innerHeight * 1.6}px`;
+    };
+
+    const paint = () => {
+      queued = false;
+      if (!section.classList.contains('is-live')) return;
+      const travel = section.offsetHeight - pin.offsetHeight;
+      const raw = (stickyTop - section.getBoundingClientRect().top) / Math.max(1, travel);
+      const p = Math.min(1, Math.max(0, raw / 0.85));
+      const lit = Math.min(cards.length - 1, Math.floor(p * cards.length));
+      cards.forEach((el, i) => el.classList.toggle('is-on', i <= lit));
+      section.style.setProperty('--p', String((lit + 1) / cards.length));
+      const phase = lit < 4 ? 'explore' : lit === 4 ? 'flow' : 'build';
+      spans.forEach((s) => s.classList.toggle('is-on', s.dataset.span === phase));
+    };
+    const onScroll = () => {
+      if (!queued) {
+        queued = true;
+        requestAnimationFrame(paint);
+      }
+    };
+
+    measure();
+    paint();
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', () => {
+      measure();
+      onScroll();
+    });
+  }
+</script>

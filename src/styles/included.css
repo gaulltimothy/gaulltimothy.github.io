@@ -1,0 +1,316 @@
+/* Included case study: the six-page file system (signature), the jobs-to-be-done map, and figures. */
+
+/* ---------- Signature: every feature file had the same six pages ---------- */
+
+.in-pages {
+  padding: clamp(56px, 9vw, 120px) 0;
+  background: var(--cs-stock);
+}
+
+.in-pages__list {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: clamp(8px, 1.2vw, 14px);
+  margin: clamp(28px, 4vw, 44px) 0 0;
+  padding: 0;
+  max-width: none;
+  list-style: none;
+}
+
+.in-page {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 200px;
+  margin: 0;
+  padding: 18px 16px 16px;
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  background: var(--surface);
+}
+
+.in-page__n {
+  font: 600 0.7rem/1 var(--mono);
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+
+.in-page h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.25;
+}
+
+.in-page p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.in-page__tag {
+  margin-top: auto !important;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font: 500 0.78rem/1.35 var(--mono) !important;
+  color: var(--ink) !important;
+}
+
+.in-page--flow {
+  border-color: var(--in-flow);
+  box-shadow: inset 0 0 0 1px var(--in-flow);
+}
+
+.in-page--flow .in-page__tag {
+  background: color-mix(in srgb, var(--in-flow) 22%, transparent);
+}
+
+.in-page--build {
+  border-color: var(--in-build);
+  box-shadow: inset 0 0 0 1px var(--in-build);
+}
+
+.in-page--build .in-page__tag {
+  background: color-mix(in srgb, var(--in-build) 22%, transparent);
+}
+
+.in-pages__rail {
+  display: grid;
+  max-width: none;
+  grid-template-columns: 4fr 1fr 1fr;
+  gap: clamp(8px, 1.2vw, 14px);
+  margin-top: 14px;
+  font: 500 0.72rem/1.4 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.in-pages__rail span {
+  padding-top: 10px;
+  border-top: 2px solid var(--rule);
+}
+
+.in-pages__rail span:nth-child(2) {
+  border-color: var(--in-flow);
+}
+
+.in-pages__rail span:nth-child(3) {
+  border-color: var(--in-build);
+}
+
+@media (max-width: 900px) {
+  .in-pages__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .in-page {
+    min-height: 0;
+  }
+
+  .in-pages__rail {
+    display: none;
+  }
+}
+
+/* ---------- The product as numbered jobs, each with its own cover colour ---------- */
+
+.in-jobs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr));
+  gap: clamp(8px, 1.2vw, 14px);
+  margin: clamp(40px, 6vw, 72px) 0 0;
+  padding: 0;
+  max-width: none;
+  list-style: none;
+}
+
+.in-job {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  aspect-ratio: 5 / 3;
+  margin: 0;
+  padding: 16px;
+  border-radius: 12px;
+  background: var(--c);
+  color: var(--on, #fff);
+}
+
+.in-job b {
+  font: 700 0.8rem/1 var(--mono);
+  letter-spacing: 0.06em;
+}
+
+.in-job span {
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+/* ---------- Figures ---------- */
+
+.in-figure {
+  margin: clamp(40px, 6vw, 72px) 0 0;
+}
+
+.in-figure > div {
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  border-radius: 18px;
+  background: #fff;
+}
+
+.in-figure img {
+  display: block;
+  width: 100%;
+}
+
+/* Dense boards stay legible on phones: swipe across them instead of shrinking them. */
+.in-figure--scroll > div {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+
+.in-figure--scroll img {
+  min-width: 900px;
+}
+
+.in-figure figcaption {
+  margin-top: 12px;
+  max-width: 70ch;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.cs-band--dark .in-figure figcaption {
+  color: var(--cs-dark-muted);
+}
+
+.in-pair {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  gap: clamp(16px, 3vw, 40px);
+  align-items: start;
+  margin-top: clamp(40px, 6vw, 72px);
+}
+
+.in-pair .in-figure {
+  margin: 0;
+}
+
+@media (max-width: 760px) {
+  .in-pair {
+    grid-template-columns: 1fr;
+  }
+}
+
+.in-credits {
+  max-width: 64ch;
+  margin-top: clamp(32px, 5vw, 56px);
+  font-size: 1rem;
+  color: var(--muted);
+}
+
+.cs-band--dark .in-credits {
+  color: var(--cs-dark-muted);
+}
+
+/* ---------- Signature motion (wide screens, motion allowed) ---------- */
+
+.in-page {
+  position: relative;
+}
+
+.in-page__stamp {
+  position: absolute;
+  top: 14px;
+  right: 12px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: var(--in-build);
+  font: 600 0.62rem/1 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.in-pages__bar {
+  display: none;
+}
+
+.in-pages.is-live {
+  padding: 0;
+}
+
+.in-pages.is-live .in-pages__pin {
+  position: sticky;
+  top: var(--header-h, 65px);
+  display: flex;
+  align-items: center;
+  min-height: calc(100svh - var(--header-h, 65px));
+  padding: clamp(32px, 5vw, 64px) 0;
+}
+
+.in-pages.is-live .in-page {
+  opacity: 0.35;
+  transform: translateY(10px);
+  transition: opacity 0.45s ease, transform 0.45s ease, border-color 0.45s ease, box-shadow 0.45s ease;
+}
+
+.in-pages.is-live .in-page.is-on {
+  opacity: 1;
+  transform: none;
+}
+
+.in-pages.is-live .in-page--flow:not(.is-on),
+.in-pages.is-live .in-page--build:not(.is-on) {
+  border-color: var(--rule);
+  box-shadow: none;
+}
+
+.in-pages.is-live .in-page--flow.is-on {
+  border-style: dashed;
+}
+
+.in-pages.is-live .in-page__stamp {
+  opacity: 0;
+  transform: scale(0.7) rotate(-6deg);
+  transition: opacity 0.3s ease 0.15s, transform 0.35s cubic-bezier(0.3, 1.6, 0.5, 1) 0.15s;
+}
+
+.in-pages.is-live .in-page--build.is-on .in-page__stamp {
+  opacity: 1;
+  transform: rotate(-6deg);
+}
+
+.in-pages.is-live .in-pages__bar {
+  display: block;
+  height: 3px;
+  margin-top: 18px;
+  border-radius: 3px;
+  background: var(--rule);
+  overflow: hidden;
+}
+
+.in-pages.is-live .in-pages__bar i {
+  display: block;
+  height: 100%;
+  width: calc(var(--p, 0) * 100%);
+  background: var(--ink);
+  transition: width 0.45s ease, background-color 0.45s ease;
+}
+
+.in-pages.is-live[style*='--p: 1'] .in-pages__bar i,
+.in-pages.is-live .in-page--build.is-on ~ .in-pages__bar i {
+  background: var(--in-build);
+}
+
+.in-pages.is-live .in-pages__rail span {
+  opacity: 0.45;
+  transition: opacity 0.3s ease;
+}
+
+.in-pages.is-live .in-pages__rail span.is-on {
+  opacity: 1;
+  color: var(--ink);
+}
