@@ -22,7 +22,7 @@ His approach: most businesses don't have an AI problem, they have a systems prob
 - [Pedro Pet Pals](https://timothygaull.com/work/pedro-pet-pals/): volunteer project for an animal rescue; adoptable animals published live from shelter software, a volunteer photo tool and approved onboarding.
 - [AllianceBernstein: paperless](https://timothygaull.com/work/alliancebernstein/): a firmwide paperless program at a global asset manager that moved 3,500 employees and 2,500 contractors onto iPads and digital workflows, taught by an iPad app Tim designed and built, with an estimated $10M a year in savings.
 - [AllianceBernstein: institutional sales](https://timothygaull.com/work/alliancebernstein-institutional/): research with 22 institutional sales advisors, relationship managers and associates worldwide, personas, a day-in-the-life map and a sales and account lifecycle map, then a Salesforce redesign built around how advisors sell.
-- [Included](https://timothygaull.com/work/included/): a tokenized design system for an AI people-analytics platform; development cycles about 30% faster.
+- [Included](https://timothygaull.com/work/included/): a tokenized design system and design-to-build process for an AI people-analytics platform that won a 2023 SXSW Innovation Award.
 
 ## Contact
 
