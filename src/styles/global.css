@@ -203,8 +203,14 @@ li {
 }
 
 @media (max-width: 720px) {
-  .site-header .header-cta {
+  /* On phones the Work with me button takes the Free kit link's place; the kit stays in the footer and on every page. */
+  .site-header .nav-kit {
     display: none;
+  }
+  .site-header .header-cta {
+    padding: 7px 12px;
+    font-size: 0.85rem;
+    white-space: nowrap;
   }
   .header-inner {
     gap: 8px;
@@ -975,4 +981,31 @@ figcaption {
 
 .tip-thanks {
   margin: 0;
+}
+
+/* A text link under a grid, leading to the full list */
+.more-link {
+  margin: 24px 0 0;
+  font-weight: 600;
+}
+
+/* The smallest phones: keep the wordmark, both links and the Work with me button on one line. */
+@media (max-width: 370px) {
+  .header-inner {
+    gap: 4px;
+  }
+  .site-header .wordmark {
+    font-size: 0.95rem;
+  }
+  .site-header nav ul {
+    gap: 0;
+  }
+  .site-header nav a {
+    padding: 6px 4px;
+    font-size: 0.85rem;
+  }
+  .site-header .header-cta {
+    padding: 6px 8px;
+    font-size: 0.78rem;
+  }
 }

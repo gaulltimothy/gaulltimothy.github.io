@@ -16,7 +16,7 @@ const pages = [
   { name: 'Build', body: 'The approved version, ready for development.', tag: 'Developers, this has consensus and user buy-in and won’t change.', kind: 'build' },
 ];
 
-// Feature files from the Included Figma folder, with each file's cover colour.
+// Feature files from the Included Figma folder, with each file's cover color.
 const jobs = [
   ['2', 'TA Manager DEI dashboard', '#1f2f4a'],
   ['3', 'DEI objectives and goals reporting', '#3b5a8a'],
@@ -108,7 +108,7 @@ const changed = [
     <div class="cs-wide">
       <p class="cs-label" data-reveal>What we did</p>
       <h2 class="cs-h2" data-reveal>A design system for an AI product, organized by jobs instead of screens</h2>
-      <p class="cs-intro" data-reveal>Each job to be done, for each persona or function, got its own numbered Figma file and its own cover colour. The file browser read like a map of the product, and everyone knew where a feature lived and how settled it was.</p>
+      <p class="cs-intro" data-reveal>Each job to be done, for each persona or function, got its own numbered Figma file and its own cover color. The file browser read like a map of the product, and everyone knew where a feature lived and how settled it was.</p>
       <ol class="in-jobs">
         {jobs.map(([n, name, c, on], i) => (
           <li class="in-job" data-reveal style={`--i: ${i % 3}; --c: ${c}${on ? `; --on: ${on}` : ''}`}>
@@ -143,8 +143,8 @@ const changed = [
         <figcaption>One Discovery board, zoomed out to show its scale. On a phone, swipe across it.</figcaption>
       </figure>
       <figure class="in-figure" data-reveal>
-        <div><img src="/images/work/included/metric-rules.jpg" alt="Seven versions of a rules builder for a metric, side by side: from a simple list such as “Attrition count greater than 3 equals red” to versions with operators, values and colour pickers, a gradient scale, and an if-else layout, plus a column of palette colours." width="2000" height="1128" loading="lazy" /></div>
-        <figcaption>Seven versions of a builder that lets clients set their own thresholds and colours for a metric.</figcaption>
+        <div><img src="/images/work/included/metric-rules.jpg" alt="Seven versions of a rules builder for a metric, side by side: from a simple list such as “Attrition count greater than 3 equals red” to versions with operators, values and color pickers, a gradient scale, and an if-else layout, plus a column of palette colors." width="2000" height="1128" loading="lazy" /></div>
+        <figcaption>Seven versions of a builder that lets clients set their own thresholds and colors for a metric.</figcaption>
       </figure>
     </div>
   </section>

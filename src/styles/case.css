@@ -692,7 +692,7 @@
   }
 }
 
-/* A band that starts on the story's stock colour and settles into the page. */
+/* A band that starts on the story's stock color and settles into the page. */
 .cs-band--fade {
   background: linear-gradient(var(--cs-stock), var(--paper) 60%);
 }

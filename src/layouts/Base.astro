@@ -145,13 +145,13 @@ const graph = { '@context': 'https://schema.org', '@graph': [personLd, practiceL
         <nav aria-label="Main">
           <ul>
             {nav.map((item) => (
-              <li>
+              <li class:list={[{ 'nav-kit': item.href === '/kit/' }]}>
                 <a href={item.href} aria-current={path.startsWith(item.href) ? 'page' : undefined}>{item.label}</a>
               </li>
             ))}
           </ul>
         </nav>
-        <a class="btn btn-small header-cta" href={SITE.bookUrl}>Request a call</a>
+        <a class="btn btn-small header-cta" href={SITE.workUrl}>Work with me</a>
       </div>
     </header>
     <main id="main">

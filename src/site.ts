@@ -13,6 +13,9 @@ export const SITE = {
   // his private booking link only to good fits.
   bookUrl: '/intro-call/',
   bookLabel: 'Request an intro call',
+  // Every page's main call to action leads here first: the page that helps a visitor decide.
+  workUrl: '/work-with-me/',
+  workLabel: 'See how we’d work together',
   linkedin: 'https://www.linkedin.com/in/timothygaull/',
   // Public Turnstile sitekey for the kit form (widget "timgaull.com kit"; its hostnames must include timothygaull.com).
   // For local testing with wrangler dev, swap in Cloudflare's test key 1x00000000000000000000AA.

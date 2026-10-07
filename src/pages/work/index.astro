@@ -1,41 +1,82 @@
 ---
 import Base from '../../layouts/Base.astro';
+import { SITE } from '../../site';
+import '../../styles/work.css';
 
-const cases = [
+// Case studies grouped by the problem an owner would recognize, each paired with the service that
+// usually starts that kind of work. Every path ends at /work-with-me/.
+const groups = [
   {
-    href: '/work/gunter-metals/',
-    kind: 'Gunter Metals · live',
-    stat: 'Same day',
-    title: 'From a contact form to a digital metal counter',
-    body: 'A phone-first metal counter with dynamic pricing and real inventory, requests for proposals that flow into Jobber, the shop\'s CRM and quoting tool, and a brand designed with AI in four days.',
+    id: 'sell',
+    problem: 'My customers still have to call me to buy anything.',
+    short: 'Customers have to call me',
+    body: 'You want customers to buy, and send requests, without you on the phone.',
+    service: { name: 'Brand & Business Foundations', href: '/work-with-me/#foundations' },
+    cases: [
+      {
+        href: '/work/gunter-metals/',
+        kind: 'Gunter Metals · metal fabrication, Middle Tennessee',
+        title: 'From a contact form to a digital metal counter',
+        result: 'Customers order metal cut to length from a phone, see live stock, and requests flow into the shop’s CRM and quoting tool.',
+        img: '/images/work/plates/gunter.jpg',
+        alt: 'The Gunter Metals metal counter on a laptop: “Metal, cut to length. Ready today.” over a jobsite photo.',
+        w: 1600, h: 1000,
+      },
+      {
+        href: '/work/pedro-pet-pals/',
+        kind: 'Pedro Pet Pals · animal rescue, volunteer project',
+        title: 'A rescue website built around how volunteers work',
+        result: 'Every adoptable animal listed live from the shelter software, apply-from-the-animal forms, and a phone photo tool for volunteers.',
+        img: '/images/work/plates/pedro.jpg',
+        alt: 'The Pedro Pet Pals adopt page: filters for all, cats and dogs, and animal cards with photos, details and an Apply to adopt button.',
+        w: 1600, h: 1000,
+      },
+    ],
   },
   {
-    href: '/work/pedro-pet-pals/',
-    kind: 'Pedro Pet Pals · volunteer',
-    stat: 'Every animal listed',
-    title: 'A rescue website built around how volunteers work',
-    body: 'Adoptable animals pulled live from the shelter software, apply-from-the-animal forms, and a phone photo tool for volunteers.',
+    id: 'adopt',
+    problem: 'We paid for the software. My team still works around it.',
+    short: 'My team works around the software',
+    body: 'You want your people to actually use the new way of working, because it fits how they work.',
+    service: { name: 'AI Opportunity Sprint', href: '/work-with-me/#sprint' },
+    cases: [
+      {
+        href: '/work/alliancebernstein/',
+        kind: 'AllianceBernstein · global asset manager',
+        title: 'Taking 6,000 people off paper',
+        result: '3,500 employees and 2,500 contractors moved onto digital workflows, with an iPad app that taught people to work digitally.',
+        img: '/images/work/plates/ab-paperless.jpg',
+        alt: 'The AB Paperless app: tiles for working with files, running meetings, taking notes and chatting with colleagues.',
+        w: 1600, h: 1000,
+      },
+      {
+        href: '/work/alliancebernstein-institutional/',
+        kind: 'AllianceBernstein · institutional sales',
+        title: 'Mapping a 20-year sale, and the CRM advisors skipped',
+        result: '22 interviews worldwide, personas and a lifecycle map, then a Salesforce redesign built around how advisors sell.',
+        img: '/images/work/plates/ab-crm.jpg',
+        alt: 'The redesigned Salesforce home on a monitor beside a phone showing the mobile sales concept, client details pixelated.',
+        w: 1600, h: 1000,
+      },
+    ],
   },
   {
-    href: '/work/alliancebernstein/',
-    kind: 'AllianceBernstein',
-    stat: '~$10M a year',
-    title: 'Taking 6,000 people off paper at a global asset manager',
-    body: 'Research, workflow design, the change plan, and an iPad app I designed and built to teach people to work digitally.',
-  },
-  {
-    href: '/work/alliancebernstein-institutional/',
-    kind: 'AllianceBernstein · institutional sales',
-    stat: '22 interviews',
-    title: 'Mapping a 20-year sale, and the CRM advisors skipped',
-    body: 'Research with advisors worldwide, personas and a lifecycle map, then a Salesforce redesign built around how they sell.',
-  },
-  {
-    href: '/work/included/',
-    kind: 'Included · acquired by Phenom',
-    stat: 'SXSW 2023',
-    title: 'The design system behind an award-winning AI product',
-    body: 'A design system built from the ground up, and a six-page process that told an offshore team what was ready to build.',
+    id: 'run',
+    problem: 'Nothing moves unless I’m in the room.',
+    short: 'Nothing moves without me',
+    body: 'You want your team to make good calls, and keep work moving, without waiting on you.',
+    service: { name: 'Fractional AI & Growth Partner', href: '/work-with-me/#partner' },
+    cases: [
+      {
+        href: '/work/included/',
+        kind: 'Included · AI people analytics, acquired by Phenom',
+        title: 'A design system and a process an offshore team could build from',
+        result: 'A design system built from the ground up and six pages in every feature file, so developers built only what was settled.',
+        img: '/images/work/plates/included.jpg',
+        alt: 'The Included Org Health Scorecard: a sentence-style control above a quarterly table with trend lines, on a coral cover.',
+        w: 1600, h: 1000,
+      },
+    ],
   },
 ];
 
@@ -67,44 +108,166 @@ const archive = [
   },
 ];
 ---
-<Base title="Case studies: AI, brand & systems work" description="Case studies from Timothy Gaull: AI, brand and business systems for owner-led companies, plus design leadership at AllianceBernstein, Included and Lightbank.">
+<Base title="Case studies: AI, brand & systems work" description="Case studies from Timothy Gaull, grouped by the problem they solve: selling and taking requests online, getting people to adopt new ways of working, and building systems a team can run without the owner.">
   <div class="wrap hero">
     <p class="eyebrow">Work</p>
-    <h1>Systems that changed how people work.</h1>
-    <p class="lede">Every one of these projects was about designing an environment that shapes how people act: a workflow, a product, a storefront, a team's habits.</p>
+    <h1>Find the story that sounds like your week.</h1>
+    <p class="lede">Every project here started with an owner saying one of three things. Pick the one you’ve said, scroll through what changed, then see how we’d work on it together.</p>
+    <ul class="wk-jump" aria-label="Jump to a problem">
+      {groups.map((g, i) => (
+        <li><a href={`#${g.id}`} data-jump={g.id}><b>{String(i + 1).padStart(2, '0')}</b>“{g.short}”</a></li>
+      ))}
+    </ul>
   </div>
-  <section>
-    <div class="wrap">
-      <div class="grid grid-2">
-        {cases.map((c) => (
-          <a class="card" href={c.href}>
-            <p class="kind">{c.kind}</p>
-            <p class="stat">{c.stat}</p>
-            <h3>{c.title}</h3>
-            <p class="muted">{c.body}</p>
-            <span class="more">Read the case study →</span>
-          </a>
-        ))}
+
+  <!-- Scroll moves the stories sideways: a chapter for each problem, its case studies, then the next step. -->
+  <section id="wk-rail" class="wk-rail" aria-label="Case studies, by the problem they solve">
+    <div class="wk-rail__pin">
+      <div class="wk-rail__viewport">
+        <ol class="wk-rail__track">
+          {groups.map((g, i) => (
+            <>
+              <li class="wk-chapter" id={g.id} data-chapter={g.id}>
+                <span class="wk-chapter__n">Problem {String(i + 1).padStart(2, '0')}</span>
+                <h2>“{g.problem}”</h2>
+                <p>{g.body}</p>
+                <p class="wk-chapter__service">Usually starts with <a href={g.service.href}>{g.service.name} →</a></p>
+              </li>
+              {g.cases.map((c) => (
+                <li class="wk-slide" data-chapter={g.id}>
+                  <a class="wk-card" href={c.href}>
+                    <figure class="wk-card__media">
+                      <img src={c.img} alt={c.alt} width={c.w} height={c.h} decoding="async" />
+                    </figure>
+                    <div class="wk-card__body">
+                      <p class="wk-card__kind">{c.kind}</p>
+                      <h3>{c.title}</h3>
+                      <p class="wk-card__result">{c.result}</p>
+                      <span class="wk-card__more">Read the case study →</span>
+                    </div>
+                  </a>
+                </li>
+              ))}
+            </>
+          ))}
+          <li class="wk-end" data-chapter="end">
+            <h2>Which of these sounds like your business?</h2>
+            <p>See who I work with, what it costs and how an engagement starts. Engagements start at $1,600, and the AI Foundation Kit is free.</p>
+            <div class="actions">
+              <a class="btn" href={SITE.workUrl}>{SITE.workLabel}</a>
+              <a class="btn btn-ghost" href="/kit/">Get the free kit</a>
+            </div>
+          </li>
+        </ol>
       </div>
+      <nav class="wk-rail__foot" aria-label="Problems">
+        <ol class="wk-rail__chapters">
+          {groups.map((g, i) => <li data-dot={g.id}><a href={`#${g.id}`} data-jump={g.id}>{String(i + 1).padStart(2, '0')} · {g.short}</a></li>)}
+        </ol>
+        <div class="wk-rail__bar" aria-hidden="true"><i></i></div>
+      </nav>
     </div>
   </section>
+
   <section>
     <div class="wrap">
-      <div class="section-head">
-        <p class="eyebrow">Archive</p>
-        <h2>Earlier work</h2>
-      </div>
-      <div class="archive">
-        {archive.map((a) => (
-          <article>
-            <div>
-              <h3>{a.name}</h3>
-              <p class="small">{a.years}</p>
-            </div>
-            <p>{a.body}</p>
-          </article>
-        ))}
-      </div>
+      <details class="wk-archive">
+        <summary>Earlier work: Lightbank, Semiosis, Explore Mojave, AgSquared, StartupBus</summary>
+        <div class="archive">
+          {archive.map((a) => (
+            <article>
+              <div>
+                <h3>{a.name}</h3>
+                <p class="small">{a.years}</p>
+              </div>
+              <p>{a.body}</p>
+            </article>
+          ))}
+        </div>
+      </details>
     </div>
   </section>
 </Base>
+
+<script>
+  // Vertical scroll moves the stories sideways while the rail is pinned, one pixel across for each
+  // pixel down. Small screens and reduced motion keep a native swipe row with snap points.
+  const rail = document.getElementById('wk-rail');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const wide = matchMedia('(min-width: 900px)');
+
+  if (rail) {
+    const pin = rail.querySelector<HTMLElement>('.wk-rail__pin')!;
+    const track = rail.querySelector<HTMLElement>('.wk-rail__track')!;
+    const items = [...track.children] as HTMLElement[];
+    const dots = [...rail.querySelectorAll<HTMLElement>('[data-dot]')];
+    let distance = 0;
+    let stickyTop = 0;
+    let live = false;
+    let queued = false;
+
+    const measure = () => {
+      live = !reduce && wide.matches;
+      rail.classList.toggle('is-live', live);
+      rail.style.height = '';
+      track.style.transform = '';
+      if (!live) return;
+      stickyTop = parseFloat(getComputedStyle(pin).top) || 0;
+      distance = Math.max(0, track.scrollWidth - document.documentElement.clientWidth);
+      rail.style.height = `${pin.offsetHeight + distance}px`;
+    };
+
+    const paint = () => {
+      queued = false;
+      const viewport = live ? null : rail.querySelector<HTMLElement>('.wk-rail__viewport');
+      let x = 0;
+      let p = 0;
+      if (live) {
+        const raw = (stickyTop - rail.getBoundingClientRect().top) / Math.max(1, distance);
+        p = Math.min(1, Math.max(0, raw));
+        x = p * distance;
+        track.style.transform = `translateX(${-x}px)`;
+      } else if (viewport) {
+        x = viewport.scrollLeft;
+        p = x / Math.max(1, viewport.scrollWidth - viewport.clientWidth);
+      }
+      rail.style.setProperty('--p', p.toFixed(4));
+      // The chapter whose card is nearest the left third of the screen is the current one.
+      const edge = x + innerWidth * 0.33;
+      let current = items[0].dataset.chapter;
+      for (const el of items) if (el.offsetLeft <= edge) current = el.dataset.chapter;
+      dots.forEach((d) => d.classList.toggle('is-on', d.dataset.dot === current));
+    };
+    const onScroll = () => {
+      if (!queued) {
+        queued = true;
+        requestAnimationFrame(paint);
+      }
+    };
+
+    // The problem buttons in the hero jump to their chapter, sideways or down.
+    document.querySelectorAll<HTMLAnchorElement>('[data-jump]').forEach((a) =>
+      a.addEventListener('click', (e) => {
+        const target = document.getElementById(a.dataset.jump!);
+        if (!target) return;
+        e.preventDefault();
+        if (live) {
+          const top = rail.getBoundingClientRect().top + scrollY - stickyTop + target.offsetLeft - parseFloat(getComputedStyle(track).paddingLeft);
+          scrollTo({ top, behavior: 'smooth' });
+        } else {
+          rail.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+          rail.querySelector<HTMLElement>('.wk-rail__viewport')!.scrollTo({ left: target.offsetLeft - 16, behavior: reduce ? 'auto' : 'smooth' });
+        }
+      }),
+    );
+
+    measure();
+    paint();
+    addEventListener('scroll', onScroll, { passive: true });
+    rail.querySelector('.wk-rail__viewport')!.addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', () => {
+      measure();
+      onScroll();
+    });
+  }
+</script>

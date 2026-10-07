@@ -1,0 +1,606 @@
+/* Work index and Work with me: case studies grouped by the problem they solve, and the page that
+   helps a visitor decide. Built on the site's paper, ink and rule tokens; the comet gradient stays on
+   primary buttons only. */
+
+/* ---------- Problem chips (Work hero) ---------- */
+
+.wk-jump {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.wk-jump a {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--ink);
+  font-weight: 500;
+  text-decoration: none;
+  transition: border-color 0.15s;
+}
+
+.wk-jump a:hover {
+  border-color: var(--ink);
+}
+
+.wk-jump b {
+  font: 600 0.72rem/1 var(--mono);
+  color: var(--muted);
+}
+
+/* ---------- Problem groups ---------- */
+
+.wk-group {
+  scroll-margin-top: 90px;
+  padding: clamp(48px, 7vw, 88px) 0;
+  border-top: 1px solid var(--rule);
+}
+
+.wk-group__head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 22rem);
+  gap: clamp(20px, 4vw, 56px);
+  align-items: end;
+  margin-bottom: clamp(28px, 4vw, 40px);
+}
+
+.wk-group__n {
+  display: block;
+  margin-bottom: 14px;
+  font: 600 0.75rem/1 var(--mono);
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+
+.wk-group h2 {
+  margin: 0 0 12px;
+  font-size: clamp(1.9rem, 4vw, 2.9rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.wk-group__head p {
+  margin: 0;
+  max-width: 54ch;
+  color: var(--muted);
+}
+
+.wk-service {
+  padding: 18px 20px;
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.wk-service p {
+  margin: 0 0 6px;
+  font: 500 0.7rem/1.4 var(--mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.wk-service a {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+@media (max-width: 760px) {
+  .wk-group__head {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Case cards ---------- */
+
+.wk-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 380px), 1fr));
+  gap: clamp(14px, 2vw, 24px);
+}
+
+.wk-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  background: var(--surface);
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+.wk-card:hover {
+  border-color: var(--ink);
+  transform: translateY(-3px);
+  box-shadow: 0 24px 48px -32px rgba(20, 20, 20, 0.35);
+}
+
+.wk-card__media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  margin: 0;
+  overflow: hidden;
+  border-bottom: 1px solid var(--rule);
+  background: var(--c, var(--soft));
+}
+
+.wk-card__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--pos, center top);
+  transition: transform 0.5s ease;
+}
+
+.wk-card:hover .wk-card__media img {
+  transform: scale(1.03);
+}
+
+/* A typographic panel for stories without a screenshot yet. */
+.wk-card__panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+  padding: clamp(20px, 3vw, 32px);
+  color: #fff;
+  font: 700 clamp(1.6rem, 3vw, 2.3rem)/1.02 var(--display);
+  letter-spacing: -0.02em;
+}
+
+.wk-card__panel small {
+  display: block;
+  margin-top: 10px;
+  font: 500 0.72rem/1.4 var(--mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.wk-card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 8px;
+  padding: 22px 24px 24px;
+}
+
+.wk-card__kind {
+  margin: 0;
+  font: 500 0.72rem/1.4 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.wk-card h3 {
+  margin: 0;
+  font-size: 1.35rem;
+  line-height: 1.2;
+}
+
+.wk-card__result {
+  margin: 0;
+  color: var(--muted);
+}
+
+.wk-card__more {
+  margin-top: auto;
+  padding-top: 10px;
+  font-weight: 600;
+}
+
+/* ---------- Closing prompt ---------- */
+
+.wk-next {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) auto;
+  gap: 24px 40px;
+  align-items: center;
+  padding: clamp(32px, 5vw, 56px);
+  border-radius: 18px;
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.wk-next h2 {
+  margin: 0 0 10px;
+  color: var(--paper);
+  font-size: clamp(1.8rem, 3.6vw, 2.6rem);
+  line-height: 1.05;
+}
+
+.wk-next p {
+  margin: 0;
+  max-width: 52ch;
+  color: #c9c2be;
+}
+
+.wk-next .actions {
+  margin: 0;
+  justify-content: flex-end;
+}
+
+.wk-next .btn-ghost {
+  border-color: rgba(255, 255, 255, 0.35);
+  color: var(--paper);
+}
+
+@media (max-width: 760px) {
+  .wk-next {
+    grid-template-columns: 1fr;
+  }
+
+  .wk-next .actions {
+    justify-content: flex-start;
+  }
+}
+
+/* ---------- Archive ---------- */
+
+.wk-archive summary {
+  cursor: pointer;
+  font: 600 1.1rem var(--display);
+}
+
+.wk-archive[open] summary {
+  margin-bottom: 20px;
+}
+
+/* ---------- Work with me ---------- */
+
+.ww-price {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin: 24px 0 0;
+  padding: 16px 20px;
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  background: var(--surface);
+  max-width: 40rem;
+}
+
+.ww-price strong {
+  font: 700 1.35rem/1.2 var(--display);
+}
+
+.ww-price span {
+  align-self: center;
+  color: var(--muted);
+}
+
+.ww-fit {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(14px, 2vw, 24px);
+}
+
+.ww-fit > div {
+  padding: clamp(22px, 3vw, 32px);
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  background: var(--surface);
+}
+
+.ww-fit > div:first-child {
+  border-color: var(--ink);
+}
+
+.ww-fit h3 {
+  margin: 0 0 14px;
+}
+
+.ww-fit ul {
+  margin: 0;
+  padding-left: 1.1em;
+}
+
+.ww-fit li + li {
+  margin-top: 8px;
+}
+
+@media (max-width: 760px) {
+  .ww-fit {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ww-services {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: clamp(14px, 2vw, 24px);
+}
+
+.ww-service {
+  scroll-margin-top: 90px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: clamp(22px, 3vw, 28px);
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  background: var(--surface);
+}
+
+.ww-service.featured {
+  border-color: var(--ink);
+}
+
+.ww-service h3 {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.ww-service p {
+  margin: 0;
+}
+
+.ww-service__kind {
+  font: 500 0.72rem/1.4 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.ww-service ul {
+  margin: 4px 0 0;
+  padding-left: 1.1em;
+  color: var(--muted);
+}
+
+.ww-service__proof {
+  margin-top: auto !important;
+  padding-top: 14px;
+  border-top: 1px solid var(--rule);
+  font-size: 0.95rem;
+}
+
+.ww-service__proof a {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* ---------- The horizontal rail (Work) ---------- */
+
+.wk-rail {
+  --gutter: max(16px, calc((100vw - 1180px) / 2));
+  border-top: 1px solid var(--rule);
+  background: var(--soft);
+}
+
+.wk-rail__viewport {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.wk-rail__viewport::-webkit-scrollbar {
+  display: none;
+}
+
+.wk-rail__track {
+  display: flex;
+  gap: clamp(14px, 2vw, 28px);
+  width: max-content;
+  margin: 0;
+  padding: clamp(40px, 6vw, 72px) var(--gutter);
+  list-style: none;
+  max-width: none;
+}
+
+.wk-rail__track > li {
+  flex: 0 0 auto;
+  margin: 0;
+  scroll-snap-align: start;
+  scroll-margin-left: 16px;
+}
+
+.wk-chapter {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: min(84vw, 25rem);
+  padding-right: clamp(8px, 2vw, 24px);
+}
+
+.wk-chapter + .wk-slide,
+.wk-slide + .wk-chapter {
+  margin-left: clamp(0px, 2vw, 24px) !important;
+}
+
+.wk-chapter__n {
+  margin-bottom: 18px;
+  font: 600 0.75rem/1 var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.wk-chapter h2 {
+  margin: 0 0 16px;
+  font-size: clamp(2rem, 3.4vw, 3rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+}
+
+.wk-chapter p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.wk-chapter__service {
+  margin-top: 22px !important;
+  padding-top: 16px;
+  border-top: 1px solid var(--rule);
+  font-size: 0.95rem;
+}
+
+.wk-chapter__service a {
+  display: block;
+  margin-top: 4px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.wk-slide {
+  width: min(84vw, 50rem);
+}
+
+.wk-slide .wk-card {
+  height: 100%;
+}
+
+.wk-slide .wk-card__media {
+  aspect-ratio: 16 / 10;
+  background: var(--ink);
+}
+
+.wk-slide .wk-card__media img {
+  object-position: center;
+}
+
+.wk-slide .wk-card__body {
+  padding: 22px 26px 24px;
+}
+
+.wk-slide .wk-card h3 {
+  font-size: clamp(1.3rem, 1.8vw, 1.6rem);
+}
+
+.wk-end {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: min(84vw, 30rem);
+  padding: clamp(28px, 4vw, 44px);
+  border-radius: 18px;
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.wk-end h2 {
+  margin: 0 0 14px;
+  color: var(--paper);
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  line-height: 1.05;
+}
+
+.wk-end p {
+  margin: 0 0 24px;
+  color: #c9c2be;
+}
+
+.wk-end .actions {
+  margin: 0;
+}
+
+.wk-end .btn-ghost {
+  border-color: rgba(255, 255, 255, 0.35);
+  color: var(--paper);
+}
+
+/* The chapter bar follows the Gunter signature's caption: mono capitals along the bottom edge,
+   on the same 1320px measure, with the progress line above it. */
+.wk-rail__foot {
+  padding: 18px max(16px, calc((100% - 1320px) / 2)) 22px;
+}
+
+.wk-rail__chapters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 28px;
+  max-width: none;
+  margin: 0 0 12px;
+  padding: 0;
+  list-style: none;
+  font: 500 0.72rem/1.5 var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.wk-rail__chapters a {
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.25s;
+}
+
+.wk-rail__chapters a:hover,
+.wk-rail__chapters li.is-on a {
+  color: var(--ink);
+}
+
+.wk-rail__bar {
+  height: 2px;
+  background: var(--rule);
+  overflow: hidden;
+}
+
+.wk-rail__bar i {
+  display: block;
+  width: calc(var(--p, 0) * 100%);
+  height: 100%;
+  background: var(--ink);
+}
+
+/* Pinned: the page scrolls down while the row moves across. */
+.wk-rail.is-live .wk-rail__pin {
+  position: sticky;
+  top: var(--header-h, 65px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: calc(100svh - var(--header-h, 65px));
+  padding-bottom: 72px;
+  overflow: hidden;
+}
+
+/* Like the Gunter caption, the chapter bar sits on the pinned screen's bottom edge, under the site header's rules. */
+.wk-rail.is-live .wk-rail__foot {
+  position: absolute;
+  inset: auto 0 0;
+  background: var(--soft);
+}
+
+.wk-rail.is-live .wk-rail__viewport {
+  overflow: visible;
+  scroll-snap-type: none;
+}
+
+.wk-rail.is-live .wk-rail__track {
+  padding-block: 0 clamp(20px, 3vh, 36px);
+  will-change: transform;
+}
+
+/* Keep each slide inside the pinned screen, whatever its height. */
+.wk-rail.is-live .wk-slide {
+  width: min(50rem, 60vw, (100svh - var(--header-h, 65px) - 72px - 48px - 232px) * 1.6);
+}
+
+.wk-rail.is-live .wk-slide .wk-card__body {
+  padding: 16px 22px 18px;
+  gap: 6px;
+}
+
+.wk-rail.is-live .wk-slide .wk-card__result {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.wk-rail.is-live .wk-rail__track {
+  align-items: center;
+}

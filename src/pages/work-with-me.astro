@@ -1,0 +1,196 @@
+---
+// The page every call to action leads to: who this is for, what it costs, how it starts, proof, then the
+// intro call request. Prices: engagements start at $1,600 (Tim, Oct 7, 2026). Ask Tim before adding any
+// other number.
+import Base from '../layouts/Base.astro';
+import { SITE } from '../site';
+import '../styles/work.css';
+
+const fit = [
+  'You run a business of about 5 to 200 people.',
+  'Too much still runs through you, or through one key person.',
+  'You want AI working on real tasks in your business, not a demo.',
+  'You’ll spend a few hours walking me through how the work actually happens.',
+];
+
+const notFit = [
+  'You need IT support, computer repair or a help desk.',
+  'You want a chatbot installed and left alone.',
+  'You’re looking for someone to do the work without your team involved.',
+  'Nothing about how the work gets done is up for change.',
+];
+
+const services = [
+  {
+    id: 'sprint',
+    kind: 'Start here · 2 weeks',
+    name: 'AI Opportunity Sprint',
+    body: 'We map how work actually gets done, pick the three places AI will save the most hours, and set up the first one live with your team.',
+    gets: ['A written map of how work moves', 'Your three best AI opportunities, ranked', 'The first one running, tested on your own past work'],
+    proof: { label: 'Mapping a 20-year sale at AllianceBernstein', href: '/work/alliancebernstein-institutional/' },
+  },
+  {
+    id: 'foundations',
+    kind: 'Project · 4 to 6 weeks',
+    name: 'Brand & Business Foundations',
+    body: 'Positioning, offer, identity and website, grounded in real conversations with your customers so the brand says what actually wins you work.',
+    gets: ['Customer interviews and positioning', 'A brand identity and how to use it', 'A website that sells or takes requests without you'],
+    proof: { label: 'Gunter Metals: a digital metal counter', href: '/work/gunter-metals/' },
+  },
+  {
+    id: 'partner',
+    kind: 'Ongoing · monthly',
+    name: 'Fractional AI & Growth Partner',
+    body: 'Strategy plus hands-on work every month: new automations, brand and marketing systems, and a standing weekly working session.',
+    gets: ['A weekly working session', 'New automations and AI skills each month', 'Brand and marketing systems kept current'],
+    proof: { label: 'Included: a design system and process a team could build from', href: '/work/included/' },
+    featured: true,
+  },
+];
+
+const steps = [
+  { title: 'Request an intro call', body: 'A short form about your business and what’s eating your week. I read every request and reply within a week.' },
+  { title: 'Talk for 30 minutes', body: 'If it’s a fit, you get a link to book a call. We talk through your business and where the hours go.' },
+  { title: 'Get a written plan', body: 'Scope, timeline and price in writing, so you can decide without a sales pitch.' },
+  { title: 'Start small', body: 'Most clients start with a sprint and keep going if it’s working.' },
+];
+
+const faqs: [string, string][] = [
+  ['What does it cost?', 'Engagements start at $1,600. The price depends on the scope we agree in the written plan, and you see it before anything starts. If you’d rather begin on your own, the AI Foundation Kit is free.'],
+  ['How long does it take?', 'The AI Opportunity Sprint takes two weeks. Brand & Business Foundations takes four to six weeks. The Fractional AI & Growth Partner runs month to month.'],
+  ['Do I need to understand AI already?', 'No. You need to know your business. I interview you and your team about how the work really happens, and I handle the AI side.'],
+  ['What if I’m not ready to hire anyone?', 'Download the free AI Foundation Kit. It runs the same first interview I use with clients, in Claude, ChatGPT or any AI chat tool, so you can start today.'],
+];
+
+const faqLd = {
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
+};
+---
+<Base
+  title="Work with me: AI and systems consulting"
+  description="See whether working with Timothy Gaull fits your business: who it's for, the three services, how an engagement starts, and what it costs. Engagements start at $1,600."
+  schema={[faqLd]}
+>
+  <div class="wrap hero">
+    <p class="eyebrow">Work with me</p>
+    <h1>Is working together a good fit?</h1>
+    <p class="lede">I help owner-led businesses put AI to work where it saves real hours, and build the brand and systems that let the team run without the owner in every decision. Here’s who it’s for, what it costs and how it starts.</p>
+    <p class="ww-price"><strong>Engagements start at $1,600.</strong><span>The AI Foundation Kit is free to download.</span></p>
+    <div class="actions">
+      <a class="btn" href={SITE.bookUrl}>{SITE.bookLabel}</a>
+      <a class="btn btn-ghost" href="/kit/">Get the free kit</a>
+    </div>
+  </div>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Who it’s for</p>
+        <h2>A good fit, and not a fit</h2>
+      </div>
+      <div class="ww-fit">
+        <div>
+          <h3>A good fit if…</h3>
+          <ul>{fit.map((f) => <li>{f}</li>)}</ul>
+        </div>
+        <div>
+          <h3>Probably not a fit if…</h3>
+          <ul>{notFit.map((f) => <li>{f}</li>)}</ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Services</p>
+        <h2>Three ways to work together</h2>
+        <p>Start small. Keep going if it’s working.</p>
+      </div>
+      <div class="ww-services">
+        {services.map((s) => (
+          <article class:list={['ww-service', { featured: s.featured }]} id={s.id}>
+            <span class="ww-service__kind">{s.kind}</span>
+            <h3>{s.name}</h3>
+            <p>{s.body}</p>
+            <ul>{s.gets.map((g) => <li>{g}</li>)}</ul>
+            <p class="ww-service__proof">See it in practice: <a href={s.proof.href}>{s.proof.label} →</a></p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">How it starts</p>
+        <h2>From first message to first result</h2>
+      </div>
+      <ol class="steps">
+        {steps.map((s) => (
+          <li>
+            <h3>{s.title}</h3>
+            <p>{s.body}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="band">
+        <div>
+          <p class="eyebrow">Not ready yet?</p>
+          <h2>Start with the free AI Foundation Kit</h2>
+          <p>The same first interview I run with clients, as a download that works in Claude, ChatGPT or any AI chat tool. It writes down how your business runs and turns your most repetitive task into a skill AI can run.</p>
+          <div class="actions">
+            <a class="btn btn-ghost" href="/kit/">Get the free kit</a>
+          </div>
+        </div>
+        <ul class="filelist" aria-label="Files in the kit">
+          <li>01 · Service delivery map interview</li>
+          <li>02 · Context pack</li>
+          <li>03 · Skill extraction</li>
+          <li>04 · Worked example: quote requests</li>
+          <li>05 · Verification and weekly retro</li>
+          <li>06 · Worked example: deal intake</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Questions</p>
+        <h2>Before you reach out</h2>
+      </div>
+      <div class="faq">
+        {faqs.map(([q, a]) => (
+          <details>
+            <summary>{q}</summary>
+            <p>{a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="wk-next">
+        <div>
+          <h2>Ready to talk?</h2>
+          <p>Tell me about your business and what’s eating your week. I read every request and reply within a week.</p>
+        </div>
+        <div class="actions">
+          <a class="btn" href={SITE.bookUrl}>{SITE.bookLabel}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

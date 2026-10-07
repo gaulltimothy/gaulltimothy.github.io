@@ -553,7 +553,7 @@
   background: var(--k);
 }
 
-/* The rail: each stage draws its own stretch of the line to the next, in its phase colour. */
+/* The rail: each stage draws its own stretch of the line to the next, in its phase color. */
 .ab-stage__dot::before {
   content: '';
   position: absolute;
