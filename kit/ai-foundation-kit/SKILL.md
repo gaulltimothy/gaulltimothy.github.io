@@ -1,6 +1,6 @@
 ---
 name: ai-foundation-kit
-description: "Use when an owner or operator of a business wants to adopt AI usefully, map how work actually moves through their business, build a context pack of the facts their team and tools rely on, or turn a recurring task into a reliable, verified AI skill. Runs guided interviews one question at a time and writes the results as plain markdown."
+description: "Interviews a business owner one question at a time to map how work moves, write down the facts AI needs, and turn a recurring task into a tested AI skill."
 ---
 
 # The AI Foundation Kit

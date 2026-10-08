@@ -99,7 +99,15 @@ const kitLd = [
     <div class="kit-done" id="kit-done" hidden>
       <h2>Your download has started.</h2>
       <p>If it didn't, <a id="kit-link" href="#">download the kit here</a>. The link works for 15 minutes.</p>
-      <p>Start with the README, then open file 01 in your AI tool of choice.</p>
+      <div class="kit-start">
+        <p><strong>Using Claude?</strong> Turn on Code execution (Settings, then Capabilities). Then upload the zip as it is: Customize, then Skills, then Upload a skill. Start a chat and say “Start the AI Foundation interview.”</p>
+        <p><strong>Using ChatGPT, Gemini or another AI?</strong> Copy the whole kit as one message and paste it into a new chat.</p>
+        <div class="actions">
+          <button type="button" class="btn btn-ghost" id="kit-copy" disabled>Copy the starter prompt</button>
+          <a class="small" id="kit-prompt-file" href="#">or download it as one file</a>
+        </div>
+        <p class="form-status" id="kit-copy-status" role="status" aria-live="polite"></p>
+      </div>
       <div class="tip" id="kit-tip" hidden>
         <p><strong>Did this save you time?</strong> The kit is free. If it helps, you can tip whatever feels right.</p>
         <div id="tip-choose">
@@ -323,6 +331,29 @@ const kitLd = [
           return;
         }
         document.getElementById('kit-link').href = body.download;
+        // The starter prompt sits behind the same signed link. Fetch it now so the copy button works in one click.
+        const promptUrl = body.download.replace('/api/kit/download', '/api/kit/prompt');
+        document.getElementById('kit-prompt-file').href = promptUrl + '&file=1';
+        fetch(promptUrl).then((r) => (r.ok ? r.text() : Promise.reject())).then((text) => {
+          const copyBtn = document.getElementById('kit-copy');
+          const copyStatus = document.getElementById('kit-copy-status');
+          copyBtn.disabled = false;
+          copyBtn.addEventListener('click', async () => {
+            try {
+              await navigator.clipboard.writeText(text);
+            } catch {
+              const area = Object.assign(document.createElement('textarea'), { value: text });
+              document.body.append(area);
+              area.select();
+              document.execCommand('copy');
+              area.remove();
+            }
+            copyBtn.textContent = 'Copied';
+            copyStatus.textContent = 'Copied. Open a new chat in your AI tool, paste, and press Enter.';
+          });
+        }).catch(() => {
+          document.getElementById('kit-copy-status').textContent = 'The starter prompt didn’t load. Use the “download it as one file” link instead.';
+        });
         if (body.tip) {
           document.getElementById('kit-tip').hidden = false;
           window.dispatchEvent(new CustomEvent('kit:tip', { detail: { ...body.tip, email } }));

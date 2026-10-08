@@ -13,6 +13,7 @@
 //                           Session (ui_mode elements) for a pay-what-you-want tip
 //   GET  /api/tip/status    payment status for the tip return page
 import kitZip from '../kit-build/ai-foundation-kit.zip';
+import kitPrompt from '../kit-build/ai-foundation-kit-prompt.txt';
 
 import { handleAdmin } from './admin';
 
@@ -74,6 +75,7 @@ export default {
     }
     if (url.pathname === '/api/kit/request' && request.method === 'POST') return requestKit(request, env);
     if (url.pathname === '/api/kit/download' && request.method === 'GET') return downloadKit(url, env);
+    if (url.pathname === '/api/kit/prompt' && request.method === 'GET') return kitStarterPrompt(url, env);
     if (url.pathname === '/api/intro/request' && request.method === 'POST') return requestIntro(request, env, ctx);
     if (url.pathname === '/api/feedback' && request.method === 'POST') return submitFeedback(request, env, ctx);
     if (url.pathname === '/api/tip/session' && request.method === 'POST') return createTipSession(request, env);
@@ -387,6 +389,19 @@ async function downloadKit(url: URL, env: Env): Promise<Response> {
       'Cache-Control': 'private, no-store',
     },
   });
+}
+
+// The kit as one message for any AI chat, behind the same short-lived signed link as the zip.
+// ?file=1 serves it as a download instead of text the page copies.
+async function kitStarterPrompt(url: URL, env: Env): Promise<Response> {
+  const exp = Number(url.searchParams.get('exp'));
+  const sig = url.searchParams.get('sig') ?? '';
+  const now = Math.floor(Date.now() / 1000);
+  if (!Number.isInteger(exp) || exp < now || exp > now + LINK_TTL_SECONDS) return expired();
+  if (!timingSafeEqual(sig, await hmacHex(env.DOWNLOAD_SIGNING_KEY, `download:${exp}`))) return expired();
+  const headers: Record<string, string> = { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'private, no-store' };
+  if (url.searchParams.get('file') === '1') headers['Content-Disposition'] = 'attachment; filename="ai-foundation-kit-starter-prompt.txt"';
+  return new Response(kitPrompt, { headers });
 }
 
 function expired(): Response {

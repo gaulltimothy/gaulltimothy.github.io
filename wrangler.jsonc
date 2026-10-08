@@ -11,8 +11,11 @@
     "not_found_handling": "404-page",
     "run_worker_first": true
   },
-  // The kit zip is bundled into the Worker, never published as a static file.
-  "rules": [{ "type": "Data", "globs": ["**/*.zip"], "fallthrough": false }],
+  // The kit zip and its one-message starter prompt are bundled into the Worker, never published as static files.
+  "rules": [
+    { "type": "Data", "globs": ["**/*.zip"], "fallthrough": false },
+    { "type": "Text", "globs": ["**/*.txt"], "fallthrough": false }
+  ],
   "d1_databases": [
     {
       "binding": "DB",

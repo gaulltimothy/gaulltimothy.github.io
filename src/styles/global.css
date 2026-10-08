@@ -1015,3 +1015,21 @@ figcaption {
 .kit-done[hidden] {
   display: none;
 }
+
+/* Kit download panel: how to start in Claude, or copy the kit into any AI chat */
+.kit-start {
+  margin: 20px 0;
+  padding: 18px 20px;
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  background: var(--paper);
+}
+
+.kit-start p {
+  margin: 0 0 10px;
+}
+
+.kit-start .actions {
+  align-items: center;
+  margin: 6px 0 0;
+}
