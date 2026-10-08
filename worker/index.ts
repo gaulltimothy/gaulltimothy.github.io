@@ -39,6 +39,8 @@ interface Env {
   // are set: POSTMARK_TOKEN (a dashboard secret: the Postmark server API token), ALERT_FROM (an address on a domain
   // verified in Postmark) and ALERT_TO.
   POSTMARK_TOKEN?: string;
+  // The name Tim gave the secret in the dashboard; either name works.
+  PostmarkGaullCo?: string;
   ALERT_FROM?: string;
   ALERT_TO?: string;
 }
@@ -240,12 +242,13 @@ async function submitFeedback(request: Request, env: Env, ctx: ExecutionContext)
 // Sends Tim a plain-text alert through Postmark after the response goes out. A failed send never fails the form:
 // the submission is already saved and shows on /admin/.
 function alert(env: Env, ctx: ExecutionContext, subject: string, replyTo: string, rows: [string, string][]): void {
-  if (!env.POSTMARK_TOKEN || !env.ALERT_FROM || !env.ALERT_TO) return;
+  const token = env.POSTMARK_TOKEN || env.PostmarkGaullCo;
+  if (!token || !env.ALERT_FROM || !env.ALERT_TO) return;
   const text = [...rows.filter(([, v]) => v).map(([k, v]) => `${k}:\n${v}\n`), 'All requests: https://timothygaull.com/admin/'].join('\n');
   ctx.waitUntil(
     fetch('https://api.postmarkapp.com/email', {
       method: 'POST',
-      headers: { Accept: 'application/json', 'Content-Type': 'application/json', 'X-Postmark-Server-Token': env.POSTMARK_TOKEN },
+      headers: { Accept: 'application/json', 'Content-Type': 'application/json', 'X-Postmark-Server-Token': token },
       body: JSON.stringify({ From: env.ALERT_FROM, To: env.ALERT_TO, ReplyTo: replyTo, Subject: subject.slice(0, 150), TextBody: text, MessageStream: 'outbound', Tag: 'site-alert' }),
       signal: AbortSignal.timeout(10_000),
     })

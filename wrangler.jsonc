@@ -39,7 +39,7 @@
   "observability": { "enabled": true },
   // Secrets, set in the Cloudflare dashboard (never in this file):
   //   TURNSTILE_SECRET, DOWNLOAD_SIGNING_KEY, STRIPE_SECRET_KEY (restricted key: Checkout Sessions write),
-  //   ADMIN_EMAILS (comma-separated; kept out of this public repo), POSTMARK_TOKEN (Postmark server API token)
+  //   ADMIN_EMAILS (comma-separated; kept out of this public repo), PostmarkGaullCo (Postmark server API token; POSTMARK_TOKEN also accepted)
   // timothygaull.com is canonical (timgaul.com, one L, belongs to someone else). Every other
   // host below is attached so it gets a certificate, and the Worker 301-redirects it here.
   "routes": [
