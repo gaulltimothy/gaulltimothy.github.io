@@ -35,10 +35,10 @@ interface Env {
   ACCESS_TEAM_DOMAIN?: string;
   ACCESS_AUD?: string;
   ADMIN_EMAILS?: string;
-  // Email alerts to Tim for intro-call requests and client feedback. Off until all three are set:
-  // the send_email binding (Cloudflare Email Service, sender domain onboarded), ALERT_FROM and ALERT_TO
-  // (a verified destination address).
-  EMAIL?: { send(message: { to: string; from: string | { email: string; name?: string }; replyTo?: string; subject: string; text: string }): Promise<unknown> };
+  // Email alerts to Tim for intro-call requests and client feedback, sent through Postmark. Off until all three
+  // are set: POSTMARK_TOKEN (a dashboard secret: the Postmark server API token), ALERT_FROM (an address on a domain
+  // verified in Postmark) and ALERT_TO.
+  POSTMARK_TOKEN?: string;
   ALERT_FROM?: string;
   ALERT_TO?: string;
 }
@@ -237,15 +237,22 @@ async function submitFeedback(request: Request, env: Env, ctx: ExecutionContext)
   return json({ ok: true });
 }
 
-// Sends Tim a plain-text alert after the response goes out. A failed send never fails the form:
+// Sends Tim a plain-text alert through Postmark after the response goes out. A failed send never fails the form:
 // the submission is already saved and shows on /admin/.
 function alert(env: Env, ctx: ExecutionContext, subject: string, replyTo: string, rows: [string, string][]): void {
-  if (!env.EMAIL || !env.ALERT_FROM || !env.ALERT_TO) return;
+  if (!env.POSTMARK_TOKEN || !env.ALERT_FROM || !env.ALERT_TO) return;
   const text = [...rows.filter(([, v]) => v).map(([k, v]) => `${k}:\n${v}\n`), 'All requests: https://timothygaull.com/admin/'].join('\n');
   ctx.waitUntil(
-    env.EMAIL.send({ to: env.ALERT_TO, from: { email: env.ALERT_FROM, name: 'timothygaull.com' }, replyTo, subject: subject.slice(0, 150), text }).catch((e) =>
-      console.error('alert email failed', e instanceof Error ? e.message : e),
-    ),
+    fetch('https://api.postmarkapp.com/email', {
+      method: 'POST',
+      headers: { Accept: 'application/json', 'Content-Type': 'application/json', 'X-Postmark-Server-Token': env.POSTMARK_TOKEN },
+      body: JSON.stringify({ From: env.ALERT_FROM, To: env.ALERT_TO, ReplyTo: replyTo, Subject: subject.slice(0, 150), TextBody: text, MessageStream: 'outbound', Tag: 'site-alert' }),
+      signal: AbortSignal.timeout(10_000),
+    })
+      .then(async (r) => {
+        if (!r.ok) console.error('alert email failed', r.status, (await r.text()).slice(0, 300));
+      })
+      .catch((e) => console.error('alert email failed', e instanceof Error ? e.message : e)),
   );
 }
 
