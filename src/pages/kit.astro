@@ -101,7 +101,7 @@ const kitLd = [
       <p>If it didn't, <a id="kit-link" href="#">download the kit here</a>. The link works for 15 minutes.</p>
       <div class="kit-start">
         <p><strong>Using Claude?</strong> Turn on Code execution (Settings, then Capabilities). Then upload the zip as it is: Customize, then Skills, then Upload a skill. Start a chat and say “Start the AI Foundation interview.”</p>
-        <p><strong>Using ChatGPT, Gemini or another AI?</strong> Copy the whole kit as one message and paste it into a new chat.</p>
+        <p><strong>Using ChatGPT, Gemini or another AI?</strong> Copy the whole kit as one message and paste it into a new chat. <a href="#use">Step-by-step with pictures ↓</a></p>
         <div class="actions">
           <button type="button" class="btn btn-ghost" id="kit-copy" disabled>Copy the starter prompt</button>
           <a class="small" id="kit-prompt-file" href="#">or download it as one file</a>
@@ -214,27 +214,102 @@ const kitLd = [
   <section id="use">
     <div class="wrap">
       <div class="section-head">
-        <p class="eyebrow">How to use it</p>
-        <h2>Three ways to run it.</h2>
+        <p class="eyebrow">How to start</p>
+        <h2>Which AI do you use?</h2>
+        <p>Pick yours. Each way takes about two minutes, and the kit runs on your own account, so your business details stay with you.</p>
       </div>
-      <div class="grid grid-3">
-        <div class="card">
-          <p class="kind">Claude</p>
-          <h3>Install it as a skill</h3>
-          <p>In the Claude app's settings, find Skills and upload the zip as it is. In Claude Code, unzip it into <code>~/.claude/skills/</code>. Then say “Run the AI Foundation Kit with me.”</p>
+      <div class="start-tabs">
+        <div class="start-tabs__list" role="tablist" aria-label="Your AI tool">
+          <button type="button" role="tab" id="tab-claude" aria-controls="panel-claude" aria-selected="true">Claude <span>Recommended</span></button>
+          <button type="button" role="tab" id="tab-other" aria-controls="panel-other" aria-selected="false" tabindex="-1">ChatGPT, Gemini or another AI</button>
+          <button type="button" role="tab" id="tab-code" aria-controls="panel-code" aria-selected="false" tabindex="-1">Claude Code</button>
         </div>
-        <div class="card">
-          <p class="kind">ChatGPT, Gemini, Copilot</p>
-          <h3>Paste one file</h3>
-          <p>Open file 01, paste the whole thing into a new chat, and say “Run the service delivery map interview with me. Start with session one.” Keep a real job file open in front of you.</p>
+
+        <div class="start-panel" role="tabpanel" id="panel-claude" aria-labelledby="tab-claude">
+          <ol class="start-steps">
+            <li>
+              <div>
+                <h3>Turn on code execution</h3>
+                <p>In Claude, open <strong>Settings</strong>, then <strong>Capabilities</strong>, and switch on <strong>Code execution and file creation</strong>. Skills need it.</p>
+              </div>
+              <img src="/images/kit/start/claude-1-code-execution.jpg" alt="Claude's Capabilities settings with the Cloud code execution and file creation switch turned on, labelled Required for skills." width="823" height="120" loading="lazy" />
+            </li>
+            <li>
+              <div>
+                <h3>Upload the zip as it is</h3>
+                <p>Open <strong>Customize</strong>, then <strong>Skills</strong>. Click <strong>Add</strong>, then <strong>Upload skill</strong>, and choose the zip you downloaded. Don’t unzip it.</p>
+              </div>
+              <img src="/images/kit/start/claude-2-upload-skill.jpg" alt="Claude's Skills page with the Add menu open, showing Upload skill, Create a skill and Create with Claude." width="485" height="150" loading="lazy" />
+            </li>
+            <li>
+              <div>
+                <h3>Check it’s there</h3>
+                <p>You’ll see <strong>ai-foundation-kit</strong> with its switch on. Click <strong>Try in chat</strong>, or start any new chat.</p>
+              </div>
+              <img src="/images/kit/start/claude-3-skill-added.jpg" alt="The ai-foundation-kit skill page in Claude, marked New, with a Try in chat button and its switch turned on." width="970" height="145" loading="lazy" />
+            </li>
+            <li>
+              <div>
+                <h3>Start the interview</h3>
+                <p>Say <strong>“Start the AI Foundation interview.”</strong> Claude loads the kit and asks one question at a time. Stop anytime; next time, say “Let’s keep going.”</p>
+              </div>
+              <img src="/images/kit/start/claude-4-loaded-skill.jpg" alt="A Claude chat showing Loaded skill, then Claude explaining the AI Foundation Kit and its five steps." width="760" height="370" loading="lazy" />
+            </li>
+          </ol>
         </div>
-        <div class="card featured">
-          <p class="kind">With help</p>
-          <h3>Run it with me</h3>
-          <p>It works on its own. It goes faster with someone facilitating, because the hard part is asking the questions that surface judgment you can't see because it's yours.</p>
-          <p><a href={SITE.workUrl}>{SITE.workLabel} →</a></p>
+
+        <div class="start-panel" role="tabpanel" id="panel-other" aria-labelledby="tab-other" hidden>
+          <ol class="start-steps start-steps--text">
+            <li>
+              <div>
+                <h3>Get the kit</h3>
+                <p>Enter your email above. The starter prompt comes with your download.</p>
+              </div>
+            </li>
+            <li>
+              <div>
+                <h3>Copy the starter prompt</h3>
+                <p>It’s the whole kit as one message: the instructions and all six guides.</p>
+                <p class="start-copy">
+                  <button type="button" class="btn btn-ghost" data-copy-prompt disabled>Copy the starter prompt</button>
+                  <a class="small" href="#kit-form" data-copy-hint>Get the kit first ↑</a>
+                </p>
+                <p class="form-status" data-copy-status role="status" aria-live="polite"></p>
+              </div>
+            </li>
+            <li>
+              <div>
+                <h3>Paste it into a new chat</h3>
+                <p>Open a new chat in ChatGPT, Gemini, Copilot or any AI tool, paste, and press Enter. If your tool says the message is too long, use “download it as one file” and attach the file instead.</p>
+              </div>
+            </li>
+            <li>
+              <div>
+                <h3>Answer one question at a time</h3>
+                <p>Keep the same chat for your next session so it remembers what you’ve covered.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <div class="start-panel" role="tabpanel" id="panel-code" aria-labelledby="tab-code" hidden>
+          <ol class="start-steps start-steps--text">
+            <li>
+              <div>
+                <h3>Unzip it into your skills folder</h3>
+                <p>Put the <code>ai-foundation-kit</code> folder in <code>~/.claude/skills/</code>, or in your project’s <code>.claude/skills/</code>.</p>
+              </div>
+            </li>
+            <li>
+              <div>
+                <h3>Start the interview</h3>
+                <p>In Claude Code, say <strong>“Start the AI Foundation interview.”</strong> It writes the map and context pack as markdown files in your project.</p>
+              </div>
+            </li>
+          </ol>
         </div>
       </div>
+      <p class="start-help">Stuck, or want someone to run it with you? <a href={SITE.workUrl}>{SITE.workLabel} →</a></p>
     </div>
   </section>
   <section>
@@ -335,6 +410,7 @@ const kitLd = [
         const promptUrl = body.download.replace('/api/kit/download', '/api/kit/prompt');
         document.getElementById('kit-prompt-file').href = promptUrl + '&file=1';
         fetch(promptUrl).then((r) => (r.ok ? r.text() : Promise.reject())).then((text) => {
+          window.dispatchEvent(new CustomEvent('kit:prompt', { detail: text }));
           const copyBtn = document.getElementById('kit-copy');
           const copyStatus = document.getElementById('kit-copy-status');
           copyBtn.disabled = false;
@@ -514,6 +590,51 @@ const kitLd = [
         statusEl.textContent = '';
         $('tip-thanks').hidden = false;
       }
+    })();
+  </script>
+  <script is:inline>
+    // How-to tabs: arrow keys move between tabs, as the ARIA tabs pattern expects.
+    (() => {
+      const tabs = [...document.querySelectorAll('.start-tabs [role=tab]')];
+      const show = (tab) => {
+        tabs.forEach((t) => {
+          const on = t === tab;
+          t.setAttribute('aria-selected', String(on));
+          t.tabIndex = on ? 0 : -1;
+          document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+        });
+      };
+      tabs.forEach((t, i) => {
+        t.addEventListener('click', () => show(t));
+        t.addEventListener('keydown', (e) => {
+          const step = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+          if (!step) return;
+          const next = tabs[(i + step + tabs.length) % tabs.length];
+          show(next);
+          next.focus();
+        });
+      });
+      // The ChatGPT tab's copy button wakes up once the starter prompt has loaded after signup.
+      window.addEventListener('kit:prompt', (e) => {
+        const text = e.detail;
+        document.querySelectorAll('[data-copy-hint]').forEach((h) => (h.hidden = true));
+        document.querySelectorAll('[data-copy-prompt]').forEach((btn) => {
+          btn.disabled = false;
+          btn.addEventListener('click', async () => {
+            try {
+              await navigator.clipboard.writeText(text);
+            } catch {
+              const area = Object.assign(document.createElement('textarea'), { value: text });
+              document.body.append(area);
+              area.select();
+              document.execCommand('copy');
+              area.remove();
+            }
+            btn.textContent = 'Copied';
+            document.querySelectorAll('[data-copy-status]').forEach((s) => (s.textContent = 'Copied. Open a new chat, paste, and press Enter.'));
+          });
+        });
+      });
     })();
   </script>
 </Base>

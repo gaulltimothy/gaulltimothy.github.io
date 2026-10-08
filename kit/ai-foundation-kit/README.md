@@ -4,6 +4,18 @@
 
 ---
 
+## How to start (about two minutes)
+
+**Claude (recommended).** Settings > Capabilities: turn on *Code execution and file creation*. Then Customize > Skills > Add > Upload skill, and choose this zip as it is (don't unzip it). Start a chat and say: "Start the AI Foundation interview."
+
+**ChatGPT, Gemini, Copilot or another AI.** On the kit's download page, click *Copy the starter prompt* (the whole kit as one message), paste it into a new chat, and press Enter. If it's too long for your tool, download it as one file and attach it instead.
+
+**Claude Code.** Put the `ai-foundation-kit` folder in `~/.claude/skills/`, then say: "Start the AI Foundation interview."
+
+Pictures of each step: https://timothygaull.com/kit/#use
+
+---
+
 ## What this is
 
 A free, self-guided kit for owners and operators of businesses with roughly 5 to 200 people: shops, trades, manufacturers, professional services firms, real estate and investment firms, and anyone else whose business still runs mostly through the person at the top.
