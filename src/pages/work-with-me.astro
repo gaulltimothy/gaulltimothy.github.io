@@ -48,6 +48,16 @@ const services = [
   },
 ];
 
+// Same plates, labels and alt text as the Work page. These are also the Microsoft Ads image extensions,
+// which should appear on the landing page they link to.
+const work = [
+  { href: '/work/gunter-metals/', kind: 'Gunter Metals · metal fabrication', title: 'From a contact form to a digital metal counter', img: '/images/work/plates/gunter.jpg', alt: 'The Gunter Metals metal counter on a laptop: “Metal, cut to length. Ready today.” over a jobsite photo.' },
+  { href: '/work/included/', kind: 'Included · AI people analytics', title: 'A design system and a process an offshore team could build from', img: '/images/work/plates/included.jpg', alt: 'The Included Org Health Scorecard: a sentence-style control above a quarterly table with trend lines, on a coral cover.' },
+  { href: '/work/pedro-pet-pals/', kind: 'Pedro Pet Pals · animal rescue', title: 'A rescue website built around how volunteers work', img: '/images/work/plates/pedro.jpg', alt: 'The Pedro Pet Pals adopt page: filters for all, cats and dogs, and animal cards with photos, details and an Apply to adopt button.' },
+  { href: '/work/alliancebernstein/', kind: 'AllianceBernstein · asset manager', title: 'Taking 6,000 people off paper', img: '/images/work/plates/ab-paperless.jpg', alt: 'The AB Paperless app: tiles for working with files, running meetings, taking notes and chatting with colleagues.' },
+  { href: '/work/alliancebernstein-institutional/', kind: 'AllianceBernstein · institutional sales', title: 'Mapping a 20-year sale, and the CRM advisors skipped', img: '/images/work/plates/ab-crm.jpg', alt: 'The redesigned Salesforce home on a monitor beside a phone showing the mobile sales concept, client details pixelated.' },
+];
+
 const steps = [
   { title: 'Request an intro call', body: 'A short form about your business and what’s eating your week. I read every request and reply within a week.' },
   { title: 'Talk for 30 minutes', body: 'If it’s a fit, you get a link to book a call. We talk through your business and where the hours go.' },
@@ -120,6 +130,27 @@ const faqLd = {
           </article>
         ))}
       </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Proof</p>
+        <h2>Recent work</h2>
+        <p>Each one opens the full case study. <a href="/work/">See all the work →</a></p>
+      </div>
+      <ul class="ww-work">
+        {work.map((w) => (
+          <li>
+            <a href={w.href}>
+              <img src={w.img} alt={w.alt} width="1600" height="1000" loading="lazy" decoding="async" />
+              <span class="ww-work__kind">{w.kind}</span>
+              <span class="ww-work__title">{w.title}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
     </div>
   </section>
 
