@@ -1009,3 +1009,9 @@ figcaption {
     font-size: 0.78rem;
   }
 }
+
+/* Forms swap to their thank-you panel by setting `hidden`; the grid layouts above would otherwise keep showing them. */
+.kit-form[hidden],
+.kit-done[hidden] {
+  display: none;
+}
