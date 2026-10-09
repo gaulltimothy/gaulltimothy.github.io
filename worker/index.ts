@@ -147,8 +147,8 @@ const INTRO_CHOICES = {
   budget: ['Not sure yet', 'Under $2,500', '$2,500 to $10,000', 'More than $10,000', 'Ongoing monthly help'],
 } as const;
 
-// Likely fits book a call right away: an owner-led team of 5 to 200 that isn't just exploring.
-const INTRO_FIT_TEAM_SIZES: readonly string[] = ['5 to 20', '21 to 50', '51 to 200'];
+// Likely fits book a call right away: an owner-led business of one to 200 people that isn't just exploring.
+const INTRO_FIT_TEAM_SIZES: readonly string[] = ['Just me', '2 to 4', '5 to 20', '21 to 50', '51 to 200'];
 const isIntroFit = (teamSize: string, timeline: string) =>
   INTRO_FIT_TEAM_SIZES.includes(teamSize) && timeline !== '' && timeline !== 'Just exploring';
 
