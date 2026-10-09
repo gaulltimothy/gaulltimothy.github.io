@@ -44,6 +44,10 @@ interface Env {
   PostmarkGaullCo?: string;
   ALERT_FROM?: string;
   ALERT_TO?: string;
+  // Tim's Google Calendar appointment page (https://calendar.google.com/calendar/appointments/schedules/...), a
+  // dashboard secret so the link stays out of this public repo. Intro requests that look like a fit get it back
+  // and book on the spot; everyone else waits for Tim's reply. Off when unset.
+  BOOKING_URL?: string;
 }
 
 const CANONICAL_HOST = 'timothygaull.com';
@@ -143,6 +147,24 @@ const INTRO_CHOICES = {
   budget: ['Not sure yet', 'Under $2,500', '$2,500 to $10,000', 'More than $10,000', 'Ongoing monthly help'],
 } as const;
 
+// Likely fits book a call right away: an owner-led team of 5 to 200 that isn't just exploring.
+const INTRO_FIT_TEAM_SIZES: readonly string[] = ['5 to 20', '21 to 50', '51 to 200'];
+const isIntroFit = (teamSize: string, timeline: string) =>
+  INTRO_FIT_TEAM_SIZES.includes(teamSize) && timeline !== '' && timeline !== 'Just exploring';
+
+// The embeddable form of the booking page, or null when it isn't configured.
+function bookingEmbedUrl(env: Env): string | null {
+  if (!env.BOOKING_URL) return null;
+  try {
+    const url = new URL(env.BOOKING_URL);
+    if (url.protocol !== 'https:' || url.hostname !== 'calendar.google.com') return null;
+    url.searchParams.set('gv', 'true');
+    return url.toString();
+  } catch {
+    return null;
+  }
+}
+
 async function requestIntro(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
   let body: Record<string, unknown>;
   try {
@@ -178,13 +200,16 @@ async function requestIntro(request: Request, env: Env, ctx: ExecutionContext): 
   if (await rateLimited(ip, env)) return json({ error: 'rate_limited' }, 429);
   if (!(await verifyTurnstile(token, ip, INTRO_ACTION, env))) return json({ error: 'verification_failed' }, 403);
 
+  const booking = isIntroFit(fields.team_size, fields.timeline) ? bookingEmbedUrl(env) : null;
   await env.DB.prepare(
-    `INSERT INTO intro_requests (created_at, name, email, company, site, team_size, business, pain, timeline, budget, source)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    `INSERT INTO intro_requests (created_at, name, email, company, site, team_size, business, pain, timeline, budget, source, status)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
   )
-    .bind(new Date().toISOString(), fields.name, email, fields.company, fields.site, fields.team_size, fields.business, fields.pain, fields.timeline, fields.budget, fields.source)
+    .bind(new Date().toISOString(), fields.name, email, fields.company, fields.site, fields.team_size, fields.business, fields.pain, fields.timeline, fields.budget, fields.source, booking ? 'invited' : 'new')
     .run();
-  alert(env, ctx, `Intro call request: ${fields.name}${fields.company ? `, ${fields.company}` : ''}`, email, [
+  const subject = `Intro call request: ${fields.name}${fields.company ? `, ${fields.company}` : ''}${booking ? ' (can book now)' : ''}`;
+  alert(env, ctx, subject, email, [
+    ['Booking', booking ? 'Likely fit: saw your calendar and can book now' : 'Not shown: reply within one business day'],
     ['Name', fields.name],
     ['Email', email],
     ['Company', fields.company],
@@ -196,7 +221,7 @@ async function requestIntro(request: Request, env: Env, ctx: ExecutionContext): 
     ['Budget', fields.budget],
     ['How they found you', fields.source],
   ]);
-  return json({ ok: true });
+  return json(booking ? { ok: true, booking } : { ok: true });
 }
 
 const FEEDBACK_ANSWERS = ['before_state', 'tried', 'why_hire', 'first_meeting', 'first_look', 'now_can', 'timing', 'advice', 'anything_else'] as const;

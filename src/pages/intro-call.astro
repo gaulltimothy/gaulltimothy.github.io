@@ -86,7 +86,12 @@ const budgets = ['Not sure yet', 'Under $2,500', '$2,500 to $10,000', 'More than
 
     <div class="kit-done" id="intro-done" hidden tabindex="-1">
       <h2>Thanks. Your request is in.</h2>
-      <p>I read every request and reply within one business day. If it's a fit, you'll get a link to book a free 30-minute call.</p>
+      <p id="intro-next">I read every request and reply within one business day. If it's a fit, you'll get a link to book a free 30-minute call.</p>
+      <div class="intro-book" id="intro-book" hidden>
+        <p>It sounds like a good fit, so you can book now. Pick a time for your free 30-minute call:</p>
+        <iframe id="intro-book-frame" title="Book a free 30-minute intro call with Timothy Gaull" loading="lazy"></iframe>
+        <p class="small muted">Times are shown in your time zone. If none of them work, I'll reply within one business day with other options.</p>
+      </div>
       <p>Meanwhile, the <a href="/kit/">free AI Foundation Kit</a> is the first step of how I work. Running its interview before we talk makes our call twice as useful.</p>
     </div>
   </div>
@@ -142,6 +147,11 @@ const budgets = ['Not sure yet', 'Under $2,500', '$2,500 to $10,000', 'More than
             'Something went wrong with the check. Please try again.';
           return;
         }
+        if (typeof body.booking === 'string' && body.booking.startsWith('https://calendar.google.com/')) {
+          document.getElementById('intro-next').hidden = true;
+          document.getElementById('intro-book-frame').src = body.booking;
+          document.getElementById('intro-book').hidden = false;
+        }
         form.hidden = true;
         done.hidden = false;
         done.focus();
@@ -155,3 +165,23 @@ const budgets = ['Not sure yet', 'Under $2,500', '$2,500 to $10,000', 'More than
     });
   </script>
 </Base>
+
+<style>
+  .intro-book {
+    display: grid;
+    gap: 12px;
+    margin-block: 8px 20px;
+  }
+
+  .intro-book iframe {
+    width: 100%;
+    height: 640px;
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    background: var(--surface);
+  }
+
+  .intro-book .small {
+    margin: 0;
+  }
+</style>
