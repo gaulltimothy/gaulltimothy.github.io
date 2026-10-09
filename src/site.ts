@@ -12,7 +12,7 @@ export const SITE = {
   // Intro calls are by request: people fill in the form, Tim reviews weekly and sends
   // his private booking link only to good fits.
   bookUrl: '/intro-call/',
-  bookLabel: 'Request an intro call',
+  bookLabel: 'Request a free intro call',
   // Every page's main call to action leads here first: the page that helps a visitor decide.
   workUrl: '/work-with-me/',
   workLabel: 'See how we’d work together',
