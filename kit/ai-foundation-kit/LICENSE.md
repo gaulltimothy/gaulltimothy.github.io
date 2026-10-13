@@ -13,14 +13,14 @@ You are free to:
 
 As long as you:
 
-- **Give credit.** Name Timothy Gaull as the original author, link to timothygaull.com and to the license, and say whether you made changes. You can do this in any reasonable way, but not in a way that suggests Timothy Gaull endorses you or your use.
+- **Give credit.** Name Timothy Gaull as the original author, link to gaullco.com and to the license, and say whether you made changes. You can do this in any reasonable way, but not in a way that suggests Timothy Gaull endorses you or your use.
 
 Suggested credit line:
 
-> Based on The AI Foundation Kit by Timothy Gaull (timothygaull.com), licensed under CC BY 4.0.
+> Based on The AI Foundation Kit by Timothy Gaull (gaullco.com), licensed under CC BY 4.0.
 
 This summary is a convenience, not the license itself. The full legal text at the link above governs.
 
 ---
 
-*The AI Foundation Kit by Timothy Gaull · timothygaull.com · Free to use and share. Want help running it? Request an intro call at timothygaull.com/intro-call/*
+*The AI Foundation Kit by Timothy Gaull · gaullco.com · Free to use and share. Want help running it? Request an intro call at gaullco.com/intro-call/*

@@ -35,10 +35,10 @@ const nav = [
 ];
 const personLd = {
   '@type': 'Person',
-  '@id': 'https://timothygaull.com/#person',
+  '@id': 'https://gaullco.com/#person',
   name: 'Timothy Gaull',
   alternateName: 'Tim Gaull',
-  url: 'https://timothygaull.com/',
+  url: 'https://gaullco.com/',
   image: new URL('/images/timothy-gaull.jpg', Astro.site).href,
   description: SITE.description,
   knowsAbout: [
@@ -54,33 +54,33 @@ const personLd = {
     'Design systems',
     'Service design',
   ],
-  worksFor: { '@id': 'https://timothygaull.com/#practice' },
+  worksFor: { '@id': 'https://gaullco.com/#practice' },
   jobTitle: 'Principal Consultant, AI, Brand & Business Strategy',
   address: { '@type': 'PostalAddress', addressLocality: 'Nashville', addressRegion: 'TN', addressCountry: 'US' },
   sameAs: [SITE.linkedin],
 };
 const websiteLd = {
   '@type': 'WebSite',
-  '@id': 'https://timothygaull.com/#website',
-  url: 'https://timothygaull.com/',
+  '@id': 'https://gaullco.com/#website',
+  url: 'https://gaullco.com/',
   name: 'Timothy Gaull',
-  publisher: { '@id': 'https://timothygaull.com/#person' },
+  publisher: { '@id': 'https://gaullco.com/#person' },
   inLanguage: 'en-US',
 };
 const service = (name: string, description: string) => ({
   '@type': 'Offer',
-  itemOffered: { '@type': 'Service', name, description, provider: { '@id': 'https://timothygaull.com/#practice' } },
+  itemOffered: { '@type': 'Service', name, description, provider: { '@id': 'https://gaullco.com/#practice' } },
 });
 const practiceLd = {
   '@type': 'ProfessionalService',
-  '@id': 'https://timothygaull.com/#practice',
+  '@id': 'https://gaullco.com/#practice',
   // Matches the verified Google Business Profile name, so search ties the profile to this site.
   name: 'Gaull & Co',
   alternateName: 'Timothy Gaull',
-  url: 'https://timothygaull.com/',
+  url: 'https://gaullco.com/',
   image: new URL('/images/timothy-gaull.jpg', Astro.site).href,
   description: 'AI adoption, brand and business systems consulting for owner-led businesses.',
-  founder: { '@id': 'https://timothygaull.com/#person' },
+  founder: { '@id': 'https://gaullco.com/#person' },
   telephone: SITE.phoneIntl,
   email: SITE.email,
   address: { '@type': 'PostalAddress', addressLocality: 'Nashville', addressRegion: 'TN', addressCountry: 'US' },

@@ -32,8 +32,8 @@ export function caseStudySchema(props: CaseStudyProps, pathname: string, site: U
     image: image ? new URL(image.src, site).href : undefined,
     datePublished: published,
     dateModified: updated ?? published,
-    author: { '@id': 'https://timothygaull.com/#person' },
-    publisher: { '@id': 'https://timothygaull.com/#practice' },
+    author: { '@id': 'https://gaullco.com/#person' },
+    publisher: { '@id': 'https://gaullco.com/#practice' },
     about: client ? { '@type': 'Organization', name: client.name, url: client.url } : eyebrow,
     inLanguage: 'en-US',
   };

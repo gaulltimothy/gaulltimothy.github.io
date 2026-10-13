@@ -60,9 +60,9 @@ Run through this while drafting a case study in `src/pages/work/`. The keyword c
 
 - [ ] Add the card to the `cases` array in **`src/pages/work/index.astro`** (`href`, `kind`, `stat`, `title`, `body`).
 - [ ] If it's a top-three story, update the `work` array in **`src/pages/index.astro`**.
-- [ ] Add one line under "## Case studies" in **`public/llms.txt`**: `- [Client](https://timothygaull.com/work/slug/): what was done, for whom (industry, place), result.` Use the same facts as the page.
+- [ ] Add one line under "## Case studies" in **`public/llms.txt`**: `- [Client](https://gaullco.com/work/slug/): what was done, for whom (industry, place), result.` Use the same facts as the page.
 - [ ] Link to it from the matching service page's "Work that shows it" section (once service pages exist).
-- [ ] **Sitemap is automatic** (`@astrojs/sitemap` in `astro.config.mjs`). After deploy, confirm the URL appears in `https://timothygaull.com/sitemap-0.xml`.
+- [ ] **Sitemap is automatic** (`@astrojs/sitemap` in `astro.config.mjs`). After deploy, confirm the URL appears in `https://gaullco.com/sitemap-0.xml`.
 - [ ] **Search Console:** URL Inspection, then "Request indexing". **Bing Webmaster Tools:** submit the URL (IndexNow covers this if Cloudflare Crawler Hints is on).
 - [ ] Post it on the Gaull & Co Google Business Profile and LinkedIn.
 - [ ] Ask the client for a Google review (every client, the same way, no incentives) and, if they're happy to, a link from their site.

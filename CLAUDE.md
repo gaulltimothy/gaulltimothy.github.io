@@ -1,4 +1,4 @@
-# timothygaull.com
+# gaullco.com
 
 Astro site deployed on Cloudflare Workers (`wrangler.jsonc`). GitHub Pages only serves the redirect in `github-pages-redirect/`.
 

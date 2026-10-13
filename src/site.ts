@@ -17,7 +17,7 @@ export const SITE = {
   workUrl: '/work-with-me/',
   workLabel: 'See how we’d work together',
   linkedin: 'https://www.linkedin.com/in/timothygaull/',
-  // Public Turnstile sitekey for the kit form (widget "timgaull.com kit"; its hostnames must include timothygaull.com).
+  // Public Turnstile sitekey for the kit form (widget "timgaull.com kit"; its hostnames must include gaullco.com).
   // For local testing with wrangler dev, swap in Cloudflare's test key 1x00000000000000000000AA.
   turnstileSiteKey: '0x4AAAAAAFE6ILHOftIpjBVi',
 };

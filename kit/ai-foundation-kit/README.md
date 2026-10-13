@@ -12,7 +12,7 @@
 
 **Claude Code.** Put the `ai-foundation-kit` folder in `~/.claude/skills/`, then say: "Start the AI Foundation interview."
 
-Pictures of each step: https://timothygaull.com/kit/#use
+Pictures of each step: https://gaullco.com/kit/#use
 
 ---
 
@@ -85,8 +85,8 @@ With those three, the tool can be rebuilt or moved to a different platform in an
 
 ---
 
-*The AI Foundation Kit by Timothy Gaull · timothygaull.com*
+*The AI Foundation Kit by Timothy Gaull · gaullco.com*
 
 *Free to use and share under CC BY 4.0. Timothy Gaull is an independent consultant in Nashville who helps owner-led businesses put AI to work, sharpen their brand, and build systems so the business doesn't run entirely through the owner.*
 
-*Want help running it? Request an intro call at timothygaull.com/intro-call/*
+*Want help running it? Request an intro call at gaullco.com/intro-call/*

@@ -1,5 +1,5 @@
-// timothygaull.com Worker. It runs before every request so it can send every other
-// domain Tim owns (timgaull.com, www, misspellings) to timothygaull.com, then serves
+// gaullco.com Worker. It runs before every request so it can send every other
+// domain Tim owns (timothygaull.com, timgaull.com, www, misspellings) to gaullco.com, then serves
 // the static pages from ./dist. It also gates the free kit behind a human check and an email.
 //
 //   POST /api/kit/request   honeypot → email → rate limit → Turnstile siteverify
@@ -50,7 +50,7 @@ interface Env {
   BOOKING_URL?: string;
 }
 
-const CANONICAL_HOST = 'timothygaull.com';
+const CANONICAL_HOST = 'gaullco.com';
 const KIT_ACTION = 'kit_download';
 const INTRO_ACTION = 'intro_request';
 const FEEDBACK_ACTION = 'feedback';
@@ -66,9 +66,9 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 export default {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
-    // Other hosts, and plain http on the canonical host, go to https://timothygaull.com.
+    // Other hosts, and plain http on the canonical host, go to https://gaullco.com.
     // Stripe's payment form and the wallets refuse to load on an insecure page.
-    // wrangler dev reports http://timothygaull.com too, so .dev.vars sets LOCAL_DEV=1 to skip this.
+    // wrangler dev reports http://gaullco.com too, so .dev.vars sets LOCAL_DEV=1 to skip this.
     const insecure = url.protocol === 'http:' && url.hostname === CANONICAL_HOST && env.LOCAL_DEV !== '1';
     if (insecure || shouldRedirect(url.hostname)) {
       return Response.redirect(`https://${CANONICAL_HOST}${url.pathname}${url.search}`, 301);
@@ -271,7 +271,7 @@ async function submitFeedback(request: Request, env: Env, ctx: ExecutionContext)
 function alert(env: Env, ctx: ExecutionContext, subject: string, replyTo: string, rows: [string, string][]): void {
   const token = env.POSTMARK_TOKEN || env.PostmarkGaullCo;
   if (!token || !env.ALERT_FROM || !env.ALERT_TO) return;
-  const text = [...rows.filter(([, v]) => v).map(([k, v]) => `${k}:\n${v}\n`), 'All requests: https://timothygaull.com/admin/'].join('\n');
+  const text = [...rows.filter(([, v]) => v).map(([k, v]) => `${k}:\n${v}\n`), 'All requests: https://gaullco.com/admin/'].join('\n');
   ctx.waitUntil(
     fetch('https://api.postmarkapp.com/email', {
       method: 'POST',
@@ -430,7 +430,7 @@ async function kitStarterPrompt(url: URL, env: Env): Promise<Response> {
 }
 
 function expired(): Response {
-  return new Response('This download link has expired. Request a new one at https://timothygaull.com/kit/', {
+  return new Response('This download link has expired. Request a new one at https://gaullco.com/kit/', {
     status: 403,
     headers: { 'Content-Type': 'text/plain; charset=utf-8' },
   });

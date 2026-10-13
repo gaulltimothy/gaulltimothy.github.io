@@ -112,4 +112,4 @@ That is also the exact standard a new hire will be trained against, which is why
 
 ---
 
-*The AI Foundation Kit by Timothy Gaull · timothygaull.com · Free to use and share. Want help running it? Request an intro call at timothygaull.com/intro-call/*
+*The AI Foundation Kit by Timothy Gaull · gaullco.com · Free to use and share. Want help running it? Request an intro call at gaullco.com/intro-call/*

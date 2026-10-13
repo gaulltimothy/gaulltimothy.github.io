@@ -6,35 +6,35 @@ His approach: most businesses don't have an AI problem, they have a systems prob
 
 ## Free tool
 
-- [The AI Foundation Kit](https://timothygaull.com/kit/): a free, CC BY 4.0 kit of plain-text files that turns Claude, ChatGPT, Gemini or any AI chat tool into an interviewer. It maps how work moves through a business (service delivery map), builds a context pack of standing facts (what the business takes on and turns away, pricing assumptions, glossary, definitions of done, approval gates), extracts recurring tasks into AI skills with a fixed template, and verifies each skill against five past decisions. Includes worked examples for a metal fabrication shop and a real estate investor. Installs as a Claude Skill. Download with a name and email at https://timothygaull.com/kit/.
+- [The AI Foundation Kit](https://gaullco.com/kit/): a free, CC BY 4.0 kit of plain-text files that turns Claude, ChatGPT, Gemini or any AI chat tool into an interviewer. It maps how work moves through a business (service delivery map), builds a context pack of standing facts (what the business takes on and turns away, pricing assumptions, glossary, definitions of done, approval gates), extracts recurring tasks into AI skills with a fixed template, and verifies each skill against five past decisions. Includes worked examples for a metal fabrication shop and a real estate investor. Installs as a Claude Skill. Download with a name and email at https://gaullco.com/kit/.
 
 ## Services
 
 - AI Opportunity Sprint (2 weeks): map how work gets done, pick the three biggest AI wins, set up the first one live.
 - Brand & Business Foundations (4 to 6 weeks): positioning, offer, identity and website grounded in customer interviews.
 - Fractional AI & Growth Partner (monthly): ongoing strategy and hands-on automations, brand and marketing systems.
-- Engagements start at $1,600. Who it is for, the services and how an engagement starts: https://timothygaull.com/work-with-me/. Intro calls by request at https://timothygaull.com/intro-call/.
+- Engagements start at $1,600. Who it is for, the services and how an engagement starts: https://gaullco.com/work-with-me/. Intro calls by request at https://gaullco.com/intro-call/.
 - Service area: Nashville and Middle Tennessee, and clients anywhere remotely.
 
 ## Case studies
 
-- [Gunter Metals](https://timothygaull.com/work/gunter-metals/): a Middle Tennessee metal fabrication shop that went from a one-page website and contact form to a phone-first metal counter with dynamic pricing and inventory kept in a spreadsheet, requests for proposals that flow into Jobber, the shop's CRM and quoting tool, and a brand identity designed with AI in four days.
-- [Pedro Pet Pals](https://timothygaull.com/work/pedro-pet-pals/): volunteer project for an animal rescue; adoptable animals published live from shelter software, a volunteer photo tool and approved onboarding.
-- [AllianceBernstein: paperless](https://timothygaull.com/work/alliancebernstein/): a firmwide paperless program at a global asset manager that moved 3,500 employees and 2,500 contractors onto iPads and digital workflows, taught by an iPad app Tim designed and built, with an estimated $10M a year in savings.
-- [AllianceBernstein: institutional sales](https://timothygaull.com/work/alliancebernstein-institutional/): research with 22 institutional sales advisors, relationship managers and associates worldwide, personas, a day-in-the-life map and a sales and account lifecycle map, then a Salesforce redesign built around how advisors sell.
-- [Included](https://timothygaull.com/work/included/): a tokenized design system and design-to-build process for an AI people-analytics platform that won a 2023 SXSW Innovation Award.
+- [Gunter Metals](https://gaullco.com/work/gunter-metals/): a Middle Tennessee metal fabrication shop that went from a one-page website and contact form to a phone-first metal counter with dynamic pricing and inventory kept in a spreadsheet, requests for proposals that flow into Jobber, the shop's CRM and quoting tool, and a brand identity designed with AI in four days.
+- [Pedro Pet Pals](https://gaullco.com/work/pedro-pet-pals/): volunteer project for an animal rescue; adoptable animals published live from shelter software, a volunteer photo tool and approved onboarding.
+- [AllianceBernstein: paperless](https://gaullco.com/work/alliancebernstein/): a firmwide paperless program at a global asset manager that moved 3,500 employees and 2,500 contractors onto iPads and digital workflows, taught by an iPad app Tim designed and built, with an estimated $10M a year in savings.
+- [AllianceBernstein: institutional sales](https://gaullco.com/work/alliancebernstein-institutional/): research with 22 institutional sales advisors, relationship managers and associates worldwide, personas, a day-in-the-life map and a sales and account lifecycle map, then a Salesforce redesign built around how advisors sell.
+- [Included](https://gaullco.com/work/included/): a tokenized design system and design-to-build process for an AI people-analytics platform that won a 2023 SXSW Innovation Award.
 
 ## Contact
 
 - Gaull & Co, Nashville, TN
 - Phone: (615) 933-9645
 - Email: tim@gaullco.com
-- Intro calls by request: https://timothygaull.com/intro-call/
+- Intro calls by request: https://gaullco.com/intro-call/
 
 ## More
 
-- [About Timothy Gaull](https://timothygaull.com/about/)
-- [All work](https://timothygaull.com/work/)
+- [About Timothy Gaull](https://gaullco.com/about/)
+- [All work](https://gaullco.com/work/)
 - [LinkedIn](https://www.linkedin.com/in/timothygaull/)
 
 Last updated: 2026-10-07

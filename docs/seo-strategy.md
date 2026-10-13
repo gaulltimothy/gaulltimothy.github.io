@@ -1,4 +1,4 @@
-# SEO strategy for timothygaull.com
+# SEO strategy for gaullco.com
 
 Last updated: October 6, 2026. Section 9 lists which quick wins have been made on the site.
 
@@ -173,7 +173,7 @@ Evidence:
   - "Brand strategy and identity: Brand & Business Foundations (4 to 6 weeks)"
   - "Free AI Foundation Kit" (as a product)
 - **Description** (750 characters max): start with the plain sentence: "Gaull & Co is the practice of Timothy Gaull, an AI and business systems consultant in Nashville who helps owner-led businesses…" Then services, who it's for (5 to 200 people; trades, industrial, professional services, real estate), and how to start (intro call, free kit).
-- **Website link:** `https://timothygaull.com/`. Add `?utm_source=google&utm_medium=organic&utm_campaign=gbp` only if the site gets an analytics tool. It has none today.
+- **Website link:** `https://gaullco.com/`. Add `?utm_source=google&utm_medium=organic&utm_campaign=gbp` only if the site gets an analytics tool. It has none today.
 - **Photos:** the headshot, Gunter Metals wordmark work (with permission), and any workshop or on-site photos. Add a few new ones every month.
 - **Updates:** post each new case study, guide and event to the profile.
 - **Reviews:**
@@ -486,7 +486,7 @@ Order: 6, 1, 4, 11 and 18 take minutes. Then 5, 3, 2, 9 and 10. Then 7 and 8, th
 
 ### 10.1 Set-up (once)
 
-- **Google Search Console.** Add a **Domain property** for `timothygaull.com`, verified with a DNS TXT record in Cloudflare. Submit `https://timothygaull.com/sitemap-index.xml`. Run URL Inspection on every page and request indexing. Optionally add `gaullco.com` as its own property, to confirm Google sees its 301 redirect.
+- **Google Search Console.** Add a **Domain property** for `gaullco.com`, verified with a DNS TXT record in Cloudflare. Submit `https://gaullco.com/sitemap-index.xml`. Run URL Inspection on every page and request indexing. Optionally add `gaullco.com` as its own property, to confirm Google sees its 301 redirect.
 - **Bing Webmaster Tools.** Use "Import from Google Search Console". It verifies the site and pulls in sitemaps. Watch the AI Performance report for Copilot citations. ([Bing: import from Search Console](https://blogs.bing.com/webmaster/september-2019/Import-sites-from-Search-Console-to-Bing-Webmaster-Tools), [BWT guide incl. AI Performance report](https://www.globalmediainsight.com/blog/bing-webmaster-tools/))
 - **Cloudflare Crawler Hints** on, for IndexNow.
 - **Google Business Profile performance** (built in).

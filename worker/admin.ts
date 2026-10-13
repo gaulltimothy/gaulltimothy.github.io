@@ -164,10 +164,10 @@ async function dashboard(env: AdminEnv, email: string): Promise<Response> {
 <dl>${feedbackQuestions.filter(([k]) => r[k]).map(([k, label]) => `<dt>${label}</dt><dd>${esc(r[k])}</dd>`).join('')}</dl></article>`,
         )
         .join('')
-    : '<p class="m">No client feedback yet. Send clients https://timothygaull.com/feedback/?company=Their%20Company</p>';
+    : '<p class="m">No client feedback yet. Send clients https://gaullco.com/feedback/?company=Their%20Company</p>';
 
   const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex, nofollow"><title>Signups · timothygaull.com</title>
+<meta name="robots" content="noindex, nofollow"><title>Signups · gaullco.com</title>
 <style>
 :root{--paper:#fdf8f7;--ink:#141414;--muted:#5c5856;--rule:#e8dfdc;--surface:#fff}
 *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}

@@ -1,4 +1,4 @@
-# timothygaull.com welcomes search engines and AI assistants.
+# gaullco.com welcomes search engines and AI assistants.
 # Everything public is fair to crawl, cite and summarize. The kit download endpoint is not a page.
 
 User-agent: *
@@ -24,4 +24,4 @@ Allow: /
 Disallow: /api/
 Disallow: /admin/
 
-Sitemap: https://timothygaull.com/sitemap-index.xml
+Sitemap: https://gaullco.com/sitemap-index.xml
