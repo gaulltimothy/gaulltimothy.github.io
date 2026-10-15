@@ -12,6 +12,7 @@
 //   POST /api/tip/session   valid kit download signature → rate limit → Stripe Checkout
 //                           Session (ui_mode elements) for a pay-what-you-want tip
 //   GET  /api/tip/status    payment status for the tip return page
+//   POST /api/stripe/webhook checkout.session.completed → re-read the session from Stripe → push Tim a tip alert
 import kitZip from '../kit-build/ai-foundation-kit.zip';
 import kitPrompt from '../kit-build/ai-foundation-kit-prompt.txt';
 
@@ -48,6 +49,9 @@ interface Env {
   // dashboard secret so the link stays out of this public repo. Intro requests that look like a fit get it back
   // and book on the spot; everyone else waits for Tim's reply. Off when unset.
   BOOKING_URL?: string;
+  // Phone push alerts to Tim through ntfy (https://ntfy.sh) for kit signups and tips. Off when unset. A dashboard
+  // secret: anyone who knows the topic name can read it, so it is a long random string kept out of this repo.
+  NTFY_TOPIC?: string;
 }
 
 const CANONICAL_HOST = 'gaullco.com';
@@ -77,13 +81,14 @@ export default {
     if (url.pathname.startsWith('/api/') && (!env.DOWNLOAD_SIGNING_KEY || !env.TURNSTILE_SECRET)) {
       return json({ error: 'not_configured' }, 503);
     }
-    if (url.pathname === '/api/kit/request' && request.method === 'POST') return requestKit(request, env);
+    if (url.pathname === '/api/kit/request' && request.method === 'POST') return requestKit(request, env, ctx);
     if (url.pathname === '/api/kit/download' && request.method === 'GET') return downloadKit(url, env);
     if (url.pathname === '/api/kit/prompt' && request.method === 'GET') return kitStarterPrompt(url, env);
     if (url.pathname === '/api/intro/request' && request.method === 'POST') return requestIntro(request, env, ctx);
     if (url.pathname === '/api/feedback' && request.method === 'POST') return submitFeedback(request, env, ctx);
     if (url.pathname === '/api/tip/session' && request.method === 'POST') return createTipSession(request, env);
     if (url.pathname === '/api/tip/status' && request.method === 'GET') return tipStatus(url, env);
+    if (url.pathname === '/api/stripe/webhook' && request.method === 'POST') return stripeWebhook(request, env, ctx);
     if (url.pathname.startsWith('/api/')) return json({ error: 'not_found' }, 404);
     return env.ASSETS.fetch(request);
   },
@@ -97,7 +102,7 @@ function shouldRedirect(host: string): boolean {
   return true;
 }
 
-async function requestKit(request: Request, env: Env): Promise<Response> {
+async function requestKit(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
   let body: Record<string, unknown>;
   try {
     body = await request.json();
@@ -121,17 +126,25 @@ async function requestKit(request: Request, env: Env): Promise<Response> {
 
   const now = Math.floor(Date.now() / 1000);
   const stamp = new Date().toISOString();
-  await env.DB.prepare(
+  const saved = await env.DB.prepare(
     `INSERT INTO signups (email, name, wants_updates, created_at, last_download_at, download_count)
      VALUES (?1, ?2, ?3, ?4, ?4, 1)
      ON CONFLICT(email) DO UPDATE SET
        name = COALESCE(NULLIF(excluded.name, ''), signups.name),
        wants_updates = MAX(signups.wants_updates, excluded.wants_updates),
        last_download_at = excluded.last_download_at,
-       download_count = signups.download_count + 1`,
+       download_count = signups.download_count + 1
+     RETURNING download_count, wants_updates`,
   )
     .bind(email, name, wantsUpdates, stamp)
-    .run();
+    .first<{ download_count: number; wants_updates: number }>();
+  // Name only: the push goes through a third-party server, so the email address stays out of it.
+  const who = name || 'Someone';
+  if ((saved?.download_count ?? 1) > 1) {
+    notify(env, ctx, 'Kit downloaded again', `${who} downloaded the kit again (${saved?.download_count} times).`, 'repeat');
+  } else {
+    notify(env, ctx, 'New kit signup', `${who} downloaded the AI Foundation Kit${saved?.wants_updates ? ' and wants the follow-up emails' : ''}.`, 'tada');
+  }
 
   const exp = now + LINK_TTL_SECONDS;
   const sig = await hmacHex(env.DOWNLOAD_SIGNING_KEY, `download:${exp}`);
@@ -284,6 +297,47 @@ function alert(env: Env, ctx: ExecutionContext, subject: string, replyTo: string
       })
       .catch((e) => console.error('alert email failed', e instanceof Error ? e.message : e)),
   );
+}
+
+// Pushes a short alert to Tim's phone through ntfy after the response goes out. A failed push never fails the request.
+function notify(env: Env, ctx: ExecutionContext, title: string, message: string, tag: string): void {
+  if (!env.NTFY_TOPIC) return;
+  ctx.waitUntil(
+    fetch(`https://ntfy.sh/${encodeURIComponent(env.NTFY_TOPIC)}`, {
+      method: 'POST',
+      // Header values must be plain ASCII, so the title is cleaned; the body carries the rest.
+      headers: { Title: title.replace(/[^\x20-\x7e]/g, ''), Tags: tag, Click: 'https://gaullco.com/admin/' },
+      body: message,
+      signal: AbortSignal.timeout(10_000),
+    })
+      .then(async (r) => {
+        if (!r.ok) console.error('push failed', r.status, (await r.text()).slice(0, 300));
+      })
+      .catch((e) => console.error('push failed', e instanceof Error ? e.message : e)),
+  );
+}
+
+// Stripe calls this when a Checkout Session completes. Rather than trust the posted body (that would need a
+// webhook signing secret), it reads the session back from Stripe with the site's own key, so a forged call can
+// only ever repeat a push for a real, paid tip.
+async function stripeWebhook(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+  if (!tipsEnabled(env)) return json({ received: true });
+  let event: { type?: string; data?: { object?: { id?: string } } };
+  try {
+    event = await request.json();
+  } catch {
+    return json({ error: 'bad_request' }, 400);
+  }
+  const id = event.data?.object?.id ?? '';
+  if (event.type !== 'checkout.session.completed' || !/^cs_(test|live)_[A-Za-z0-9]{10,}$/.test(id)) return json({ received: true });
+  const res = await stripe(env, 'GET', `/v1/checkout/sessions/${id}`);
+  if (!res.ok) return json({ received: true });
+  const s = (await res.json()) as { payment_status?: string; amount_total?: number; currency?: string; metadata?: Record<string, string>; livemode?: boolean };
+  if (s.metadata?.purpose === 'kit_tip' && s.payment_status === 'paid') {
+    const amount = ((s.amount_total ?? 0) / 100).toFixed(2);
+    notify(env, ctx, `Tip: $${amount}`, `Someone left a $${amount} tip for the AI Foundation Kit${s.livemode ? '' : ' (test mode)'}.`, 'moneybag');
+  }
+  return json({ received: true });
 }
 
 function tipsEnabled(env: Env): boolean {
