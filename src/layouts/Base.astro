@@ -76,6 +76,7 @@ const practiceLd = {
   '@id': 'https://gaullco.com/#practice',
   // Matches the verified Google Business Profile name, so search ties the profile to this site.
   name: 'Gaull & Co',
+  legalName: 'Gaull & Co LLC',
   alternateName: 'Timothy Gaull',
   url: 'https://gaullco.com/',
   image: new URL('/images/timothy-gaull.jpg', Astro.site).href,
@@ -177,7 +178,7 @@ const graph = { '@context': 'https://schema.org', '@graph': [personLd, practiceL
         </ul>
       </div>
       <div class="wrap">
-        <p class="muted small">© {new Date().getFullYear()} Gaull &amp; Co</p>
+        <p class="muted small">© {new Date().getFullYear()} Gaull &amp; Co LLC</p>
       </div>
     </footer>
   </body>
